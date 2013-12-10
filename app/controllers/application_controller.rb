@@ -3,4 +3,13 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_filter :authenticate_user!
+  before_filter :fill_aws_creds
+
+  private
+
+  def fill_aws_creds
+    if current_user && (current_user.access_key.blank? || current_user.secret_token.blank?)
+      redirect_to add_aws_creds_user_path(current_user)
+    end
+  end
 end 

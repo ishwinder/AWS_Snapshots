@@ -1,0 +1,43 @@
+<div id="login-box" class="visible widget-box no-border">
+
+    <% flash.each do |type, message| %>
+      <%= content_tag :div, class: flash_class(type) do %>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%= message %>
+      <% end %>
+    <% end %>
+
+    <div class="widget-body">
+     <div class="widget-main">
+        <h4 class="header lighter bigger">Please Enter Your Aws Credentials</h4>
+        
+        <div class="space-6"></div>
+        
+        <%= form_for(@user, :url => update_aws_creds_user_path(@user)) do |f| %>
+             <fieldset>
+                <label>
+                    <span class="block input-icon input-icon-right">
+                        <%= f.text_field :access_key, :autofocus => true, :class => "span12", :placeholder => "Access Key", :required => true %>
+                    </span>
+                </label>
+                <label>
+                    <span class="block input-icon input-icon-right">
+                        <%= f.text_field :secret_token, :class => "span12", :placeholder=> "Secret Token", :required => true %>
+                    </span>
+                </label>
+                <div class="space"></div>
+                <div class="row-fluid">
+                  <center>
+                     <button type="submit" class="btn btn-primary">
+                      <i class="icon-key icon-white"></i> Save Credentails
+                    </button>
+                  </center>
+                </div>
+                
+              </fieldset>
+        <% end %>
+     </div><!--/widget-main-->
+
+    </div><!--/widget-body-->
+
+</div><!--/login-box-->

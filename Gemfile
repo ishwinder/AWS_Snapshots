@@ -11,6 +11,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'twitter-bootstrap-rails'
 gem 'devise'
+gem 'aws-sdk', '~> 1.0'
 
 group :doc do
   gem 'sdoc', require: false

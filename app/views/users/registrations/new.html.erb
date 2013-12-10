@@ -1,5 +1,12 @@
 <div id="signup-box" class="visible widget-box no-border">
 
+      <% if resource.errors.count > 0 %>
+	      <%= content_tag :div, class: 'alert alert-error' do %>
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+	        <%= resource.errors.full_messages.join(', ') %>
+	      <% end %>
+	    <% end %>
+
         <div class="widget-body">
          <div class="widget-main">
             <h4 class="header green lighter bigger"><i class="icon-group blue"></i> New User Registration</h4>
@@ -13,31 +20,31 @@
                  <fieldset>
                     <label>
                         <span class="block input-icon input-icon-right">
-                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email" %>
+                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email", :required => true %>
                             <i class="icon-envelope"></i>
                         </span>
                     </label>
                     <label>
                         <span class="block input-icon input-icon-right">
-                            <%= f.text_field :first_name, :class => "span12", :placeholder => "First Name" %>
+                            <%= f.text_field :first_name, :class => "span12", :placeholder => "First Name", :required => true %>
                             <i class="icon-user"></i>
                         </span>
                     </label>
                     <label>
                         <span class="block input-icon input-icon-right">
-                            <%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name" %>
+                            <%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name", :required => true %>
                             <i class="icon-user"></i>
                         </span>
                     </label>
                     <label>
                         <span class="block input-icon input-icon-right">
-                            <%= f.password_field :password, :class => "span12", :placeholder => "Password" %>
+                            <%= f.password_field :password, :class => "span12", :placeholder => "Password", :required => true %>
                             <i class="icon-lock"></i>
                         </span>
                     </label>
                     <label>
                         <span class="block input-icon input-icon-right">
-                            <%= f.password_field :password, :class => "span12", :placeholder => "Reset Password" %>
+                            <%= f.password_field :password_confirmation, :class => "span12", :placeholder => "Retype Password", :required => true %>
                             <i class="icon-retweet"></i>
                         </span>
                     </label>

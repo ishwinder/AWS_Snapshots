@@ -46,26 +46,21 @@
 			  <a class="brand" href="#"><small><i class="icon-leaf"></i> AWS Snapshots </small> </a>
 			  <ul class="nav pull-right ace-nav">
 
+					<% if user_signed_in? %>
 
-					<li class="purple">
-					</li>
-
-					<li class="green">
-					</li>
-
-					<li class="light-blue user-profile">
-						<a class="user-menu dropdown-toggle" href="#" data-toggle="dropdown">
-							<span id="user_info">
-								<small>Welcome,</small> Jason
-							</span>
-							<i class="icon-caret-down"></i>
-						</a>
-						<ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-							<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-							<li class="divider"></li>
-							<li><a href="#"><i class="icon-off"></i> Logout</a></li>
-						</ul>
-					</li>
+						<li class="light-blue user-profile">
+							<a class="user-menu dropdown-toggle" href="#" data-toggle="dropdown">
+								<span id="user_info">
+									<small>Welcome </small> <%= current_user.first_name %>
+								</span>
+								<i class="icon-caret-down"></i>
+							</a>
+							<ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+								<li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
+							</ul>
+						</li>
+					
+					<% end %>
 			  </ul><!--/nav-->
 
 		   </div><!--/container-fluid-->
@@ -184,20 +179,6 @@
 			<i class="icon-double-angle-up icon-only"></i>
 		</a>
 
-
-		<!-- basic scripts -->
-		<script src="assets/js/jquery-1.9.1.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-
-		<!-- page specific plugin scripts -->
-		
-
-		<!-- ace scripts -->
-		<script src="assets/js/ace-elements.min.js"></script>
-		<script src="assets/js/ace.min.js"></script>
-
-
-		<!-- inline scripts related to this page -->
 		
 	</body>
 </html>

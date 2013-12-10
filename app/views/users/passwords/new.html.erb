@@ -1,5 +1,12 @@
 <div id="forgot-box" class="visible widget-box no-border">
 
+	<% if resource.errors.count > 0 %>
+	  <%= content_tag :div, class: 'alert alert-error' do %>
+	    <button type="button" class="close" data-dismiss="alert">&times;</button>
+	    <%= resource.errors.full_messages.join(', ') %>
+	  <% end %>
+	<% end %>
+
         <div class="widget-body">
          <div class="widget-main">
             <h4 class="header red lighter bigger"><i class="icon-key"></i> Retrieve Password</h4>

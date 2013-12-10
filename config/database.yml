@@ -1,0 +1,15 @@
+production: &defaults
+  adapter: postgresql
+  encoding: unicode
+  database: AWS_Snapshots_development
+  pool: 5
+  username: enbake
+  password: enbake
+
+development:
+  <<: *defaults
+  database: AWS_Snapshots_development
+
+test:
+  <<: *defaults
+  database: AWS_Snapshots_test

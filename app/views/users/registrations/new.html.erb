@@ -1,18 +1,64 @@
-<h2>Sign up</h2>
+<div id="signup-box" class="visible widget-box no-border">
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+        <div class="widget-body">
+         <div class="widget-main">
+            <h4 class="header green lighter bigger"><i class="icon-group blue"></i> New User Registration</h4>
+            <div class="space-6"></div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+            <p>
+                Enter your details to begin:
+            </p>
+            
+            <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+                 <fieldset>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email" %>
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :first_name, :class => "span12", :placeholder => "First Name" %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name" %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.password_field :password, :class => "span12", :placeholder => "Password" %>
+                            <i class="icon-lock"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.password_field :password, :class => "span12", :placeholder => "Reset Password" %>
+                            <i class="icon-retweet"></i>
+                        </span>
+                    </label>
+                    <div class="space-24"></div>
+                    
+                    <div class="row-fluid">
+                        <button type="reset" class="span6 btn btn-small"><i class="icon-refresh"></i> Reset</button>
+                        <button type="submit" class="span6 btn btn-small btn-success">
+                          <i class="icon-arrow-right icon-on-right"></i> Register
+                        </button>
+                    </div>
+                    
+                  </fieldset>
+            <% end %>
+        </div>
+        
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+        <div class="toolbar center">
+            <a href=<%= new_session_path(resource_name)%> class="back-to-login-link"><i class="icon-arrow-left"></i> Back to login</a>
+        </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+     </div><!--/widget-body-->
 
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
-
-<%= render "users/shared/links" %>
+    </div><!--/signup-box-->

@@ -1,12 +1,37 @@
-<h2>Forgot your password?</h2>
+<div id="forgot-box" class="visible widget-box no-border">
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+        <div class="widget-body">
+         <div class="widget-main">
+            <h4 class="header red lighter bigger"><i class="icon-key"></i> Retrieve Password</h4>
+            
+            <div class="space-6"></div>
+            
+            <p>
+                Enter your email and to receive instructions
+            </p>
+            <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+                 <fieldset>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email"%>
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </label>
+    
+                    <div class="row-fluid">
+                      <button type="submit" class="span5 offset7 btn btn-small btn-danger">
+                        <i class="icon-lightbulb"></i> Send Me!
+                      </button>
+                    </div>
+                    
+                  </fieldset>
+            <% end %>
+         </div><!--/widget-main-->
+        
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+         <div class="toolbar center">
+            <a href=<%= new_session_path(resource_name)%> class="back-to-login-link">Back to login <i class="icon-arrow-right"></i></a>
+         </div>
+        </div><!--/widget-body-->
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
-<% end %>
-
-<%= render "users/shared/links" %>
+    </div><!--/forgot-box-->

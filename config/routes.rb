@@ -11,4 +11,9 @@ AWSSnapshots::Application.routes.draw do
     get :add_aws_creds, on: :member
     patch :update_aws_creds, on: :member
   end
+
+  resources :aws_actions do
+    get :load_instances, on: :collection
+    get :load_snapshots, on: :collection
+  end
 end

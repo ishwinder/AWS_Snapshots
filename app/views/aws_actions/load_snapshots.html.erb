@@ -1,0 +1,40 @@
+<% if @snapshots.blank? %>
+	<div class='well'>
+		<center>No snapshots found for your account.</center>
+	</div>
+<% else %>
+	<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>Snapshot id</th>
+				<th>Volume id</th>
+				<th>Capacity</th>
+				<th>Description</th>
+				<th>status</th>
+				<th></th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<% @snapshots.each do |snapshot|%>
+				<tr>
+					<td><%= snapshot.snapshot_id %></td>
+					<td><%= snapshot.volume_id %></td>
+					<td><%= snapshot.volume_size %> GiB</td>
+					<td><%= snapshot.description %></td>
+					<td><%= snapshot.status %></td>
+					<td>
+						<div class="inline position-relative">
+							<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+							<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+								<li><a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
+								<li><a href="#" class="tooltip-warning" data-rel="tooltip" title="Flag" data-placement="left"><span class="blue"><i class="icon-flag"></i></span> </a></li>
+								<li><a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

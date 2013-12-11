@@ -32,3 +32,20 @@ $list_instances = function() {
 		}
 	});
 };
+
+$list_snapshots = function() {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_snapshots',
+		dataType: 'html',
+		success: function(data){
+			$('div#list-snapshots').html(data);
+		},
+		error: function(e){
+			$('div#list-snapshots').html("<div class='well'><center>Some error occured while loading snapshots. Please verify your AWS creds.</center></div>");
+		},
+		beforeSend: function(){
+			$('div#list-snapshots').html("<div><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
+		}
+	});
+};

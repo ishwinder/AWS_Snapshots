@@ -4,3 +4,4 @@
 
 window.onload = ->
 	$list_instances()
+	$list_snapshots()

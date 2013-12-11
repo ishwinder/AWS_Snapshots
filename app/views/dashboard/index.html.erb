@@ -1,2 +1,19 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Dashboard <small><i class="icon-double-angle-right"></i> Instances & Snapshots summary</small></h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<h3 class="header smaller lighter blue">Instances</h3>
+	<div class="span12" style="margin-left:0px;" id="list-instances">
+		<!-- Content to be loaded using Ajax -->
+	</div><!--/span-->
+</div><!--/row-->
+
+<div class="row-fluid">
+	<h3 class="header smaller lighter blue">Snapshots</h3>
+	<div class="span12" style="margin-left:0px;" id="list-snapshots">
+		<!-- Content to be loaded using Ajax -->
+	</div><!--/span-->
+</div><!--/row-->

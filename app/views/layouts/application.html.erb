@@ -32,7 +32,7 @@
 
 		<!-- For all other devices -->
 		<!-- Size should be 32 x 32 pixels -->
-		<%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+		<%#= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
 		<%= javascript_include_tag "application" %>
 	</head>
@@ -90,7 +90,7 @@
 
 				<ul class="nav nav-list">
 					<li>
-						<a href="index.html">
+						<a href="<%= root_path %>">
 							<i class="icon-dashboard"></i>
 							<span>Dashboard</span>
 						</a>
@@ -100,13 +100,14 @@
 					<li>
 						<a href="#" class="dropdown-toggle" >
 							<i class="icon-desktop"></i>
-							<span>UI Elements</span>
+							<span>Elements</span>
 							<b class="arrow icon-angle-down"></b>
 						</a>
 
 						<ul class="submenu">
-							<li><a href="elements.html"><i class="icon-double-angle-right"></i> Elements</a></li>
-							<li><a href="buttons.html"><i class="icon-double-angle-right"></i> Buttons & Icons</a></li>
+							<li><a href="#"><i class="icon-double-angle-right"></i> Instances</a></li>
+							<li><a href="#"><i class="icon-double-angle-right"></i> Volumes</a></li>
+							<li><a href="#"><i class="icon-double-angle-right"></i> Snapshots</a></li>
 						</ul>
 					</li>
 				</ul><!--/.nav-list-->

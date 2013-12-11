@@ -15,3 +15,20 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+
+$list_instances = function() {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_instances',
+		dataType: 'html',
+		success: function(data){
+			$('div#list-instances').html(data);
+		},
+		error: function(e){
+			alert("error");
+		},
+		beforeSend: function(){
+			
+		}
+	});
+};

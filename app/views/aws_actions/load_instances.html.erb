@@ -1,44 +1,49 @@
-<table id="table_bug_report" class="table table-striped table-bordered table-hover">
-	<thead>
-		<tr>
-			<th class="center">Name</th>
-			<th>Instance ID</th>
-			<th>Instance Type</th>
-			<th>State</th>
-			<th>Volumes</th>
-			<th></th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<% @instances.each do |instance| %>
+<% if @instances.blank? %>
+	<div class='well'>
+		<center>No instances found for your account.</center>
+	</div>
+<% else %>
+	<table id="table_bug_report" class="table table-striped table-bordered table-hover table-condensed">
+		<thead>
 			<tr>
-				<td>
-					<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] %>
-				</td>
-				<td><%= instance.instance_id %></td>
-				<td><%= instance.instance_type %></td>
-				<td>
-					<% inst_state = instance.instance_state[:name] %>
-					<%= content_tag :span, class: instance_state_class(inst_state) do %>
-						<%= inst_state.camelize %>
-					<% end %>
-				</td>
-				<td>
-					<%= instance.block_device_mapping.map(&:ebs).map(&:volume_id).join(', ') %>
-				</td>
-				<td>
-					<div class="inline position-relative">
-						<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
-						<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
-							<li><a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
-							<li><a href="#" class="tooltip-warning" data-rel="tooltip" title="Flag" data-placement="left"><span class="blue"><i class="icon-flag"></i></span> </a></li>
-							<li><a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
-						</ul>
-					</div>
-				</td>
+				<th class="center">Name</th>
+				<th>Instance ID</th>
+				<th>Instance Type</th>
+				<th>State</th>
+				<th>Volumes</th>
+				<th></th>
 			</tr>
-		<% end %>
-	</tbody>
-</table>
-
+		</thead>
+	
+		<tbody>
+			<% @instances.each do |instance| %>
+				<tr>
+					<td>
+						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] %>
+					</td>
+					<td><%= instance.instance_id %></td>
+					<td><%= instance.instance_type %></td>
+					<td>
+						<% inst_state = instance.instance_state[:name] %>
+						<%= content_tag :span, class: instance_state_class(inst_state) do %>
+							<%= inst_state.camelize %>
+						<% end %>
+					</td>
+					<td>
+						<%= instance.block_device_mapping.map(&:ebs).map(&:volume_id).join(', ') %>
+					</td>
+					<td>
+						<div class="inline position-relative">
+							<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+							<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+								<li><a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
+								<li><a href="#" class="tooltip-warning" data-rel="tooltip" title="Flag" data-placement="left"><span class="blue"><i class="icon-flag"></i></span> </a></li>
+								<li><a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

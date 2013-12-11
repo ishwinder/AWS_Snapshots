@@ -25,10 +25,10 @@ $list_instances = function() {
 			$('div#list-instances').html(data);
 		},
 		error: function(e){
-			alert("error");
+			$('div#list-instances').html("<div class='well'><center>Some error occured while loading instances. Please verify your AWS creds.</center></div>");
 		},
 		beforeSend: function(){
-			
+			$('div#list-instances').html("<div><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
 		}
 	});
 };

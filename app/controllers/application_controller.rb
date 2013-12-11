@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   before_filter :fill_aws_creds
 
+  def after_sign_out_path_for(resource)
+    new_user_session_path
+  end
+
   private
 
   def fill_aws_creds

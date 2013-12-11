@@ -1,16 +1,48 @@
-<h2>Change your password</h2>
+<div id="change-password-box" class="visible widget-box no-border">
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+      <% if resource.errors.count > 0 %>
+          <%= content_tag :div, class: 'alert alert-error' do %>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= resource.errors.full_messages.join(', ') %>
+          <% end %>
+        <% end %>
+        
+        <div class="widget-body">
+         <div class="widget-main">
+            <h4 class="header red lighter bigger"><i class="icon-key"></i> Retrieve Password</h4>
+            
+            <div class="space-6"></div>
+            
+            <p>
+                Enter your email and to receive instructions
+            </p>
+            
+              <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+                <fieldset>
+                    <%= f.hidden_field :reset_password_token %>
+                  <label>
+                    <span class="block input-icon input-icon-right">
+                      <%= f.password_field :password, :autofocus => true, :class => "span12", :placeholder => "Password", :required => true %>
+                        <i class="icon-lock"></i>
+                    </span>
+                  </label>
+                  <label>
+                    <span class="block input-icon input-icon-right">
+                      <%= f.password_field :password_confirmation, :class => "span12", :placeholder => "Retype Password", :required => true %>
+                        <i class="icon-retweet"></i>
+                    </span>
+                  </label>
+                  <div class="row-fluid">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="icon-key icon-white"></i> change Password
+                    </button>
+                  </div>
+                </fieldset>
+              <%end%>
+         </div><!--/widget-main-->
+         <div class="toolbar center">
+            <a href=<%= new_session_path(resource_name)%> class="back-to-login-link">Back to login <i class="icon-arrow-right"></i></a>
+         </div>
+        </div><!--/widget-body-->
 
-  <div><%= f.label :password, "New password" %><br />
-  <%= f.password_field :password, :autofocus => true %></div>
-
-  <div><%= f.label :password_confirmation, "Confirm new password" %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.submit "Change my password" %></div>
-<% end %>
-
-<%= render "users/shared/links" %>
+    </div><!--/change-password-box-->

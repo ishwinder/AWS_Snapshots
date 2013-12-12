@@ -1,6 +1,6 @@
 <% if @instances.blank? %>
 	<div class='well'>
-		<center>No instances found for your account.</center>
+		<center>No instances found</center>
 	</div>
 <% else %>
 	<table id="table_bug_report" class="table table-striped table-bordered table-hover table-condensed">
@@ -9,9 +9,10 @@
 				<th class="center">Name</th>
 				<th>Instance ID</th>
 				<th>Instance Type</th>
+				<th>Availabily Zone</th>
 				<th>State</th>
 				<th>Volumes</th>
-				<th></th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 	
@@ -23,6 +24,7 @@
 					</td>
 					<td><%= instance.instance_id %></td>
 					<td><%= instance.instance_type %></td>
+					<td><%= instance.placement.availability_zone %></td>
 					<td>
 						<% inst_state = instance.instance_state[:name] %>
 						<%= content_tag :span, class: instance_state_class(inst_state) do %>
@@ -46,4 +48,17 @@
 			<% end %>
 		</tbody>
 	</table>
+	<% if @next_token %>
+		<div class="row-fluid">
+			<div class="span6">
+			</div>
+			<div class="span6">
+				<div class="dataTables_paginate paging_bootstrap pagination">
+					<ul>
+						<li class="next"><a id="<%= @next_token %>" class="load-more-instances" style="cursor:pointer">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	<% end %>
 <% end %>

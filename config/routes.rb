@@ -16,6 +16,8 @@ AWSSnapshots::Application.routes.draw do
     get :load_instances, on: :collection
     get :load_snapshots, on: :collection
     get :load_volumes, on: :collection
+    get :create_snapshot, on: :collection
+    get :create_instant_snapshot, on: :collection
     get :delete_snapshot, on: :collection
   end
 

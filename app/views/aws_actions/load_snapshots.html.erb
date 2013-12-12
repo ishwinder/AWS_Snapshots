@@ -11,7 +11,7 @@
 				<th>Capacity</th>
 				<th>Description</th>
 				<th>Status</th>
-				<th></th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 	
@@ -30,7 +30,7 @@
 					</td>
 					<td>
 						<div class="inline position-relative">
-							<button id=<%= snapshot.snapshot_id%> class="btn btn-minier btn-primary delete_snapshot"><i class="icon-trash icon-white"></i></button>
+							<button id=<%= snapshot.snapshot_id%> class="btn btn-minier btn-primary delete_snapshot tooltip-success" data-rel="tooltip" title="Delete Snapshot" data-placement="left"><i class="icon-trash icon-white"></i></button>
 						</div>
 					</td>
 				</tr>

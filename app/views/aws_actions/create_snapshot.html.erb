@@ -1,0 +1,55 @@
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Create Snapshot</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="visible widget-box no-border">
+	<div class="widget-body"></div>
+		<div class="widget-main">
+			<div class="space-6"></div>
+			<form>
+				<fieldset>
+					<div class="clearfix">
+						<label for="name">Name</label>
+						<input type="text" name="name" placeholder="Enter name">
+					</div>
+					<div class="clearfix">
+						<label for="startdate">Start Date</label>
+						<input type="text" name="name" placeholder="Enter Start Date">
+						<span>(mm-dd-yy)</span>
+					</div>
+					<div class="clearfix">
+						<label for="enddate">End Date</label>
+						<input type="text" name="name" placeholder="Enter End Date">
+						<span>(mm-dd-yy)</span>
+					</div>
+					<div class="clearfix">
+						<label for="repeattype">Repeat Type</label>
+						<select>
+							<option value="none"> None </option>
+							<option value="daily"> Daily </option>
+							<option value="hourly"> Hourly </option>
+							<option value="weekly"> Weekly </option>
+							<option value="monthly"> Monthly </option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label for="comments">Comment</label>
+						<span><textarea id="comment"></textarea></span>
+					</div>
+				</fieldset>
+				<button type="submit" >Save</button>
+				<a class="btn button-green" href="#">Cancel</a>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-actions').addClass('active open');
+		$('li#nav-action-create-snap').addClass('active');
+		return $list_volumes();
+	};
+</script>

@@ -43,7 +43,7 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 
-					<a class="brand" href="#"><small><i class="icon-leaf"></i> AWS Snapshots </small> </a>
+					<a class="brand" href="<%= root_path %>"><small><i class="icon-leaf"></i> AWS Snapshots </small> </a>
 					<ul class="nav pull-right ace-nav">
 
 						<% if user_signed_in? %>
@@ -89,8 +89,7 @@
 						</a>
 
 						<ul class="submenu">
-							<li id="nav-action-create-snap"><a href="#"><i class="icon-double-angle-right"></i> Create Snapshot</a></li>
-							<li id="nav-action-delete-snap"><a href="#"><i class="icon-double-angle-right"></i> Delete Snapshot</a></li>
+							<li id="nav-action-create-snap"><a href="<%= create_snapshot_aws_actions_path %>"><i class="icon-double-angle-right"></i> Create Snapshot</a></li>
 						</ul>
 					</li>
 

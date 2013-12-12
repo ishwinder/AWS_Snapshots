@@ -5,6 +5,17 @@
 <% end %>
 
 <div class="row-fluid">
+	<div class="table-header form-inline" style="margin-bottom:0px;">
+		<b>Availability Zone :</b>
+		&nbsp;
+		<%= select_tag "availability_zone", options_for_select([["All","all"], "ap-northeast-1", "ap-southeast-1", "ap-southeast-2", "eu-west-1", "sa-east-1", "us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-west-1", "us-west-2"], "all"), id: 'select-availability-zone' %>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<b>Filters: </b>
+		&nbsp;
+		<%= select_tag "filters", options_for_select(["None", "Instance ID", "AMI", "Volume ID", "Tags"], "None"), id: 'select-instance-filter'%>
+		<%= text_field_tag "key", nil, placeholder: 'Key', class: 'input-small', id: 'filter-key', style: 'display:none;' %>
+		<%= text_field_tag "value", nil, placeholder: 'Value', class: 'input-small', id: 'filter-value', style: 'display:none;' %>
+	</div>
 	<div class="span12" style="margin-left:0px;" id="list-instances">
 		<!-- Content to be loaded using Ajax -->
 	</div><!--/span-->
@@ -14,6 +25,6 @@
 	window.onload = function() {
 		$('li#nav-elements').addClass('active open');
 		$('li#nav-element-instances').addClass('active');
-		return $list_instances();
+		return $list_instances('all', '');
 	};
 </script>

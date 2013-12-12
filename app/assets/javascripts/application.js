@@ -15,10 +15,11 @@
 //= require twitter/bootstrap
 //= require_tree .
 
-$list_instances = function() {
+$list_instances = function(zone, next_token) {
 	$.ajax({
 		type: 'GET',
 		url: '/aws_actions/load_instances',
+		data: {next_token: next_token, zone: zone},
 		dataType: 'html',
 		success: function(data){
 			$('div#list-instances').html(data);
@@ -66,6 +67,20 @@ $list_volumes = function() {
 	});
 };
 
+$create_instant_snapshot = function(id){
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/create_instant_snapshot',
+		data: {volume_id: id},
+		success: function(){
+			$("#created_snapshot").modal('toggle');
+		},
+		error: function(e){
+			alert("error")
+		}
+	});
+};
+
 $delete_snapshot = function($row, id) {
 	$.ajax({
 		type: 'GET',
@@ -86,3 +101,32 @@ $delete_snapshot = function($row, id) {
 	});
 };
 
+$(document).on('click', '.load-more-instances', function() {
+	var zone = $('#select-availability-zone :selected').val();
+	var next_token = $(this).attr('id');
+	$list_instances(zone, next_token);
+});
+
+$(document).on('change', '#select-availability-zone', function() {
+	var zone = $('#select-availability-zone :selected').val();
+	$list_instances(zone, '');
+});
+
+$(document).on('click', '.create_instant_snapshot', function(){
+ $create_instant_snapshot($(this).attr('id'));
+});
+
+$(document).on('change', '#select-instance-filter', function() {
+	var filter = $('#select-instance-filter :selected').val();
+	if(filter == "None") {
+		$('#filter-key').hide();
+		$('#filter-value').hide();
+	}
+	else if(filter == "Tags") {
+		$('#filter-key').show();
+		$('#filter-value').show();
+	}
+	else {
+		$('#filter-value').show();
+	}
+});

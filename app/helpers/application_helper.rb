@@ -43,4 +43,23 @@ module ApplicationHelper
        "label"
      end
   end
+
+  def volume_state_class(state)
+    case state
+     when 'creating'
+       "label"
+     when 'available'
+       "label label-warning"
+     when 'in-use'
+       "label label-success"
+     when 'error'
+       "label label-inverse"
+     when 'deleting'
+       "label label-important"
+     when 'deleted'
+       "label label-important"
+     else
+       "label"
+     end
+  end
 end

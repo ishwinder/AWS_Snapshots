@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
 
 $list_instances = function() {
@@ -49,3 +48,41 @@ $list_snapshots = function() {
 		}
 	});
 };
+
+$list_volumes = function() {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_volumes',
+		dataType: 'html',
+		success: function(data){
+			$('div#list-volumes').html(data);
+		},
+		error: function(e){
+			$('div#list-volumes').html("<div class='well'><center>Some error occured while loading volumes. Please verify your AWS creds.</center></div>");
+		},
+		beforeSend: function(){
+			$('div#list-volumes').html("<div><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
+		}
+	});
+};
+
+$delete_snapshot = function($row, id) {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/delete_snapshot',
+		data: {snapshot_id: id},
+		success: function(){
+			$row.html("<td colspan='6'><center><b>Snapshot " + id +" Deleted Successfully!!!</b></center></td>");
+			setTimeout(function () {
+				$row.fadeOut('slow');
+			}, 2000);
+		},
+		error: function(e){
+			$row.html("<td colspan='6'><center><b>Some Error occuring while deleting this snapshot!!</b></center></td>");
+		},
+		beforeSend: function() {
+			$row.html("<td colspan='6'><center><b>Deleting Snapshot " + id +" ..........</b></center></td>");
+		}
+	});
+};
+

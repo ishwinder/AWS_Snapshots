@@ -1,0 +1,19 @@
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Instances</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-instances">
+		<!-- Content to be loaded using Ajax -->
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-elements').addClass('active open');
+		$('li#nav-element-instances').addClass('active');
+		return $list_instances();
+	};
+</script>

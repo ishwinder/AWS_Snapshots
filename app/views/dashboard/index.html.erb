@@ -4,16 +4,8 @@
 	</div><!--/page-header-->
 <% end %>
 
-<div class="row-fluid">
-	<h3 class="header smaller lighter blue">Instances</h3>
-	<div class="span12" style="margin-left:0px;" id="list-instances">
-		<!-- Content to be loaded using Ajax -->
-	</div><!--/span-->
-</div><!--/row-->
-
-<div class="row-fluid">
-	<h3 class="header smaller lighter blue">Snapshots</h3>
-	<div class="span12" style="margin-left:0px;" id="list-snapshots">
-		<!-- Content to be loaded using Ajax -->
-	</div><!--/span-->
-</div><!--/row-->
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-dashboard').addClass('active');
+	};
+</script>

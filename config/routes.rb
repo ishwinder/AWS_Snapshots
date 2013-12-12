@@ -15,5 +15,13 @@ AWSSnapshots::Application.routes.draw do
   resources :aws_actions do
     get :load_instances, on: :collection
     get :load_snapshots, on: :collection
+    get :load_volumes, on: :collection
+    get :delete_snapshot, on: :collection
+  end
+
+  resources :elements do
+    get :instances, on: :collection
+    get :volumes, on: :collection
+    get :snapshots, on: :collection
   end
 end

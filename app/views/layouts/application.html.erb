@@ -73,46 +73,41 @@
 
 			<div id="sidebar" class="row-fluid">
 
-				<div id="sidebar-shortcuts">
-					<div id="sidebar-shortcuts-large">
-						<button class="btn btn-small btn-success"><i class="icon-signal"></i></button>
-						<button class="btn btn-small btn-info"><i class="icon-pencil"></i></button>
-						<button class="btn btn-small btn-warning"><i class="icon-group"></i></button>
-						<button class="btn btn-small btn-danger"><i class="icon-cogs"></i></button>
-					</div>
-					<div id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-						<span class="btn btn-info"></span>
-						<span class="btn btn-warning"></span>
-						<span class="btn btn-danger"></span>
-					</div>
-				</div><!-- #sidebar-shortcuts -->
-
 				<ul class="nav nav-list">
-					<li>
-						<a href="<%= root_path %>">
+					<li id="nav-dashboard">
+						<a href="<%= root_path %>" style="margin-right:0px;">
 							<i class="icon-dashboard"></i>
 							<span>Dashboard</span>
 						</a>
 					</li>
 
-					
-					<li>
-						<a href="#" class="dropdown-toggle" >
+					<li id="nav-actions">
+						<a href="#" class="dropdown-toggle" style="margin-right:0px;">
+							<i class="icon-wrench"></i>
+							<span>Actions</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+
+						<ul class="submenu">
+							<li id="nav-action-create-snap"><a href="#"><i class="icon-double-angle-right"></i> Create Snapshot</a></li>
+							<li id="nav-action-delete-snap"><a href="#"><i class="icon-double-angle-right"></i> Delete Snapshot</a></li>
+						</ul>
+					</li>
+
+					<li id="nav-elements">
+						<a href="#" class="dropdown-toggle" style="margin-right:0px;">
 							<i class="icon-desktop"></i>
 							<span>Elements</span>
 							<b class="arrow icon-angle-down"></b>
 						</a>
 
 						<ul class="submenu">
-							<li><a href="#"><i class="icon-double-angle-right"></i> Instances</a></li>
-							<li><a href="#"><i class="icon-double-angle-right"></i> Volumes</a></li>
-							<li><a href="#"><i class="icon-double-angle-right"></i> Snapshots</a></li>
+							<li id="nav-element-instances"><a href="<%= instances_elements_url %>"><i class="icon-double-angle-right"></i> Instances</a></li>
+							<li id="nav-element-volumes"><a href="<%= volumes_elements_url %>"><i class="icon-double-angle-right"></i> Volumes</a></li>
+							<li id="nav-element-snapshots"><a href="<%= snapshots_elements_url %>"><i class="icon-double-angle-right"></i> Snapshots</a></li>
 						</ul>
 					</li>
 				</ul><!--/.nav-list-->
-
-				<div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
 
 			</div><!--/#sidebar-->
 

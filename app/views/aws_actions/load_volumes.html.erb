@@ -1,0 +1,39 @@
+<% if @volumes.blank? %>
+	<div class='well'>
+		<center>No volumes found for your account.</center>
+	</div>
+<% else %>
+	<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>Volume ID</th>
+				<th>Capacity</th>
+				<th>Volume Type</th>
+				<th>Status</th>
+				<th>Created At</th>
+				<th></th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<% @volumes.each do |volume|%>
+				<tr>
+					<td><%= volume.volume_id %></td>
+					<td><%= volume.size %>GiB</td>
+					<td><%= volume.volume_type %></td>
+					<td>
+						<% vol_state = volume.status %>
+						<%= content_tag :span, class: volume_state_class(vol_state) do %>
+							<%= vol_state.camelize %>
+						<% end %>
+					</td>
+					<td><%= volume.create_time %></td>
+					<td>
+						<div class="inline position-relative">
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

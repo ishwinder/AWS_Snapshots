@@ -30,4 +30,17 @@ module ApplicationHelper
        "label"
      end
   end
+
+  def snapshot_state_class(state)
+    case state
+     when 'pending'
+       "label label-warning"
+     when 'completed'
+       "label label-success"
+     when 'error'
+       "label label-important"
+     else
+       "label"
+     end
+  end
 end

@@ -29,6 +29,10 @@ class AwsActionsController < ApplicationController
   end
 
   def create_snapshot
+    ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token)
+    response = ec2.client.describe_volumes
+    @volumes = response.volume_set
+    respond_with @volumes
   end
 
   def create_instant_snapshot

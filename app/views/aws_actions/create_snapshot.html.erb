@@ -4,44 +4,264 @@
 	</div><!--/page-header-->
 <% end %>
 
-<div class="visible widget-box no-border">
-	<div class="widget-body"></div>
-		<div class="widget-main">
-			<div class="space-6"></div>
-			<form>
-				<fieldset>
-					<div class="clearfix">
-						<label for="name">Name</label>
-						<input type="text" name="name" placeholder="Enter name">
+	<div class="span12">
+		<div class="widget-box">
+			<div class="widget-header widget-header-blue widget-header-flat wi1dget-header-large">
+				<h4 class="lighter">Snapshot Scheduling Wizard</h4>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main">
+
+					<div class="row-fluid">
+						<div id="fuelux-wizard" class="row-fluid hidden">
+							<ul class="wizard-steps">
+								<li data-target="#step1" class="active"><span class="step">1</span> <span class="title">Select Volume</span></li>
+								<li data-target="#step2"><span class="step">2</span> <span class="title">Select Schedule</span></li>
+								<li data-target="#step3"><span class="step">3</span> <span class="title">Verify</span></li>
+							</ul>
+						</div>
+
+						<hr />
+
+						<div class="step-content row-fluid position-relative">
+							<%= form_for ScheduledSnapshot.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
+								<div class="step-pane active" id="step1">
+									<br />
+									<br />
+
+										<div class="control-group">
+											<label class="control-label" for="volume_id">Volume ID</label>
+											<div class="controls">
+												<span class="span12">
+													<%= f.select :volume_id, @volumes.map(&:volume_id), selected: params[:volume_id], class: "span3" %>
+												</span>
+											</div>
+										</div>
+										
+										<div class="control-group">
+											<label class="control-label" for="description">Description</label>
+											<div class="controls">
+												<span class="span12">
+													<textarea class="span8" name="description" id="description"></textarea>
+												</span>
+											</div>
+										</div>
+		
+								
+								
+								
+								</div>
+
+								<div class="step-pane" id="step2">
+
+										<div class="control-group">
+											<label class="control-label" for="start_date">Start Date</label>
+											<div class="controls input-append date" style="margin-left:20px;">
+												<input class="span9 date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+												<span class="add-on"><i class="icon-calendar"></i></span>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="end_date">End Date</label>
+											<div class="controls input-append date" style="margin-left:20px;">
+												<input class="span9 date-picker" id="id-date-picker-2" type="text" data-date-format="dd-mm-yyyy" />
+												<span class="add-on"><i class="icon-calendar"></i></span>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="timepicker1">Time of Day</label>
+											<div class="controls input-append bootstrap-timepicker" style="margin-left:20px;">
+												<input id="timepicker1" type="text" class="input-small" />
+												<span class="add-on"><i class="icon-time"></i></span>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="repeat_type">Repeat Type</label>
+											<div class="controls">
+												<span class="span12">
+													<select class="span3" id="repeat_type" name="repeat_type">
+														<option value="none">None</option>
+														<option value="hourly">Hourly</option>
+														<option value="daily">Daily</option>
+														<option value="weekly">Weekly</option>
+														<option value="monthly">Monthly</option>
+													</select>
+												</span>
+											</div>
+										</div>
+
+										<div class="control-group" id="schedule-hourly" style="display:none;">
+											<label class="control-label">Hours of Day</label>
+											<div class="controls">
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 00:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 01:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 02:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 03:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 04:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 05:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 06:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 07:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 08:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 09:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 10:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 11:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 12:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 13:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 14:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 15:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 16:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 17:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 18:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 19:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 20:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 21:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 22:00</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> 23:00</span>
+												</label>
+											</div>
+										</div>
+
+										<div class="control-group" id="schedule-daily" style="display:none;">
+											<label class="control-label">Days of Week</label>
+											<div class="controls">
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Sunday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Monday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Tuesday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Wednesday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Thurday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Friday</span>
+												</label>
+												<label>
+													<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> Saturday</span>
+												</label>
+											</div>
+										</div>
+
+										<div class="control-group" id="schedule-monthly" style="display:none;">
+												<label class="control-label">Month of Year</label>
+												<div class="controls">
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> January</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> February</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> March</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> April</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> May</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> June</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> July</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> August</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> September</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> October</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> November</span>
+													</label>
+													<label>
+														<input name="form-field-checkbox" type="checkbox" checked/><span class="lbl"> December</span>
+													</label>
+												</div>
+											</div>
+
+									</div>
+
+								<div class="step-pane" id="step3">
+									<div class="center">
+										<h3 class="blue lighter">This is step 3</h3>
+									</div>
+								</div>
+
+							<% end %>
+						</div>
+						
+						<hr />
+						
+						<div class="row-fluid wizard-actions">
+							<button class="btn btn-prev"><i class="icon-arrow-left"></i> Prev</button>
+							<button class="btn btn-success btn-next" data-last="Finish ">Next <i class="icon-arrow-right icon-on-right"></i></button>
+						</div>
 					</div>
-					<div class="clearfix">
-						<label for="startdate">Start Date</label>
-						<input type="text" name="name" placeholder="Enter Start Date">
-						<span>(mm-dd-yy)</span>
-					</div>
-					<div class="clearfix">
-						<label for="enddate">End Date</label>
-						<input type="text" name="name" placeholder="Enter End Date">
-						<span>(mm-dd-yy)</span>
-					</div>
-					<div class="clearfix">
-						<label for="repeattype">Repeat Type</label>
-						<select>
-							<option value="none"> None </option>
-							<option value="daily"> Daily </option>
-							<option value="hourly"> Hourly </option>
-							<option value="weekly"> Weekly </option>
-							<option value="monthly"> Monthly </option>
-						</select>
-					</div>
-					<div class="clearfix">
-						<label for="comments">Comment</label>
-						<span><textarea id="comment"></textarea></span>
-					</div>
-				</fieldset>
-				<button type="submit" >Save</button>
-				<a class="btn button-green" href="#">Cancel</a>
-			</form>
+
+				</div><!--/widget-main-->
+			</div><!--/widget-body-->
 		</div>
 	</div>
 </div>
@@ -50,6 +270,18 @@
 	window.onload = function() {
 		$('li#nav-actions').addClass('active open');
 		$('li#nav-action-create-snap').addClass('active');
-		return $list_volumes();
 	};
+	$(function() {
+
+	$('[data-rel=tooltip]').tooltip();
+
+	$(".chzn-select").css('width','150px').chosen({allow_single_deselect:true , no_results_text: "No such state!"})
+	.on('change', function(){
+		$(this).closest('form').validate().element($(this));
+	}); 
+
+
+	var $validation = false;
+	$('#fuelux-wizard').ace_wizard();
+});
 </script>

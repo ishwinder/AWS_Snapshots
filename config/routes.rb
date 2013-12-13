@@ -2,6 +2,10 @@ AWSSnapshots::Application.routes.draw do
 
   root 'dashboard#index'
 
+  resources :dashboard do
+    get :load_instances_summary, on: :collection
+  end
+
   devise_for :users, controllers: {sessions: "users/sessions", registrations: "users/registrations", passwords: "users/passwords"}
   devise_scope :user do
    get "logout", to: "devise/sessions#destroy", as: "logout"
@@ -26,4 +30,6 @@ AWSSnapshots::Application.routes.draw do
     get :volumes, on: :collection
     get :snapshots, on: :collection
   end
+
+  resources :scheduled_snapshots
 end

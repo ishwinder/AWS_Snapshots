@@ -106,6 +106,23 @@ $delete_snapshot = function($row, id) {
 	});
 };
 
+$list_instances_summary = function() {
+	$.ajax({
+		type: 'GET',
+		url: '/dashboard/load_instances_summary',
+		dataType: 'html',
+		success: function(data){
+			$('div#instances_summary').html(data);
+		},
+		error: function(e){
+			$('div#instances_summary').html("<div class='well'><center>Some error occured while loading instances. Please verify your AWS creds.</center></div>");
+		},
+		beforeSend: function(){
+			$('div#instances_summary').html("<div style='margin-bottom: 10px;'><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
+		}
+	});
+};
+
 $(document).on('click', '.load-more-instances', function() {
 	var zone = $('#select-availability-zone :selected').val();
 	var next_token = $(this).attr('id');
@@ -138,4 +155,19 @@ $(document).on('change', '#select-instance-filter', function() {
 	else {
 		$('#filter-value').show();
 	}
+});
+
+$(function() {
+	$('.date-picker').datepicker();
+	$('#timepicker1').timepicker({
+		minuteStep: 60,
+		showMeridian: false
+	});
+
+});
+
+$(document).on('change', '#repeat_type', function(){
+	$selct = $('#repeat_type').val();
+	$('div[id^="schedule"]').hide();
+	$('div#schedule-'+$selct).show()
 });

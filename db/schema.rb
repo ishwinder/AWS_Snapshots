@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131211043538) do
+ActiveRecord::Schema.define(version: 20131213055035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "scheduled_snapshots", force: true do |t|
+    t.string   "volume_id"
+    t.string   "description"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "frequency"
+    t.time     "time_of_day"
+    t.integer  "day_of_week"
+    t.integer  "day_of_month"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "first_name"

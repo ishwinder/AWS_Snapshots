@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  volume_id: MyString
+  description: MyString
+  start_date: 2013-12-13
+  end_date: 2013-12-13
+  frequency: 1
+  time_of_day: 2013-12-13 11:20:35
+  day_of_week: 1
+  day_of_month: 1
+
+two:
+  volume_id: MyString
+  description: MyString
+  start_date: 2013-12-13
+  end_date: 2013-12-13
+  frequency: 1
+  time_of_day: 2013-12-13 11:20:35
+  day_of_week: 1
+  day_of_month: 1

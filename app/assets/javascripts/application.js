@@ -67,16 +67,21 @@ $list_volumes = function() {
 	});
 };
 
-$create_instant_snapshot = function(id){
+$create_instant_snapshot = function($btn, id){
 	$.ajax({
 		type: 'GET',
 		url: '/aws_actions/create_instant_snapshot',
 		data: {volume_id: id},
 		success: function(){
+			$btn.removeAttr('disabled');
 			$("#created_snapshot").modal('toggle');
 		},
 		error: function(e){
-			alert("error")
+			$btn.removeAttr('disabled');
+			alert("error");
+		},
+		beforeSend: function(){
+			$btn.attr('disabled', 'disabled');
 		}
 	});
 };
@@ -112,8 +117,12 @@ $(document).on('change', '#select-availability-zone', function() {
 	$list_instances(zone, '');
 });
 
-$(document).on('click', '.create_instant_snapshot', function(){
- $create_instant_snapshot($(this).attr('id'));
+$(document).on('click', '.create_instant_snapshot', function() {
+	$create_instant_snapshot($(this).closest('div').children('button'), $(this).attr('id'));
+});
+
+$(document).on('click', '.delete_snapshot', function() {
+	$delete_snapshot($(this).closest('tr'), $(this).attr('id'));
 });
 
 $(document).on('change', '#select-instance-filter', function() {

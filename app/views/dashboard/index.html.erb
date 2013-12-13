@@ -1,8 +1,63 @@
 <% content_for :header do %>
 	<div class="page-header position-relative">
-		<h1>Dashboard <small><i class="icon-double-angle-right"></i> Summary</small></h1>
+		<h1>Dashboard</h1>
 	</div><!--/page-header-->
 <% end %>
+<br />
+<br />
+<br />
+<div class="row-fluid">
+	<div class="span2">
+	</div>
+	<div class="span8">
+		<%= link_to instances_elements_path do %>
+			<div class="infobox infobox-small infobox-dark infobox-green">
+				<div class="infobox-icon"><i class="icon-tasks"></i></div>
+				<div class="infobox-data">
+					<span class="infobox-content"><b>Instances</b></span>
+					<br />
+					<span class="infobox-content"></span>
+				</div>
+			</div>
+		<% end %>
+
+		<%= link_to volumes_elements_path do %>
+			<div class="infobox infobox-small infobox-dark infobox-blue">
+				<div class="infobox-icon"><i class="icon-hdd"></i></div>
+				<div class="infobox-data">
+					<span class="infobox-content"><b>Volumes</b></span>
+					<br />
+					<span class="infobox-content"></span>
+				</div>
+			</div>
+		<% end %>
+
+		<%= link_to snapshots_elements_path do %>
+			<div class="infobox infobox-small infobox-dark infobox-orange">
+				<div class="infobox-icon"><i class="icon-camera"></i></div>
+				<div class="infobox-data">
+					<span class="infobox-content"><b>Snapshots</b></span>
+					<br />
+					<span class="infobox-content"></span>
+				</div>
+			</div>
+		<% end %>
+		
+		<%= link_to root_path do %>
+			<div class="infobox infobox-small infobox-dark infobox-grey">
+				<div class="infobox-icon"><i class="icon-time"></i></div>
+				<div class="infobox-data">
+					<span class="infobox-content"><b>Scheduled Snapshots</b></span>
+					<br />
+					<span class="infobox-content"></span>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	
+	<div class="span2">
+	</div>
+</div>
 
 <script type='text/javascript'>
 	window.onload = function() {

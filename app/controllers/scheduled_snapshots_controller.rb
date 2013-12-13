@@ -1,0 +1,2 @@
+class ScheduledSnapshotsController < ApplicationController
+end

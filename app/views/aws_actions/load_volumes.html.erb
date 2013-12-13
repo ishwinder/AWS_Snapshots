@@ -30,7 +30,11 @@
 					<td><%= volume.create_time %></td>
 					<td>
 						<div class="inline position-relative">
-							<button id=<%= volume.volume_id%> class="btn btn-minier btn-primary tooltip-success create_instant_snapshot" data-rel="tooltip" title="Create Instant Snapshot" data-placement="left"><i class="icon-camera icon-white"></i></button>
+							<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+							<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+								<li><a id=<%= volume.volume_id%> class="tooltip-success create_instant_snapshot" data-rel="tooltip" title="Create Instant Snapshot" data-placement="left"><span class="green"><i class="icon-camera"></i></span></a></li>
+								<li><a href="<%= create_snapshot_aws_actions_path(volume_id: volume.volume_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule Snapshot" data-placement="left"><span class="blue"><i class="icon-time"></i></span> </a></li>
+							</ul>
 						</div>
 					</td>
 				</tr>

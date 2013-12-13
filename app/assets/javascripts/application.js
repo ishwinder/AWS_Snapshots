@@ -166,8 +166,8 @@ $(function() {
 
 });
 
-$(document).on('change', '#repeat_type', function(){
-	$selct = $('#repeat_type').val();
+$(document).on('change', '#scheduled_snapshot_frequency', function(){
+	$selct = $('#scheduled_snapshot_frequency').val();
 	$('div[id^="schedule"]').hide();
 	$('div#schedule-'+$selct).show()
 });

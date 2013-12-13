@@ -6,9 +6,11 @@ class CreateScheduledSnapshots < ActiveRecord::Migration
       t.date :start_date
       t.date :end_date
       t.integer :frequency
-      t.time :time_of_day
-      t.integer :day_of_week
-      t.integer :day_of_month
+      t.time :start_time
+      t.string :time_of_day
+      t.string :day_of_week
+      t.string :month_of_year
+      t.references :user
 
       t.timestamps
     end

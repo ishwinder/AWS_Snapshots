@@ -78,7 +78,7 @@
 			
 			<div class="widget-body">
 				<div class="widget-main no-padding" id="instances_summary">
-				<!-- Content to be loaded using Ajax -->
+					<!-- Content to be loaded using Ajax -->
 				</div>
 			</div>
 		</div>
@@ -96,8 +96,33 @@
 			</div>
 			
 			<div class="widget-body">
-				<div class="widget-main">
-				<!-- Content to be loaded using Ajax -->
+				<div class="widget-main no-padding">
+					<% sch_snap = current_user.scheduled_snapshots %>
+					<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th class="center">Volume_id</th>
+								<th>Description</th>
+								<th>Repeat Type</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Scheduled At</th>
+							</tr>
+						</thead>
+					
+						<tbody>
+							<% sch_snap.each do |ss| %>
+								<tr>
+									<td><%= ss.volume_id %></td>
+									<td><%= ss.description %></td>
+									<td><%= ss.frequency %></td>
+									<td><%= ss.start_date %></td>
+									<td><%= ss.end_date %></td>
+									<td><%= ss.created_at %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

@@ -3,59 +3,69 @@
 		<h1>Dashboard</h1>
 	</div><!--/page-header-->
 <% end %>
-<br />
-<br />
-<br />
+
 <div class="row-fluid">
-	<div class="span2">
-	</div>
-	<div class="span8">
-		<%= link_to instances_elements_path do %>
-			<div class="infobox infobox-small infobox-dark infobox-green">
-				<div class="infobox-icon"><i class="icon-tasks"></i></div>
-				<div class="infobox-data">
-					<span class="infobox-content"><b>Instances</b></span>
-					<br />
-					<span class="infobox-content"></span>
+	<div class="span6">
+		<div class="widget-box">
+			<div class="widget-header">
+				<h5>Summary</h5>
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+					<a href="#" data-action="close"><i class="icon-remove"></i></a>
 				</div>
 			</div>
-		<% end %>
-
-		<%= link_to volumes_elements_path do %>
-			<div class="infobox infobox-small infobox-dark infobox-blue">
-				<div class="infobox-icon"><i class="icon-hdd"></i></div>
-				<div class="infobox-data">
-					<span class="infobox-content"><b>Volumes</b></span>
-					<br />
-					<span class="infobox-content"></span>
+			
+			<div class="widget-body">
+				<div class="widget-main">
+					<%= link_to instances_elements_path do %>
+						<div class="infobox infobox-small infobox-dark infobox-green">
+							<div class="infobox-icon"><i class="icon-tasks"></i></div>
+							<div class="infobox-data">
+								<span class="infobox-content"><b>Instances</b></span>
+								<br />
+								<span class="infobox-content"></span>
+							</div>
+						</div>
+					<% end %>
+			
+					<%= link_to volumes_elements_path do %>
+						<div class="infobox infobox-small infobox-dark infobox-blue">
+							<div class="infobox-icon"><i class="icon-hdd"></i></div>
+							<div class="infobox-data">
+								<span class="infobox-content"><b>Volumes</b></span>
+								<br />
+								<span class="infobox-content"></span>
+							</div>
+						</div>
+					<% end %>
+			
+					<%= link_to snapshots_elements_path do %>
+						<div class="infobox infobox-small infobox-dark infobox-orange">
+							<div class="infobox-icon"><i class="icon-camera"></i></div>
+							<div class="infobox-data">
+								<span class="infobox-content"><b>Snapshots</b></span>
+								<br />
+								<span class="infobox-content"></span>
+							</div>
+						</div>
+					<% end %>
+					
+					<%= link_to root_path do %>
+						<div class="infobox infobox-small infobox-dark infobox-grey">
+							<div class="infobox-icon"><i class="icon-time"></i></div>
+							<div class="infobox-data">
+								<span class="infobox-content"><b>Scheduled Snapshots</b></span>
+								<br />
+								<span class="infobox-content"></span>
+							</div>
+						</div>
+					<% end %>
 				</div>
 			</div>
-		<% end %>
-
-		<%= link_to snapshots_elements_path do %>
-			<div class="infobox infobox-small infobox-dark infobox-orange">
-				<div class="infobox-icon"><i class="icon-camera"></i></div>
-				<div class="infobox-data">
-					<span class="infobox-content"><b>Snapshots</b></span>
-					<br />
-					<span class="infobox-content"></span>
-				</div>
-			</div>
-		<% end %>
-		
-		<%= link_to root_path do %>
-			<div class="infobox infobox-small infobox-dark infobox-grey">
-				<div class="infobox-icon"><i class="icon-time"></i></div>
-				<div class="infobox-data">
-					<span class="infobox-content"><b>Scheduled Snapshots</b></span>
-					<br />
-					<span class="infobox-content"></span>
-				</div>
-			</div>
-		<% end %>
+		</div>
 	</div>
 	
-	<div class="span2">
+	<div class="span6">
 	</div>
 </div>
 

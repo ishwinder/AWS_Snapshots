@@ -158,16 +158,39 @@ $(document).on('change', '#select-instance-filter', function() {
 });
 
 $(function() {
-	$('.date-picker').datepicker();
+	$('.date-picker').datepicker({autoclose: true}).on('changeDate', function(ev){
+		if ($(this).attr('name').indexOf('start')> -1){
+			summary('#from-start-time', $(this).val())
+		}
+		else{
+			summary('#from-end-time', $(this).val())
+		}
+	
+	});
 	$('#timepicker1').timepicker({
 		minuteStep: 60,
-		showMeridian: false
+	}).on('changeTime.timepicker', function(e) {
+		summary('#timeat', e.time.value)
 	});
-
+	
 });
-
+function summary(elem, value){
+	$(elem).html(value)
+}
 $(document).on('change', '#scheduled_snapshot_frequency', function(){
 	$selct = $('#scheduled_snapshot_frequency').val();
 	$('div[id^="schedule"]').hide();
 	$('div#schedule-'+$selct).show()
+});
+
+$(document).on('change', "#validation-form #frequency-type, #validation-form input:checkbox", function(){
+	$selct = $('#frequency-type').val();
+	$('div[id^="schedule"]').hide();
+	$('div#schedule-'+$selct).show()
+	var values = new Array();
+	$('div#schedule-'+$selct+ ' input:checked').each(function() {
+	    values.push( $(this).siblings('span').html() )
+	});
+	$('#repeattype').html($selct)
+	$('#repeat-on').html(values)
 });

@@ -34,7 +34,7 @@
 											<label class="control-label" for="volume_id">Volume ID</label>
 											<div class="controls">
 												<span class="span12">
-													<%= f.select :volume_id, @volumes.map(&:volume_id), selected: params[:volume_id], class: "span3" %>
+													<%= f.select :volume_id, @volumes.map(&:volume_id), {selected: params[:volume_id]}, {class: "span3", onchange: "summary('#volumeid', $(this).val())"} %>
 												</span>
 											</div>
 										</div>
@@ -43,7 +43,7 @@
 											<label class="control-label" for="description">Description</label>
 											<div class="controls">
 												<span class="span12">
-													<%= f.text_area :description, :class => "span8" %>
+													<%= f.text_area :description, :class => "span8", onchange: "summary('#volumedescription', $(this).val())"%>
 												</span>
 											</div>
 										</div>
@@ -56,7 +56,7 @@
 										<div class="control-group">
 											<label class="control-label" for="start_date">Start Date</label>
 											<div class="controls input-append date" style="margin-left:20px;">
-												<input class="span9 date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[start_date]"/>
+												<input class="span9 date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[start_date]" />
 												<span class="add-on"><i class="icon-calendar"></i></span>
 											</div>
 										</div>
@@ -81,7 +81,7 @@
 											<label class="control-label" for="repeat_type">Repeat Type</label>
 											<div class="controls">
 												<span class="span12">
-													<%= f.select :frequency, ["None", "Hourly", "Daily", "Weekly", "Monthly"], class: "span3" %>
+													<%= f.select :frequency, ["None", "Hourly", "Daily", "Weekly", "Monthly"],{}, {class: "span3", id: "frequency-type"} %>
 												</span>
 											</div>
 										</div>
@@ -126,7 +126,38 @@
 
 								<div class="step-pane" id="step3">
 									<div class="center">
-										<h3 class="blue lighter">Summary from step 1 and 2 will appear here</h3>
+										<h3 class="blue lighter">Summary</h3>
+										<table class="table">
+											<tbody>
+												<tr>
+													<th> Volume ID :</th>
+													<td id="volumeid"></td>
+												</tr>
+												<tr>
+													<th> Description :</th>
+													<td id="volumedescription"></td>
+												</tr>
+												<tr>
+													<th> From :</th>
+													<td>
+														<span id="from-start-time"></span> - 
+														<span id="from-end-time"></span>
+													</td>
+												</tr>
+												<tr>
+													<th> At :</th>
+													<td id="timeat"></td>
+												</tr>
+												<tr>
+													<th> Repeat Type :</th>
+													<td id="repeattype"></td>
+												</tr>
+												<tr>
+													<th> On :</th>
+													<td id="repeat-on"></td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 
@@ -160,7 +191,6 @@
 	.on('change', function(){
 		$(this).closest('form').validate().element($(this));
 	}); 
-
 
 	var $validation = false;
 	$('#fuelux-wizard').ace_wizard().on('finished', function(e) {

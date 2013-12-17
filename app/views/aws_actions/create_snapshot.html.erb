@@ -34,7 +34,7 @@
 											<label class="control-label" for="volume_id">Volume ID</label>
 											<div class="controls">
 												<span class="span12">
-													<%= f.select :volume_id, @volumes.map(&:volume_id), {selected: params[:volume_id]}, {class: "span3", onchange: "summary('#volumeid', $(this).val())"} %>
+													<%= f.select :volume_id, @volumes.map(&:volume_id), {selected: params[:volume_id]}, {class: "span3"} %>
 												</span>
 											</div>
 										</div>
@@ -43,7 +43,7 @@
 											<label class="control-label" for="description">Description</label>
 											<div class="controls">
 												<span class="span12">
-													<%= f.text_area :description, :class => "span8", onchange: "summary('#volumedescription', $(this).val())"%>
+													<%= f.text_area :description, :class => "span8"%>
 												</span>
 											</div>
 										</div>
@@ -134,43 +134,43 @@
 									<div class="control-group">
 										<label class="control-label" for="volume_id"><b>Volume ID :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="volumeid"></span>
+											<span id="scheduled_snapshot[volume_id]"></span>
 										</div>
 									</div>
 
 									<div class="control-group">
 										<label class="control-label" for="volumedescription"><b>Description :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="volumedescription"></span>
+											<span id="scheduled_snapshot[description]"></span>
 										</div>
 									</div>
 
 									<div class="control-group">
 										<label class="control-label" for="repeattype"><b>Repeat Type :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="repeattype"></span>
+											<span id="scheduled_snapshot[frequency]"></span>
 										</div>
 									</div>
 									
 									<div class="control-group">
 										<label class="control-label" for="from"><b>From :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="from-start-time"></span> - 
-											<span id="from-end-time"></span>
+											<span id="scheduled_snapshot[start_date]"></span> - 
+											<span id="scheduled_snapshot[end_date]"></span>
 										</div>
 									</div>
 
 									<div class="control-group">
 										<label class="control-label" for="timeat"><b>At :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="timeat"></span>
+											<span id="scheduled_snapshot[start_time]"></span>
 										</div>
 									</div>
 
 									<div class="control-group">
 										<label class="control-label" for="repeat-on"><b>On :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="repeat-on"></span>
+											<span id="repeaton"></span>
 										</div>
 									</div>
 								</div>
@@ -205,11 +205,20 @@
 	.on('change', function(){
 		$(this).closest('form').validate().element($(this));
 	}); 
-
 	var $validation = false;
 	$('#fuelux-wizard').ace_wizard().on('change' , function(e, info) {
 		if(info.step == 2) {
-			alert("step 2 over");
+			$('form input:text, form select, form textarea').each(function() {
+			elem = document.getElementById($(this).attr('name'));
+			if (elem != null)
+				elem.innerHTML = $(this).val();
+			});
+			$selct = $('#frequency-type').val();
+			var values = new Array();
+			$('div#schedule-'+$selct+ ' input:checked').each(function() {
+				values.push( $(this).siblings('span').html() );
+			});
+			$('#repeaton').html(values);
 		}
 	}).on('finished', function(e) {
 		$('form').submit();

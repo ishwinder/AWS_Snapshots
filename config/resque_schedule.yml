@@ -3,3 +3,9 @@ breakfast:
   class: Eat
   args: scrambled egg
   description: Breakfast
+
+set cron:
+  cron: '0 12 * * *'
+  class: ScheduleCron
+  args:
+  description: Set cron scheduling for schedule snapshot 

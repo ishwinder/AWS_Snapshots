@@ -6,6 +6,9 @@ class ScheduledSnapshot < ActiveRecord::Base
   serialize :month_of_year, Array
 
   after_save :set_crontab
+  
+  scope :scheduled_today, lambda { where(start_date: Date.today)}
+  scope :schedule_ended, lambda { where(end_date: Date.today-1)}
 
   REPEAT_TYPE = {"None" => 0, "Hourly" => 1, "Daily" => 2, "Weekly" => 3, "Monthly" => 4 }
 

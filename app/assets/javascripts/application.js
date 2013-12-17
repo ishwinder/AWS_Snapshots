@@ -168,7 +168,10 @@ $(document).on('change', '#select-instance-filter', function() {
 });
 
 $(function() {
+	var date = new Date();
+	date.setDate(date.getDate()-1);
 	$('.date-picker').datepicker({
+		startDate: date,
 		autoclose: true
 	});
 	

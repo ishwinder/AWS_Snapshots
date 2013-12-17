@@ -1,0 +1,5 @@
+breakfast:
+  cron: '* * * * *'
+  class: Eat
+  args: scrambled egg
+  description: Breakfast

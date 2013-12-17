@@ -20,13 +20,13 @@ class ScheduledSnapshot < ActiveRecord::Base
   def set_crontab
     cron_array = case frequency
       when "Hourly"
-        ["0", time_of_day.join(','), "* * * *"]
+        ["0", time_of_day.join(','), "* * *"]
       when "Daily"
-        [start_time.min, start_time.hour, "* *", day_of_week.join(','), "*"]
+        [start_time.min, start_time.hour, "* *", day_of_week.join(',')]
       when "Weekly"
-        [start_time.min, start_time.hour, "* *", start_date.wday, "*"]
+        [start_time.min, start_time.hour, "* *", start_date.wday]
       when "Monthly"
-        [start_time.min, start_time.hour, start_date.mday, month_of_year.join(','), "* *"]
+        [start_time.min, start_time.hour, start_date.mday, month_of_year.join(','), "*"]
     end
     update_column :cron, cron_array.join(" ")
   end

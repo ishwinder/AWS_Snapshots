@@ -146,12 +146,14 @@ $(document).on('click', '.delete_snapshot', function() {
 
 $(document).on('change', '#select-instance-filter', function() {
 	var filter = $('#select-instance-filter :selected').val();
+	var zone = $('#select-availability-zone :selected').val()
 	$("#filter-value").val("");
 	$("#filter-key").val("");
 	if(filter == "None") {
 		$('#filter-key').hide();
 		$('#filter-value').hide();
 		$('#search-by-filter').hide();
+		$list_instances(zone, '', filter,'','');
 	}
 	else if(filter == "Tags") {
 		$('#filter-key').show();
@@ -208,10 +210,8 @@ $(document).on('click', '.search_filters', function() {
 	var value = $("#filter-value").val();
 	var key = $("#filter-key").val();
 	var zone = $('#select-availability-zone :selected').val();
-	if(filter == "None") {
-		$list_instances(zone, '', filter,'','');
-	}
-	else if(filter == "Tags") {
+
+	if(filter == "Tags") {
 		$list_instances(zone, '', filter,key,value);
 	}
 	else{

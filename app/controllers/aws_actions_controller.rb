@@ -5,14 +5,18 @@ class AwsActionsController < ApplicationController
 
   def load_instances
     ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token)
-    filters = {max_results: 30}
-    filters.merge!({next_token: params[:next_token]}) if params[:next_token].present?
     filter = []
     filter << {name: "availability-zone", values: [params[:zone]]} if params[:zone]!= "all"
     filter << {name: "instance-id", values: [params[:value]]} if params[:filter].present? && params[:filter] == "Instance ID"
     filter << {name: "block-device-mapping.volume-id", values: [params[:value]] } if params[:filter].present? && params[:filter] == "Volume ID"
     filter << {name: "image-id", values:[params[:value]] } if params[:filter].present? && params[:filter] == "AMI"
-    filters.merge!({filters: filter}) if !filter.empty?
+    filter << {name: "tag:#{params[:key]}", values:[params[:value]] } if params[:filter].present? && params[:filter] == "Tags"
+    if filter.empty?
+      filters = {max_results: 30} 
+      filters.merge!({next_token: params[:next_token]}) if params[:next_token].present?
+    else
+      filters = {filters: filter}
+    end
     response = ec2.client.describe_instances filters
     @instances = response.reservation_set.map(&:instances_set).flatten!
     @next_token = response[:next_token]

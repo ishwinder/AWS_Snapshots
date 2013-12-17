@@ -15,11 +15,11 @@
 //= require twitter/bootstrap
 //= require_tree .
 
-$list_instances = function(zone, next_token) {
+$list_instances = function(zone, next_token, filter, key, value){
 	$.ajax({
 		type: 'GET',
 		url: '/aws_actions/load_instances',
-		data: {next_token: next_token, zone: zone},
+		data: { next_token: next_token, zone: zone, filter: filter, key: key, value: value},
 		dataType: 'html',
 		success: function(data){
 			$('div#list-instances').html(data);
@@ -131,7 +131,9 @@ $(document).on('click', '.load-more-instances', function() {
 
 $(document).on('change', '#select-availability-zone', function() {
 	var zone = $('#select-availability-zone :selected').val();
-	$list_instances(zone, '');
+	$("#filter-value").val("");
+	$("#filter-key").val("");
+	$list_instances(zone, '', '', '', '');
 });
 
 $(document).on('click', '.create_instant_snapshot', function() {
@@ -144,53 +146,83 @@ $(document).on('click', '.delete_snapshot', function() {
 
 $(document).on('change', '#select-instance-filter', function() {
 	var filter = $('#select-instance-filter :selected').val();
+	$("#filter-value").val("");
+	$("#filter-key").val("");
 	if(filter == "None") {
 		$('#filter-key').hide();
 		$('#filter-value').hide();
+		$('#search-by-filter').hide();
 	}
 	else if(filter == "Tags") {
 		$('#filter-key').show();
 		$('#filter-value').show();
+		$('#search-by-filter').show();
 	}
 	else {
+		$('#filter-key').hide();
 		$('#filter-value').show();
+		$('#search-by-filter').show();
 	}
 });
 
 $(function() {
 	$('.date-picker').datepicker({autoclose: true}).on('changeDate', function(ev){
 		if ($(this).attr('name').indexOf('start')> -1){
-			summary('#from-start-time', $(this).val())
+			summary('#from-start-time', $(this).val());
 		}
 		else{
-			summary('#from-end-time', $(this).val())
+			summary('#from-end-time', $(this).val());
 		}
 	
 	});
 	$('#timepicker1').timepicker({
 		minuteStep: 60,
 	}).on('changeTime.timepicker', function(e) {
-		summary('#timeat', e.time.value)
+		summary('#timeat', e.time.value);
 	});
 	
 });
 function summary(elem, value){
-	$(elem).html(value)
+	$(elem).html(value);
 }
 $(document).on('change', '#scheduled_snapshot_frequency', function(){
 	$selct = $('#scheduled_snapshot_frequency').val();
 	$('div[id^="schedule"]').hide();
-	$('div#schedule-'+$selct).show()
+	$('div#schedule-'+$selct).show();
 });
 
 $(document).on('change', "#validation-form #frequency-type, #validation-form input:checkbox", function(){
 	$selct = $('#frequency-type').val();
 	$('div[id^="schedule"]').hide();
-	$('div#schedule-'+$selct).show()
+	$('div#schedule-'+$selct).show();
 	var values = new Array();
 	$('div#schedule-'+$selct+ ' input:checked').each(function() {
-	    values.push( $(this).siblings('span').html() )
+	    values.push( $(this).siblings('span').html() );
 	});
-	$('#repeattype').html($selct)
-	$('#repeat-on').html(values)
+	$('#repeattype').html($selct);
+	$('#repeat-on').html(values);
+});
+
+$(document).on('click', '.search_filters', function() {
+	var filter = $('#select-instance-filter :selected').val();
+	var value = $("#filter-value").val();
+	var key = $("#filter-key").val();
+	var zone = $('#select-availability-zone :selected').val();
+	if(filter == "None") {
+		$list_instances(zone, '', filter,'','');
+	}
+	else if(filter == "Tags") {
+		$list_instances(zone, '', filter,key,value);
+	}
+	else{
+		$list_instances(zone, '', filter,"",value);
+	}
+	
+});
+
+$(document).ready(function(){
+	var filter = $('#select-instance-filter :selected').val();
+	if(filter == "None") {
+		$('#search-by-filter').hide();
+	}
 });

@@ -127,37 +127,51 @@
 								<div class="step-pane" id="step3">
 									<div class="center">
 										<h3 class="blue lighter">Summary</h3>
-										<table class="table">
-											<tbody>
-												<tr>
-													<th> Volume ID :</th>
-													<td id="volumeid"></td>
-												</tr>
-												<tr>
-													<th> Description :</th>
-													<td id="volumedescription"></td>
-												</tr>
-												<tr>
-													<th> From :</th>
-													<td>
-														<span id="from-start-time"></span> - 
-														<span id="from-end-time"></span>
-													</td>
-												</tr>
-												<tr>
-													<th> At :</th>
-													<td id="timeat"></td>
-												</tr>
-												<tr>
-													<th> Repeat Type :</th>
-													<td id="repeattype"></td>
-												</tr>
-												<tr>
-													<th> On :</th>
-													<td id="repeat-on"></td>
-												</tr>
-											</tbody>
-										</table>
+									</div>
+
+									<br/>
+
+									<div class="control-group">
+										<label class="control-label" for="volume_id"><b>Volume ID :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="volumeid"></span>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label" for="volumedescription"><b>Description :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="volumedescription"></span>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label" for="repeattype"><b>Repeat Type :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="repeattype"></span>
+										</div>
+									</div>
+									
+									<div class="control-group">
+										<label class="control-label" for="from"><b>From :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="from-start-time"></span> - 
+											<span id="from-end-time"></span>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label" for="timeat"><b>At :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="timeat"></span>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label" for="repeat-on"><b>On :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="repeat-on"></span>
+										</div>
 									</div>
 								</div>
 
@@ -193,7 +207,11 @@
 	}); 
 
 	var $validation = false;
-	$('#fuelux-wizard').ace_wizard().on('finished', function(e) {
+	$('#fuelux-wizard').ace_wizard().on('change' , function(e, info) {
+		if(info.step == 2) {
+			alert("step 2 over");
+		}
+	}).on('finished', function(e) {
 		$('form').submit();
 	});
 });

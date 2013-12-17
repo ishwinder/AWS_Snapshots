@@ -15,6 +15,7 @@
 		<%= select_tag "filters", options_for_select(["None", "Instance ID", "AMI", "Volume ID", "Tags"], "None"), id: 'select-instance-filter'%>
 		<%= text_field_tag "key", nil, placeholder: 'Key', class: 'input-small', id: 'filter-key', style: 'display:none;' %>
 		<%= text_field_tag "value", nil, placeholder: 'Value', class: 'input-small', id: 'filter-value', style: 'display:none;' %>
+		<input type="button" id = "search-by-filter" value="Search By Filter" class="search_filters" >
 	</div>
 	<div class="span12" style="margin-left:0px;" id="list-instances">
 		<!-- Content to be loaded using Ajax -->
@@ -25,6 +26,6 @@
 	window.onload = function() {
 		$('li#nav-elements').addClass('active open');
 		$('li#nav-element-instances').addClass('active');
-		return $list_instances('all', '');
+		return $list_instances('all', '','', '', '');
 	};
 </script>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131216054733) do
+ActiveRecord::Schema.define(version: 20131218133605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,19 @@ ActiveRecord::Schema.define(version: 20131216054733) do
     t.text     "cron"
   end
 
+  create_table "snapshot_summaries", force: true do |t|
+    t.string   "snapshot_id"
+    t.string   "volume_id"
+    t.datetime "start_time"
+    t.integer  "scheduled_snapshot_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "snapshot_summaries", ["scheduled_snapshot_id"], name: "index_snapshot_summaries_on_scheduled_snapshot_id", using: :btree
+  add_index "snapshot_summaries", ["user_id"], name: "index_snapshot_summaries_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -45,17 +58,16 @@ ActiveRecord::Schema.define(version: 20131216054733) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "access_key"
-    t.string   "secret_token"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "access_key"
+    t.string   "secret_token"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 

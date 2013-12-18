@@ -16,12 +16,22 @@ class ScheduledSnapshot < ActiveRecord::Base
     self[:frequency] = REPEAT_TYPE[freq]
   end
 
+  def end_date=(end_date)
+    if frequency == "None"
+      self[:end_date] = start_date
+    else
+      self[:end_date] = end_date
+    end
+  end
+
   def frequency
     REPEAT_TYPE.key(self[:frequency])
   end
 
   def set_crontab
     cron_array = case frequency
+      when "None"
+        [start_time.min, start_time.hour, start_date.mday, start_date.month, "*"]
       when "Hourly"
         ["0", time_of_day.join(','), "* * *"]
       when "Daily"

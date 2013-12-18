@@ -144,7 +144,11 @@
 						<% elsif @snapshot.frequency == "Weekly"%>
 							<div class="span2"></div>
 							<div class="span8">
-								<%= "Every #{@snapshot.start_date.strftime('%A')} at #{@snapshot.start_time.strftime('%I:%M %p')}"%>
+								Every <%= content_tag :b, @snapshot.start_date.strftime('%A') %> at <%= content_tag :b, @snapshot.start_time.strftime('%I:%M %p') %>
+							</div>
+						<% elsif @snapshot.frequency == "None"%>
+							<div class="span12">
+								Only once at <%= content_tag :b, @snapshot.start_time.strftime('%I:%M %p') %> on <%= content_tag :b, @snapshot.start_date.strftime('%a %b %-d, %Y') %>
 							</div>
 						<% elsif @snapshot.frequency == "Monthly"%>
 							<div class="span4"></div>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  snapshot_id: MyString
+  volume_id: MyString
+  start_time: 2013-12-18 19:06:05
+  scheduled_snapshot_id: 
+  user_id: 
+
+two:
+  snapshot_id: MyString
+  volume_id: MyString
+  start_time: 2013-12-18 19:06:05
+  scheduled_snapshot_id: 
+  user_id: 

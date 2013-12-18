@@ -9,7 +9,7 @@ Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.
 # uncomment this line.  A dynamic schedule can be updated via the
 # Resque::Scheduler.set_schedule (and remove_schedule) methods.
 # When dynamic is set to true, the scheduler process looks for
-#Resque::Scheduler.dynamic = true
+Resque::Scheduler.dynamic = true
 
 Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 

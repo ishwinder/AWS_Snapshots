@@ -1,4 +1,8 @@
 class ScheduledSnapshotsController < ApplicationController
+
+  def index
+  end
+
   def create
     @scheduled_snapshot = current_user.scheduled_snapshots.new(snapshot_params)
     if @scheduled_snapshot.save
@@ -8,6 +12,24 @@ class ScheduledSnapshotsController < ApplicationController
     end
     redirect_to root_path
   end
+
+  def show
+  end
+
+  def destroy
+    @result = Resque.get_schedule("scheduling_snapshot_#{params[:id]}")
+    if @result.present?
+      Resque.remove_schedule("scheduling_snapshot_#{params[:id]}")
+    end
+    @snapshot = ScheduledSnapshot.find(params[:id])
+    if @snapshot.destroy
+      flash[:notice] = "Droped Snapshot"
+    else
+      flash[:alert] = "There was some problem in droping scheduling snapshot"
+    end
+    redirect_to :back
+  end
+
 
   private
   def snapshot_params

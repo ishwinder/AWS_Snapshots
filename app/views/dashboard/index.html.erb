@@ -51,7 +51,7 @@
 							</div>
 						<% end %>
 						
-						<%= link_to root_path do %>
+						<%= link_to scheduled_snapshots_url do %>
 							<div class="infobox infobox-dark infobox-grey" style="margin-top: 5px;">
 								<div class="infobox-icon"><i class="icon-time"></i></div>
 								<div class="infobox-data" style="margin-top: 10px;">
@@ -97,7 +97,7 @@
 			
 			<div class="widget-body">
 				<div class="widget-main no-padding">
-					<% sch_snap = current_user.scheduled_snapshots %>
+					<% sch_snap = current_user.scheduled_snapshots.limit(5) %>
 					<table id="table_bug_report" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>

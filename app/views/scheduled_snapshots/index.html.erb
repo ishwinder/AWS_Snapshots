@@ -1,0 +1,56 @@
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Scheduled Snapshots</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-scheduled-snapshots">
+		<% sch_snap = current_user.scheduled_snapshots %>
+		<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="center">Volume_id</th>
+					<th>Description</th>
+					<th>Repeat Type</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Scheduled At</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+		
+			<tbody>
+				<% sch_snap.each do |ss| %>
+					<tr>
+						<td><%= ss.volume_id %></td>
+						<td><%= ss.description %></td>
+						<td><%= ss.frequency %></td>
+						<td><%= ss.start_date %></td>
+						<td><%= ss.end_date %></td>
+						<td><%= ss.created_at %></td>
+						<td>
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+									<li><a href="<%= scheduled_snapshot_path(ss)%>"  class="tooltip-success" data-rel="tooltip" title="View Details" data-placement="left"><span class="green"><i class="icon-list-alt"></i></span></a></li>
+									<li>
+										<%= link_to scheduled_snapshot_path(ss), :confirm => 'Are you sure?', :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
+											<span class="red"><i class="icon-trash"></i></span>
+										<% end %>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-snapshots').addClass('active');
+	};
+</script>

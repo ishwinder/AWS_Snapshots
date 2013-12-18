@@ -6,11 +6,10 @@
 
 <div class="row-fluid">
 	<div class="span12" style="margin-left:0px;" id="list-scheduled-snapshots">
-		<% sch_snap = current_user.scheduled_snapshots %>
 		<table id="table_bug_report" class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
-					<th class="center">Volume_id</th>
+					<th class="center">Volume ID</th>
 					<th>Description</th>
 					<th>Repeat Type</th>
 					<th>Start Date</th>
@@ -21,7 +20,7 @@
 			</thead>
 		
 			<tbody>
-				<% sch_snap.each do |ss| %>
+				<% @scheduled_snapshots.each do |ss| %>
 					<tr>
 						<td><%= ss.volume_id %></td>
 						<td><%= ss.description %></td>

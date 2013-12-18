@@ -1,6 +1,9 @@
 class ScheduledSnapshotsController < ApplicationController
 
+  respond_to :js, :html
+
   def index
+    respond_with @scheduled_snapshots = current_user.scheduled_snapshots
   end
 
   def create
@@ -14,6 +17,7 @@ class ScheduledSnapshotsController < ApplicationController
   end
 
   def show
+    respond_with @snapshot = ScheduledSnapshot.find(params[:id])
   end
 
   def destroy
@@ -23,11 +27,11 @@ class ScheduledSnapshotsController < ApplicationController
     end
     @snapshot = ScheduledSnapshot.find(params[:id])
     if @snapshot.destroy
-      flash[:notice] = "Droped Snapshot"
+      flash[:notice] = "Snapshot Schedule dropped successfully"
     else
       flash[:alert] = "There was some problem in droping scheduling snapshot"
     end
-    redirect_to :back
+    redirect_to scheduled_snapshots_path
   end
 
 

@@ -101,9 +101,9 @@
 										<div class="control-group" id="schedule-Daily" style="display:none;">
 											<label class="control-label">Days of Week</label>
 											<div class="controls">
-												<% ["Monday","Tuesday","Wednesday","Thrusday","Friday","Saturday", "Sunday"].each_with_index do |day,i|%>
+												<% ["Sunday", "Monday","Tuesday","Wednesday","Thrusday","Friday","Saturday"].each_with_index do |day,i|%>
 													<label>
-														<%= check_box "scheduled_snapshot", "day_of_week[]", {:checked => true, :name => 'scheduled_snapshot[day_of_week][]'}, i+1 , nil%>
+														<%= check_box "scheduled_snapshot", "day_of_week[]", {:checked => true, :name => 'scheduled_snapshot[day_of_week][]'}, i , nil%>
 														<span class="lbl"> <%= day %></span>
 													</label>
 												<% end %>

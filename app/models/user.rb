@@ -6,5 +6,5 @@ class User < ActiveRecord::Base
 
   has_many :scheduled_snapshots, dependent: :restrict
   
-  has_many :scheduled_summaries, dependent: :destroy
+  has_many :snapshot_summaries, dependent: :destroy
 end

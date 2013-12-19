@@ -16,10 +16,9 @@
 					<div class="row-fluid">
 						<div id="fuelux-wizard" class="row-fluid hidden">
 							<ul class="wizard-steps">
-								<li data-target="#step1" class="active"><span class="step">1</span> <span class="title">Select Source</span></li>
-								<li data-target="#step2"><span class="step">2</span> <span class="title">Select Volume</span></li>
-								<li data-target="#step3"><span class="step">3</span> <span class="title">Select Schedule</span></li>
-								<li data-target="#step4"><span class="step">4</span> <span class="title">Verify</span></li>
+								<li data-target="#step1" class="active"><span class="step">1</span> <span class="title">Select Volumes</span></li>
+								<li data-target="#step2"><span class="step">2</span> <span class="title">Select Schedule</span></li>
+								<li data-target="#step3"><span class="step">3</span> <span class="title">Verify</span></li>
 								
 							</ul>
 						</div>
@@ -28,45 +27,29 @@
 
 						<div class="step-content row-fluid position-relative">
 							
-							<div class="step-pane active" id="step1">
-								<br />
-								<br />
-
-								<form class="form-horizontal" id="load-objects">
-									
-									<div class="control-group">
-										<div class="controls" style="margin-left: 35%;">
-											<label>
-												<input name="form-field-radio" type="radio" value="all-vol" class="sel-object" checked>
-												<span class="lbl">&nbsp;  Select a particular volume from all volumes</span>
-											</label>
-										
-											<br />
-										
-											<label>
-												<input name="form-field-radio" type="radio" value="inst-vol" class="sel-object">
-												<span class="lbl">&nbsp;  Select multiple volumes for a specific Instance</span>
-											</label>
-										</div>
-									</div>
-
-									<div class="control-group" id="search-instance" style="display:none;">
-										<label class="control-label" for="instance_id" style="margin-left: 27%;">Instance ID :</label>
-										<div class="controls" style="margin-left: 45%;">
-											<span class="span12">
-												<%= text_field_tag :instance_id, params[:instance_id], class: "span3", required: true %>
-											</span>
-										</div>
-									</div>
-
-								</form>
-
-							</div>
-							
 							<%= form_for ScheduledSnapshot.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
-								<div class="step-pane" id="step2">
+								<div class="step-pane active" id="step1">
 									<br />
 									<br />
+									
+										<div class="control-group" id="search-instance">
+											<label class="control-label" for="instance_id">Instance ID</label>
+											<div class="controls">
+												<span class="span12">
+													<%= text_field_tag :instance_id, params[:instance_id], class: "span3", required: true %>
+													<%= link_to "Load Volumes","", class: "btn btn-small btn-info", id: "id-load-volumes"%>
+												</span>
+											</div>
+										</div>
+										
+										<div class="control-group" id="spinner" style="display:none;">
+											<label class="control-label" for="spinner"></label>
+											<div class="controls">
+												<span class="span12">
+													Loading Volumes......
+												</span>
+											</div>
+										</div>
 
 										<div class="control-group" id="multi-vol" style="display:none;">
 											<label class="control-label" for="volume_id">Volumes</label>
@@ -76,14 +59,6 @@
 											</div>
 										</div>
 
-										<div class="control-group" id="single-vol" style="display:none;">
-											<label class="control-label" for="volume_id">Volume ID</label>
-											<div class="controls">
-												<span class="span12" id="load-all-vols">
-												</span>
-											</div>
-										</div>
-										
 										<div class="control-group">
 											<label class="control-label" for="description">Description</label>
 											<div class="controls">
@@ -96,7 +71,7 @@
 								
 								</div>
 
-								<div class="step-pane" id="step3">
+								<div class="step-pane" id="step2">
 
 										<div class="control-group">
 											<label class="control-label" for="start_date">Start Date</label>
@@ -169,7 +144,7 @@
 
 									</div>
 
-								<div class="step-pane" id="step4">
+								<div class="step-pane" id="step3">
 									<div class="center">
 										<h3 class="blue lighter">Summary</h3>
 									</div>
@@ -241,6 +216,14 @@
 	window.onload = function() {
 		$('li#nav-actions').addClass('active open');
 		$('li#nav-action-create-snap').addClass('active');
+		<% if params[:instance_id] %>
+			$('#instance_id').val("<%= params[:instance_id]%>");
+			$('a#id-load-volumes').trigger('click');
+		<% elsif params[:volume_id] %>
+			$('#search-instance').hide();
+			$('span#load-multiple-vols').html('<input type="text" name="scheduled_snapshot[volume_id][]" value="<%= params[:volume_id]%>" readonly />');
+			$('#multi-vol').show();
+		<% end %>
 	};
 	$(function() {
 
@@ -252,8 +235,14 @@
 	}); 
 	var $validation = false;
 	$('#fuelux-wizard').ace_wizard().on('change' , function(e, info) {
-		if(info.step == 3) {
-			isvalidate = $("#step3").closest('form').valid();
+		if(info.step == 1) {
+			if($("input[name^='scheduled_snapshot[volume_id][]']:checkbox").length > 0 && $("input[name^='scheduled_snapshot[volume_id][]']:checked").length < 1) {
+				alert("Please select atleast one volume");
+				e.preventDefault();
+			}
+		}
+		if(info.step == 2) {
+			isvalidate = $("#step2").closest('form').valid();
 			if (info.direction === 'next' && !isvalidate) {
 				e.preventDefault();
 			}
@@ -268,22 +257,6 @@
 				values.push( $(this).siblings('span').html() );
 			});
 			$('#repeaton').html(values);
-		}
-		if(info.step == 1) {
-			if($("input[name^='form-field-radio']:checked").val() == "inst-vol") {
-				inst_id = $('#instance_id').val();
-				isvalidate = $('form#load-objects').valid();
-				if (info.direction === 'next' && !isvalidate) {
-					$('#instance_id').focus();
-					e.preventDefault();
-				}
-				else {
-					$load_volumes_for_instance(inst_id, e);
-				}
-			}
-			else {
-				$load_all_volumes(e);
-			}
 		}
 	}).on('finished', function(e) {
 		$('form#validation-form').submit();

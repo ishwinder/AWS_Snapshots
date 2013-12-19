@@ -113,7 +113,7 @@
 						<tbody>
 							<% sch_snap.each do |ss| %>
 								<tr>
-									<td><%= ss.volume_id %></td>
+									<td><%= ss.volume_id.join(", ") %></td>
 									<td><%= ss.description %></td>
 									<td><%= ss.frequency %></td>
 									<td><%= ss.start_date %></td>

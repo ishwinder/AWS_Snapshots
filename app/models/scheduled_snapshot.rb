@@ -1,5 +1,5 @@
 class ScheduledSnapshot < ActiveRecord::Base
-  has_many :scheduled_summaries, dependent: :destroy
+  has_many :snapshot_summaries, dependent: :destroy
   belongs_to :user
 
   serialize :volume_id, Array

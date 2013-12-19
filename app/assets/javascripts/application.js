@@ -123,47 +123,43 @@ $list_instances_summary = function() {
 	});
 };
 
-$load_volumes_for_instance = function(instance_id, ev) {
+$load_volumes_for_instance = function(instance_id, $btn) {
 	$.ajax({
 		type: 'GET',
 		url: '/aws_actions/load_volumes_for_instance',
 		data: {instance_id: instance_id},
 		dataType: 'html',
-		async: false,
 		success: function(data) {
+			$('#spinner').hide();
+			$btn.button('reset');
 			$('span#load-multiple-vols').html(data);
-			$('span#load-all-vols').html('');
-			$('#single-vol').hide();
 			$('#multi-vol').show();
 		},
 		error: function(e) {
+			$('#spinner').hide();
+			$('span#load-multiple-vols').html("")
+			$btn.button('reset');
 			alert("There is some error in loading volumes for this instance. Please verify the instance_id.");
-			ev.preventDefault();
 		},
 		beforeSend: function() {
+			$btn.button('loading');
+			$('#spinner').show();
+			$('span#load-multiple-vols').html("<div style='margin-bottom: 10px;'><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
+			$('#multi-vol').hide();
 		}
 	});
 };
 
-$load_all_volumes = function(ev) {
-	$.ajax({
-		type: 'GET',
-		url: '/aws_actions/load_volumes',
-		dataType: 'script',
-		async: false,
-		success: function(){
-			$('span#load-multiple-vols').html('');
-			$('#multi-vol').hide();
-			$('#single-vol').show();
-		},
-		error: function(e){
-			alert('Some error occured while loading volumes. Please verify your AWS creds');
-			ev.preventDefault();
-		},
-		beforeSend: function(){
-		}
-	});
-};
+$(document).on('click', 'a#id-load-volumes', function(e) {
+	e.preventDefault();
+	inst_id = $('#instance_id').val();
+	if(inst_id == "") {
+		alert("Please enter instance-id to load its volumes");
+	}
+	else {
+		$load_volumes_for_instance(inst_id, $(this));
+	}
+});
 
 $(document).on('click', '.load-more-instances', function() {
 	var zone = $('#select-availability-zone :selected').val();

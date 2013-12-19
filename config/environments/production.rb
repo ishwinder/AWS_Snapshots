@@ -87,6 +87,6 @@ AWSSnapshots::Application.configure do
   password:             'dummy0000',
   authentication:       'plain'}
   
-  config.action_mailer.default_url_options = { :host => 'aws-snapshots.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'ec2-54-209-187-192.compute-1.amazonaws.com' }
 
 end

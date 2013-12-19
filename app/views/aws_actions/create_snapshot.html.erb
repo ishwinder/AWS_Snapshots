@@ -154,7 +154,7 @@
 									<div class="control-group">
 										<label class="control-label" for="volume_id"><b>Volume ID :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
-											<span id="scheduled_snapshot[volume_id]"></span>
+											<span id="scheduled_snapshot_volume_id"></span>
 										</div>
 									</div>
 
@@ -240,6 +240,10 @@
 				alert("Please select atleast one volume");
 				e.preventDefault();
 			}
+			else if($("input[name^='scheduled_snapshot[volume_id][]']").length == 0) {
+				alert("Please select atleast one volume or load volumes using Instance ID");
+				e.preventDefault();
+			}
 		}
 		if(info.step == 2) {
 			isvalidate = $("#step2").closest('form').valid();
@@ -253,9 +257,19 @@
 			});
 			$selct = $('#frequency-type').val();
 			var values = new Array();
+			var volumes = new Array();
 			$('div#schedule-'+$selct+ ' input:checked').each(function() {
 				values.push( $(this).siblings('span').html() );
 			});
+			if ($("input[name^='scheduled_snapshot[volume_id][]']:checkbox").length > 0) {
+				$("input[name^='scheduled_snapshot[volume_id][]']:checkbox:checked").each(function(){
+					volumes.push($(this).val());
+				});
+			}
+			else {
+				volumes.push($("input[name^='scheduled_snapshot[volume_id][]']").val());
+			}
+			$('span#scheduled_snapshot_volume_id').html(volumes.join(', '));
 			$('#repeaton').html(values);
 		}
 	}).on('finished', function(e) {

@@ -10,10 +10,11 @@ class ScheduledSnapshotsController < ApplicationController
     @scheduled_snapshot = current_user.scheduled_snapshots.new(snapshot_params)
     if @scheduled_snapshot.save
       flash[:notice] = "Snapshot Scheduled Successfully!!"
+      redirect_to @scheduled_snapshot
     else
       flash[:alert] = "There was some problem in scheduling snapshot - #{@scheduled_snapshot.errors.full_messages.join(', ')}"
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 
   def show

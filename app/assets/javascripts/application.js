@@ -223,7 +223,8 @@ $(function() {
 	});
 	
 	$('#timepicker1').timepicker({
-		minuteStep: 60
+		minuteStep: 10,
+		showMeridian: false
 	});
 	
 	$("#retention_period_slider").slider({

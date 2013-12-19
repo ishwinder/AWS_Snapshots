@@ -49,7 +49,7 @@ class ScheduledSnapshotsController < ApplicationController
       when "Weekly"
         params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [])
       when "Monthly"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_times, :retention_period, :volume_id => [], :month_of_year => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [], :month_of_year => [])
       end
   end
 end

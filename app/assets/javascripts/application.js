@@ -224,7 +224,8 @@ $(function() {
 	
 	$('#timepicker1').timepicker({
 		minuteStep: 10,
-		showMeridian: false
+		showMeridian: false,
+		defaultTime: false
 	});
 	
 	$("#retention_period_slider").slider({

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131219121536) do
+ActiveRecord::Schema.define(version: 20131219143127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20131219121536) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "auto_delete_on"
   end
 
   add_index "snapshot_summaries", ["scheduled_snapshot_id"], name: "index_snapshot_summaries_on_scheduled_snapshot_id", using: :btree

@@ -193,8 +193,8 @@
 								<th>Snapshot Id</th>
 								<th>Volume Id</th>
 								<th>Start Time</th>
+								<th>Auto Delete On</th>
 								<th>Created At</th>
-								<th>Updated At</th>
 							</tr>
 						</thead>
 					
@@ -204,8 +204,8 @@
 									<td><%= ss.snapshot_id %></td>
 									<td><%= ss.volume_id %></td>
 									<td><%= ss.start_time %></td>
+									<td><%= ss.auto_delete_on.strftime('%b %-d, %Y') %></td>
 									<td><%= ss.created_at %></td>
-									<td><%= ss.updated_at %></td>
 								</tr>
 							<% end %>
 						</tbody>

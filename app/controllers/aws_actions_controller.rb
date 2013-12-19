@@ -37,11 +37,15 @@ class AwsActionsController < ApplicationController
     respond_with @volumes
   end
 
-  def create_snapshot
+  def load_volumes_for_instance
     ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token)
-    response = ec2.client.describe_volumes
+    response = ec2.client.describe_volumes filters: [{name: 'attachment.instance-id', values: [params[:instance_id]]}]
     @volumes = response.volume_set
+    raise ActiveRecord::RecordNotFound if @volumes.empty?
     respond_with @volumes
+  end
+
+  def create_snapshot
   end
 
   def create_instant_snapshot

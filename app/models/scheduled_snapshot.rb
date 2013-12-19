@@ -1,11 +1,13 @@
 class ScheduledSnapshot < ActiveRecord::Base
+  has_many :scheduled_summaries, dependent: :destroy
   belongs_to :user
 
+  serialize :volume_id, Array
   serialize :time_of_day, Array
   serialize :day_of_week, Array
   serialize :month_of_year, Array
 
-  after_save :set_crontab
+  after_save :set_crontab, :check_scheduling_date
   
   scope :scheduled_today, lambda { where(start_date: Date.today)}
   scope :schedule_ended, lambda { where(end_date: Date.today-1)}
@@ -42,5 +44,18 @@ class ScheduledSnapshot < ActiveRecord::Base
         [start_time.min, start_time.hour, start_date.mday, month_of_year.join(','), "*"]
     end
     update_column :cron, cron_array.join(" ")
+  end
+  
+  def check_scheduling_date
+    scheduled_date = self.start_date
+    if (scheduled_date - Date.today) == 0
+      Resque.set_schedule("scheduling_snapshot_#{self.id}", {
+          :cron => self.cron,
+          :class => "ScheduleSnapshot",
+          :args => [self.user_id, self.id],
+          :message => 'Schedule set',
+          :persist => true
+        })
+    end
   end
 end

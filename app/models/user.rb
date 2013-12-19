@@ -5,4 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   has_many :scheduled_snapshots, dependent: :restrict
+  
+  has_many :scheduled_summaries, dependent: :destroy
 end

@@ -4,6 +4,8 @@ module ScheduleSnapshot
     user = User.find(args[0])
     snapshot = ScheduledSnapshot.find(args[1])
     ec2 = AWS::EC2.new(access_key_id: user.access_key, secret_access_key: user.secret_token)
-    ec2.client.create_snapshot({volume_id: snapshot.volume_id})
+    snapshot.volume_id.each do |id|
+      ec2.client.create_snapshot({volume_id: id})
+    end
   end
 end

@@ -16,25 +16,70 @@
 					<div class="row-fluid">
 						<div id="fuelux-wizard" class="row-fluid hidden">
 							<ul class="wizard-steps">
-								<li data-target="#step1" class="active"><span class="step">1</span> <span class="title">Select Volume</span></li>
-								<li data-target="#step2"><span class="step">2</span> <span class="title">Select Schedule</span></li>
-								<li data-target="#step3"><span class="step">3</span> <span class="title">Verify</span></li>
+								<li data-target="#step1" class="active"><span class="step">1</span> <span class="title">Select Source</span></li>
+								<li data-target="#step2"><span class="step">2</span> <span class="title">Select Volume</span></li>
+								<li data-target="#step3"><span class="step">3</span> <span class="title">Select Schedule</span></li>
+								<li data-target="#step4"><span class="step">4</span> <span class="title">Verify</span></li>
+								
 							</ul>
 						</div>
 
 						<hr />
 
 						<div class="step-content row-fluid position-relative">
+							
+							<div class="step-pane active" id="step1">
+								<br />
+								<br />
+
+								<form class="form-horizontal" id="load-objects">
+									
+									<div class="control-group">
+										<div class="controls" style="margin-left: 35%;">
+											<label>
+												<input name="form-field-radio" type="radio" value="all-vol" class="sel-object" checked>
+												<span class="lbl">&nbsp;  Select a particular volume from all volumes</span>
+											</label>
+										
+											<br />
+										
+											<label>
+												<input name="form-field-radio" type="radio" value="inst-vol" class="sel-object">
+												<span class="lbl">&nbsp;  Select multiple volumes for a specific Instance</span>
+											</label>
+										</div>
+									</div>
+
+									<div class="control-group" id="search-instance" style="display:none;">
+										<label class="control-label" for="instance_id" style="margin-left: 27%;">Instance ID :</label>
+										<div class="controls" style="margin-left: 45%;">
+											<span class="span12">
+												<%= text_field_tag :instance_id, params[:instance_id], class: "span3", required: true %>
+											</span>
+										</div>
+									</div>
+
+								</form>
+
+							</div>
+							
 							<%= form_for ScheduledSnapshot.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
-								<div class="step-pane active" id="step1">
+								<div class="step-pane" id="step2">
 									<br />
 									<br />
 
-										<div class="control-group">
+										<div class="control-group" id="multi-vol" style="display:none;">
+											<label class="control-label" for="volume_id">Volumes</label>
+											<div class="controls">
+												<span class="span12" id="load-multiple-vols">
+												</span>
+											</div>
+										</div>
+
+										<div class="control-group" id="single-vol" style="display:none;">
 											<label class="control-label" for="volume_id">Volume ID</label>
 											<div class="controls">
-												<span class="span12">
-													<%= f.select :volume_id, @volumes.map(&:volume_id), {selected: params[:volume_id]}, {class: "span3"} %>
+												<span class="span12" id="load-all-vols">
 												</span>
 											</div>
 										</div>
@@ -51,21 +96,21 @@
 								
 								</div>
 
-								<div class="step-pane" id="step2">
+								<div class="step-pane" id="step3">
 
 										<div class="control-group">
 											<label class="control-label" for="start_date">Start Date</label>
 											<div class="controls input-append date" style="margin-left:20px;">
-												<input class="span9 date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[start_date]" />
 												<span class="add-on"><i class="icon-calendar"></i></span>
+												<input class="span9 date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[start_date]" required="true" />
 											</div>
 										</div>
 
 										<div class="control-group">
 											<label class="control-label" for="end_date">End Date</label>
 											<div class="controls input-append date" style="margin-left:20px;">
-												<input class="span9 date-picker" id="id-date-picker-2" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[end_date]" />
 												<span class="add-on"><i class="icon-calendar"></i></span>
+												<input class="span9 date-picker" id="id-date-picker-2" type="text" data-date-format="dd-mm-yyyy" name="scheduled_snapshot[end_date]" required="true" />
 											</div>
 										</div>
 
@@ -124,7 +169,7 @@
 
 									</div>
 
-								<div class="step-pane" id="step3">
+								<div class="step-pane" id="step4">
 									<div class="center">
 										<h3 class="blue lighter">Summary</h3>
 									</div>
@@ -207,7 +252,11 @@
 	}); 
 	var $validation = false;
 	$('#fuelux-wizard').ace_wizard().on('change' , function(e, info) {
-		if(info.step == 2) {
+		if(info.step == 3) {
+			isvalidate = $("#step3").closest('form').valid();
+			if (info.direction === 'next' && !isvalidate) {
+				e.preventDefault();
+			}
 			$('form input:text, form select, form textarea').each(function() {
 			elem = document.getElementById($(this).attr('name'));
 			if (elem != null)
@@ -220,8 +269,24 @@
 			});
 			$('#repeaton').html(values);
 		}
+		if(info.step == 1) {
+			if($("input[name^='form-field-radio']:checked").val() == "inst-vol") {
+				inst_id = $('#instance_id').val();
+				isvalidate = $('form#load-objects').valid();
+				if (info.direction === 'next' && !isvalidate) {
+					$('#instance_id').focus();
+					e.preventDefault();
+				}
+				else {
+					$load_volumes_for_instance(inst_id, e);
+				}
+			}
+			else {
+				$load_all_volumes(e);
+			}
+		}
 	}).on('finished', function(e) {
-		$('form').submit();
+		$('form#validation-form').submit();
 	});
 });
 </script>

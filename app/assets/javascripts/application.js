@@ -123,6 +123,48 @@ $list_instances_summary = function() {
 	});
 };
 
+$load_volumes_for_instance = function(instance_id, ev) {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_volumes_for_instance',
+		data: {instance_id: instance_id},
+		dataType: 'html',
+		async: false,
+		success: function(data) {
+			$('span#load-multiple-vols').html(data);
+			$('span#load-all-vols').html('');
+			$('#single-vol').hide();
+			$('#multi-vol').show();
+		},
+		error: function(e) {
+			alert("There is some error in loading volumes for this instance. Please verify the instance_id.");
+			ev.preventDefault();
+		},
+		beforeSend: function() {
+		}
+	});
+};
+
+$load_all_volumes = function(ev) {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_volumes',
+		dataType: 'script',
+		async: false,
+		success: function(){
+			$('span#load-multiple-vols').html('');
+			$('#multi-vol').hide();
+			$('#single-vol').show();
+		},
+		error: function(e){
+			alert('Some error occured while loading volumes. Please verify your AWS creds');
+			ev.preventDefault();
+		},
+		beforeSend: function(){
+		}
+	});
+};
+
 $(document).on('click', '.load-more-instances', function() {
 	var zone = $('#select-availability-zone :selected').val();
 	var next_token = $(this).attr('id');
@@ -142,6 +184,15 @@ $(document).on('click', '.create_instant_snapshot', function() {
 
 $(document).on('click', '.delete_snapshot', function() {
 	$delete_snapshot($(this).closest('tr'), $(this).attr('id'));
+});
+
+$(document).on('change', '.sel-object', function() {
+	if($(this).val() == "inst-vol") {
+		$('#search-instance').show();
+	}
+	else {
+		$('#search-instance').hide();
+	}
 });
 
 $(document).on('change', '#select-instance-filter', function() {

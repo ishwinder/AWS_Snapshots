@@ -131,16 +131,29 @@
 										</div>
 
 										<div class="control-group" id="schedule-Monthly" style="display:none;">
-												<label class="control-label">Month of Year</label>
-												<div class="controls">
-													<% ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].each_with_index do |month, i|%>
-														<label>
-															<%= check_box "scheduled_snapshot", "month_of_year[]", {:checked => true, :name => 'scheduled_snapshot[month_of_year][]'}, i+1 ,nil%>
-															<span class="lbl"> <%= month%></span>
-														</label>
-													<% end %>
-												</div>
+											<label class="control-label">Month of Year</label>
+											<div class="controls">
+												<% ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].each_with_index do |month, i|%>
+													<label>
+														<%= check_box "scheduled_snapshot", "month_of_year[]", {:checked => true, :name => 'scheduled_snapshot[month_of_year][]'}, i+1 ,nil%>
+														<span class="lbl"> <%= month%></span>
+													</label>
+												<% end %>
 											</div>
+										</div>
+										
+										<div class="control-group">
+											<label class="control-label" for="retention_period">Retention Period</label>
+											<div class="controls" style="margin-left:20px;">
+											
+												<div id="eq">
+													<span class="ui-slider-green" id="retention_period_slider" style="width:25%;float:left;margin:15px;background-color:#8bbc67;"></span>
+													<span id="retentionDisp">1 Day(s)</span>
+													<%= f.hidden_field :retention_period %>
+												</div>
+											
+											</div>
+										</div>
 
 									</div>
 
@@ -191,6 +204,13 @@
 										<label class="control-label" for="repeat-on"><b>On :</b></label>
 										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
 											<span id="repeaton"></span>
+										</div>
+									</div>
+									
+									<div class="control-group">
+										<label class="control-label" for="retention-period"><b>Retention Period :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="retention"></span>
 										</div>
 									</div>
 								</div>
@@ -271,6 +291,7 @@
 			}
 			$('span#scheduled_snapshot_volume_id').html(volumes.join(', '));
 			$('#repeaton').html(values);
+			$('span#retention').html($("#retentionDisp").text());
 		}
 	}).on('finished', function(e) {
 		$('form#validation-form').submit();

@@ -226,6 +226,23 @@ $(function() {
 		minuteStep: 60
 	});
 	
+	$("#retention_period_slider").slider({
+		handle: "myhandle",
+		orientation: "horizontal",
+		range: false,
+		min: 1,
+		max: 90,
+		step: 1,
+		animate: true,
+		change: function (event, ui) {
+			$("#scheduled_snapshot_retention_period").val(ui.value);
+			$("#retentionDisp").text(ui.value + ' Day(s)');
+		},
+		slide: function (event, ui) {
+			$("#scheduled_snapshot_retention_period").val(ui.value);
+			$("#retentionDisp").text(ui.value + ' Day(s)');
+		}
+	});
 });
 
 $(document).on('change', '#validation-form #frequency-type', function(){

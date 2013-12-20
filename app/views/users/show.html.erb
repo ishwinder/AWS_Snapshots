@@ -1,3 +1,11 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Profile</li>
+		</ul>
+	</div>
+<% end %>
 <% content_for :header do %>
 	<div class="page-header position-relative">
 		<h1>Profile Details</h1>
@@ -43,7 +51,7 @@
 							<b>Actions :</b>
 						</div>
 						<div class="span8">
-							<%= link_to change_password_user_path(@user), class: "btn btn-default" do %>
+							<%= link_to change_password_path, class: "btn btn-default" do %>
 								<i class="icon-undo"></i>
 								Change Password
 							<% end %>
@@ -87,7 +95,7 @@
 							<b>Actions :</b>
 						</div>
 						<div class="span8">
-							<%= link_to edit_aws_creds_user_path(@user), class: "btn btn-success" do %>
+							<%= link_to edit_aws_creds_path, class: "btn btn-success" do %>
 								<i class="icon-edit"></i>
 								Edit Aws Credentials
 							<% end %>

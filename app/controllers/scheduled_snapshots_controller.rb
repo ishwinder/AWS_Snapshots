@@ -18,7 +18,7 @@ class ScheduledSnapshotsController < ApplicationController
   end
 
   def show
-    @snapshot = ScheduledSnapshot.find(params[:id])
+    @snapshot = current_user.scheduled_snapshots.find(params[:id])
     @snapshot_summary = @snapshot.snapshot_summaries
     respond_with @snapshot, @snapshot_summary
   end

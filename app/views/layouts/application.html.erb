@@ -50,13 +50,13 @@
 
 							<li class="light-blue user-profile">
 								<a class="user-menu dropdown-toggle" href="#" data-toggle="dropdown" style='color:#ffffff'>
-									<span id="user_info">
+									<span id="user_info" style="margin-top:8px;">
 										<small>Welcome <%= current_user.first_name %></small>
 									</span>
 									<i class="icon-caret-down"></i>
 								</a>
 								<ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-									<li><a href=<%= user_path(current_user)%>><i class="icon-user"></i> Profile </a></li>
+									<li><a href=<%= profile_path %>><i class="icon-user"></i> Profile </a></li>
 									<li class="divider"></li>
 									<li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
 								</ul>
@@ -121,7 +121,7 @@
 
 
 			<div id="main-content" class="clearfix">
-
+					<%= yield :breadcrumbs %>
 
 					<div id="page-content" class="clearfix">
 

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = current_user
     respond_with @user
   end
 
@@ -24,18 +24,18 @@ class UsersController < ApplicationController
         if @user.update_attributes(:password => params[:user][:new_password])
           flash[:notice] = "Password Sucessfully Changed"
           sign_in(@user, :bypass => true)
-          redirect_to user_path(@user)
+          redirect_to profile_path
         else
           flash[:error] = "Error occured while updating password. Try again"
-          redirect_to change_password_user_path(@user)
+          redirect_to change_password_path
         end
       else
         flash[:error] = "New Password and Password Confirmation does not match"
-        redirect_to change_password_user_path(@user)
+        redirect_to change_password_path
       end
     else
       flash[:error] = "Password is not valid"
-      redirect_to change_password_user_path(@user)
+      redirect_to change_password_path
     end
   end
 

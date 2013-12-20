@@ -11,13 +11,15 @@ AWSSnapshots::Application.routes.draw do
    get "logout", to: "devise/sessions#destroy", as: "logout"
  end
 
-  resources :users, only: [:add_aws_creds, :update_aws_creds, :edit_aws_creds, :change_password, :update_password, :show] do
+  resources :users, only: [:add_aws_creds, :update_aws_creds, :update_password] do
     get :add_aws_creds, on: :member
     patch :update_aws_creds, on: :member
-    get :edit_aws_creds, on: :member
-    get :change_password, on: :member
     patch :update_password, on: :member
   end
+
+    get 'profile', to: 'users#show'
+    get 'change_password', to: 'users#change_password'
+    get "edit_aws_creds", to: "users#edit_aws_creds", as: "edit_aws_creds" 
 
   resources :aws_actions do
     get :load_instances, on: :collection

@@ -1,3 +1,11 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Volumes</li>
+		</ul>
+	</div>
+<% end %>
 <% content_for :header do %>
 	<div class="page-header position-relative">
 		<h1>Volumes</h1>

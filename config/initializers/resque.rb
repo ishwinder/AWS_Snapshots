@@ -18,3 +18,15 @@ Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 # The schedule doesn't need to be stored in a YAML, it just needs to
 # be a hash.  YAML is usually the easiest.
 Resque.schedule = YAML.load_file(Rails.root.join('config', 'resque_schedule.yml'))
+
+
+if defined?(PhusionPassenger)
+  PhusionPassenger.on_event(:starting_worker_process) do |forked|
+    if forked
+      # If the actual cache respond to reconnect go on.
+      Rails.cache.reconnect if Rails.cache.respond_to? :reconnect
+      # Reconnect Resque Redis instance.
+      Resque.redis.client.reconnect
+    end
+  end
+end

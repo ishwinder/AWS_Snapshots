@@ -1,6 +1,4 @@
-require 'resque'
 require 'resque_scheduler'
-require 'resque_scheduler/server'
 
 uri = URI.parse("http://localhost:6379")
 Resque.redis = Redis.new(:host => uri.host, :port => uri.port)
@@ -24,9 +22,9 @@ if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
       # If the actual cache respond to reconnect go on.
-      Rails.cache.reconnect if Rails.cache.respond_to? :reconnect
+      Rails.cache.redis = Redis.new(:host => uri.host, :port => uri.port)
       # Reconnect Resque Redis instance.
-      Resque.redis.client.reconnect
+      Resque.redis = Redis.new(:host => uri.host, :port => uri.port)
     end
   end
 end

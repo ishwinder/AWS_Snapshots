@@ -23,7 +23,7 @@
 				<div class="widget-main">
 					<div class="row-fluid">
 						<div class="span4">
-							<b>First Name :</b>
+							<b style="margin-left:20px;float:right;">First Name :</b>
 						</div>
 						<div class="span8">
 							<%= @user.first_name %>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Last Name :</b>
+							<b style="margin-left:20px;float:right;">Last Name :</b>
 						</div>
 						<div class="span8">
 							<%= @user.last_name %>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Email :</b>
+							<b style="margin-left:20px;float:right;">Email :</b>
 						</div>
 						<div class="span8">
 							<%= @user.email %>
@@ -48,7 +48,7 @@
 					<hr />
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Actions :</b>
+							<b style="margin-left:20px;float:right;">Actions :</b>
 						</div>
 						<div class="span8">
 							<%= link_to change_password_path, class: "btn btn-default" do %>
@@ -75,7 +75,7 @@
 				<div class="widget-main">	
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Access Key :</b>
+							<b style="margin-left:20px;float:right;">Access Key :</b>
 						</div>
 						<div class="span8">
 							<%= @user.access_key %>
@@ -83,7 +83,7 @@
 					</div>
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Secret Token :</b>
+							<b style="margin-left:20px;float:right;">Secret Token :</b>
 						</div>
 						<div class="span8">
 							<%= @user.secret_token %>
@@ -92,7 +92,7 @@
 					<hr/>
 					<div class="row-fluid">
 						<div class="span4">
-							<b>Actions :</b>
+							<b style="margin-left:20px;float:right;">Actions :</b>
 						</div>
 						<div class="span8">
 							<%= link_to edit_aws_creds_path, class: "btn btn-success" do %>

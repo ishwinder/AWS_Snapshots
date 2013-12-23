@@ -12,3 +12,5 @@
 .navbar {margin-bottom:0px;}
 .nav-list {padding-left: 5px;padding-right: 1px;}
 ul.breadcrumb {margin-bottom:0px;}
+#region-info {margin-right: 5px;margin-top: 5px;height: 35px;background-color: black;}
+select#select-region {width:inherit;}

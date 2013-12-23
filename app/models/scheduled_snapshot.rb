@@ -6,6 +6,7 @@ class ScheduledSnapshot < ActiveRecord::Base
   serialize :time_of_day, Array
   serialize :day_of_week, Array
   serialize :month_of_year, Array
+  serialize :tags, Hash
 
   after_save :set_crontab, :check_scheduling_date
   

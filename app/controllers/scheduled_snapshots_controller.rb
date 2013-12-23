@@ -41,15 +41,15 @@ class ScheduledSnapshotsController < ApplicationController
   def snapshot_params
     case params[:scheduled_snapshot][:frequency]
       when "None"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :tags, :volume_id => [])
       when "Hourly"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [], :time_of_day => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :tags, :volume_id => [], :time_of_day => [])
       when "Daily"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [], :day_of_week => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :tags, :volume_id => [], :day_of_week => [])
       when "Weekly"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :tags, :volume_id => [])
       when "Monthly"
-        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :volume_id => [], :month_of_year => [])
+        params.require(:scheduled_snapshot).permit(:description, :frequency, :start_date, :end_date, :start_time, :retention_period, :tags, :volume_id => [], :month_of_year => [])
       end
   end
 end

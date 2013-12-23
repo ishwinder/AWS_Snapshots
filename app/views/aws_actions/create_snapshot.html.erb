@@ -35,7 +35,7 @@
 
 						<div class="step-content row-fluid position-relative">
 							
-							<%= form_for ScheduledSnapshot.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
+							<%= form_for current_user.scheduled_snapshots.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
 								<div class="step-pane active" id="step1">
 									<br />
 									<br />
@@ -100,7 +100,7 @@
 										<div class="control-group">
 											<label class="control-label" for="timepicker1">Time of Day (UTC)</label>
 											<div class="controls input-append bootstrap-timepicker" style="margin-left:20px;">
-												<input id="timepicker1" type="text" class="input-small" name="scheduled_snapshot[start_time]"/>
+												<input id="timepicker1" type="text" class="input-small" name="scheduled_snapshot[start_time]" required="true" />
 												<span class="add-on"><i class="icon-time"></i></span>
 											</div>
 											<span class="controls" id="current_utc" style="margin-left:10px;">Current UTC Time is <b><%= Time.now.utc.strftime("%H:%M:%S") %></b></span>
@@ -302,6 +302,7 @@
 			$('span#retention').html($("#retentionDisp").text());
 		}
 	}).on('finished', function(e) {
+		$('button.btn-next').attr('disabled', 'disabled')
 		$('form#validation-form').submit();
 	});
 });

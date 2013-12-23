@@ -8,6 +8,7 @@ class ScheduledSnapshot < ActiveRecord::Base
   serialize :month_of_year, Array
   serialize :tags, Hash
 
+  after_initialize :default_values
   after_save :set_crontab, :check_scheduling_date
   
   scope :scheduled_today, lambda { where(start_date: Date.today)}
@@ -58,5 +59,9 @@ class ScheduledSnapshot < ActiveRecord::Base
           :persist => true
         })
     end
+  end
+  
+  def default_values
+    self.region = self.user.default_region
   end
 end

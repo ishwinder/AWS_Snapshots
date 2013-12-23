@@ -1,26 +1,32 @@
-<table id="table_bug_report" class="table table-striped table-bordered table-hover">
-	<thead>
-		<tr>
-			<th class="center">Name</th>
-			<th>Instance ID</th>
-			<th>State</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<% @instances_summary.each do |instance| %>
+<% if @instances_summary.blank? %>
+	<div class='well'>
+		<center>No instances found</center>
+	</div>
+<% else %>
+	<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+		<thead>
 			<tr>
-				<td>
-					<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] %>
-				</td>
-				<td><%= instance.instance_id %></td>
-				<td>
-					<% inst_state = instance.instance_state[:name] %>
-					<%= content_tag :span, class: instance_state_class(inst_state) do %>
-						<%= inst_state.camelize %>
-					<% end %>
-				</td>
+				<th class="center">Name</th>
+				<th>Instance ID</th>
+				<th>State</th>
 			</tr>
-		<% end %>
-	</tbody>
-</table>
+		</thead>
+	
+		<tbody>
+			<% @instances_summary.each do |instance| %>
+				<tr>
+					<td>
+						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
+					</td>
+					<td><%= instance.instance_id %></td>
+					<td>
+						<% inst_state = instance.instance_state[:name] %>
+						<%= content_tag :span, class: instance_state_class(inst_state) do %>
+							<%= inst_state.camelize %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

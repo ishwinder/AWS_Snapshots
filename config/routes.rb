@@ -20,6 +20,7 @@ AWSSnapshots::Application.routes.draw do
     get 'profile', to: 'users#show'
     get 'change_password', to: 'users#change_password'
     get "edit_aws_creds", to: "users#edit_aws_creds", as: "edit_aws_creds" 
+    get 'change_default_region', to: 'users#change_default_region'
 
   resources :aws_actions do
     get :load_instances, on: :collection

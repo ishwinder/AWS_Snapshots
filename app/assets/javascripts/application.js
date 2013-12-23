@@ -274,3 +274,20 @@ $(document).ready(function(){
 		$('#search-by-filter').hide();
 	}
 });
+
+$(document).on('change', '#select-region', function() {
+	var region = $('#select-region :selected').val();
+	$.ajax({
+		type: 'GET',
+		url: '/change_default_region',
+		data: {region: region},
+		dataType: 'html',
+		success: function(data) {
+			window.location.reload();
+		},
+		error: function(e) {
+			alert("error");
+		}
+	});
+	
+});

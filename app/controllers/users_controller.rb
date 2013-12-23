@@ -61,6 +61,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_default_region
+    @user = current_user
+    @user.update_column(:default_region, params[:region])
+    render text: "user default region sucessfully changed"
+  end
+
   private
 
   def aws_params

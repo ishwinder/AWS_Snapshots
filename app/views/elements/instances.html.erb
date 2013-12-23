@@ -11,12 +11,11 @@
 		<h1>Instances</h1>
 	</div><!--/page-header-->
 <% end %>
-
 <div class="row-fluid">
 	<div class="table-header form-inline" style="margin-bottom:0px;">
 		<b>Availability Zone :</b>
 		&nbsp;
-		<%= select_tag "availability_zone", options_for_select([["All","all"], "ap-northeast-1", "ap-southeast-1", "ap-southeast-2", "eu-west-1", "sa-east-1", "us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-west-1", "us-west-2"], "all"), id: 'select-availability-zone' %>
+		<%= select_tag "availability_zone", options_for_select(User::REGIONS[current_user.default_region],"all"), id: 'select-availability-zone' %>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<b>Filters: </b>
 		&nbsp;

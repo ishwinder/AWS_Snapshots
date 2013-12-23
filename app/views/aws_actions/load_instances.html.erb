@@ -20,7 +20,7 @@
 			<% @instances.each do |instance| %>
 				<tr>
 					<td>
-						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] %>
+						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
 					</td>
 					<td><%= instance.instance_id %></td>
 					<td><%= instance.instance_type %></td>

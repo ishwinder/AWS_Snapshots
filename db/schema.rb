@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131223120610) do
+ActiveRecord::Schema.define(version: 20131224052508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20131223120610) do
     t.datetime "updated_at"
     t.text     "cron"
     t.integer  "retention_period"
-    t.text     "tags"
     t.string   "region"
   end
 
@@ -48,6 +47,13 @@ ActiveRecord::Schema.define(version: 20131223120610) do
 
   add_index "snapshot_summaries", ["scheduled_snapshot_id"], name: "index_snapshot_summaries_on_scheduled_snapshot_id", using: :btree
   add_index "snapshot_summaries", ["user_id"], name: "index_snapshot_summaries_on_user_id", using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string  "key"
+    t.string  "value"
+    t.integer "tagable_id"
+    t.string  "tagable_type"
+  end
 
   create_table "users", force: true do |t|
     t.string   "first_name"

@@ -1,12 +1,12 @@
 class ScheduledSnapshot < ActiveRecord::Base
   has_many :snapshot_summaries, dependent: :destroy
+  has_many :tags, as: :tagable
   belongs_to :user
 
   serialize :volume_id, Array
   serialize :time_of_day, Array
   serialize :day_of_week, Array
   serialize :month_of_year, Array
-  serialize :tags, Hash
 
   after_initialize :default_values
   after_save :set_crontab, :check_scheduling_date
@@ -16,6 +16,7 @@ class ScheduledSnapshot < ActiveRecord::Base
 
   REPEAT_TYPE = {"None" => 0, "Hourly" => 1, "Daily" => 2, "Weekly" => 3, "Monthly" => 4 }
 
+  accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['key'].blank? || attributes['value'].blank?}
   def frequency=(freq)
     self[:frequency] = REPEAT_TYPE[freq]
   end

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/resque/resque-scheduler.git
-  revision: 50df243eddd082ada5f6d35e69d6d3ae99e303a7
+  revision: 8c8a7b84e1e41a3d03c5bfa38f54ae73b0721f70
   specs:
     resque-scheduler (2.3.1)
       redis (>= 3.0.0)

@@ -9,6 +9,7 @@ Resque.redis = Redis.new(:host => uri.host, :port => uri.port)
 # uncomment this line.  A dynamic schedule can be updated via the
 # Resque::Scheduler.set_schedule (and remove_schedule) methods.
 # When dynamic is set to true, the scheduler process looks for
+Resque::Scheduler.dynamic = true
 
 Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 
@@ -16,17 +17,23 @@ Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 # be a hash.  YAML is usually the easiest.
 Resque.schedule = YAML.load_file(Rails.root.join('config', 'resque_schedule.yml'))
 
-Resque::Scheduler.dynamic = true
+# This helps heroku find the correct database after a deployment.
+Resque.before_fork = Proc.new { ActiveRecord::Base.establish_connection }
+
+unless Rails.application.config.cache_classes
+ Resque.after_fork do |job|
+   ActionDispatch::Reloader.cleanup!
+   ActionDispatch::Reloader.prepare!
+ end
+end
 
 if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
       # If the actual cache respond to reconnect go on.
-      # Rails.cache.redis = Redis.new(:host => uri.host, :port => uri.port)
+      Rails.cache.reconnect if Rails.cache.respond_to? :reconnect
       # Reconnect Resque Redis instance.
-      schedules = Resque.schedule
       Resque.redis.client.reconnect
-      Resque.schedule = schedules
     end
   end
 end

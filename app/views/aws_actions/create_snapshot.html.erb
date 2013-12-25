@@ -34,8 +34,7 @@
 						<hr />
 
 						<div class="step-content row-fluid position-relative">
-							
-							<%= form_for current_user.scheduled_snapshots.new, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
+							<%= form_for @scheduled_snapshot, html: {id: 'validation-form', class: 'form-horizontal'} do |f| %>
 								<div class="step-pane active" id="step1">
 									<br />
 									<br />
@@ -75,7 +74,31 @@
 												</span>
 											</div>
 										</div>
-		
+										<%= f.fields_for :tags do |f| %>
+										<div class="control-group">
+											<label class="control-label" for="description">Tags</label>
+											<div class="controls">
+												<table id="tags_table">
+													<thead>
+														<tr>
+															<th align="center"> Key </th>
+															<th align="center">Value</th>
+														</tr>
+													</thead>
+												
+													<tbody id= "new_tags">
+															<tr>
+																<td><%= f.text_field :key, class: "span12", name: "scheduled_snapshot[tags_attributes][][key]" %></td>
+																<td><%= f.text_field :value, class: "span12", name: "scheduled_snapshot[tags_attributes][][value]" %></td>
+															</tr>
+													</tbody>
+												</table>
+												<div style="margin-top: 10px">
+													<button id="add_more_tags" class="btn btn-primary"><i class="icon-plus"></i> Add More</button>
+												</div>
+											</div>
+										</div>
+										<%end%>
 								
 								</div>
 
@@ -100,8 +123,8 @@
 										<div class="control-group">
 											<label class="control-label" for="timepicker1">Time of Day (UTC)</label>
 											<div class="controls input-append bootstrap-timepicker" style="margin-left:20px;">
-												<input id="timepicker1" type="text" class="input-small" name="scheduled_snapshot[start_time]" required="true" />
 												<span class="add-on"><i class="icon-time"></i></span>
+												<input id="timepicker1" type="text" class="input-small" name="scheduled_snapshot[start_time]" required="true" />
 											</div>
 											<span class="controls" id="current_utc" style="margin-left:10px;">Current UTC Time is <b><%= Time.now.utc.strftime("%H:%M:%S") %></b></span>
 										</div>
@@ -221,6 +244,13 @@
 											<span id="retention"></span>
 										</div>
 									</div>
+									
+									<div class="control-group">
+										<label class="control-label" for="retention-period"><b>Tags :</b></label>
+										<div class="controls" style="margin-left:20px;padding-top:5px;padding-left:200px;">
+											<span id="summary_tags"></span>
+										</div>
+									</div>
 								</div>
 
 							<% end %>
@@ -272,6 +302,45 @@
 				alert("Please select atleast one volume or load volumes using Instance ID");
 				e.preventDefault();
 			}
+			var total = 0
+			var key = new Array();
+			var value = new Array();
+			var key_value = new Array();
+			var final_total = new Array();
+			$('table#tags_table tbody tr').each(function(){
+				var count = 0;
+				$(this).children('td').each(function(){
+					if (count == 0)
+						{
+							key.push($(this).children('input:text').val()+ ":");
+							count = count+1;
+							total = total+1;
+							return;
+						}
+					if (count == 1)
+						{
+							value.push($(this).children('input:text').val());
+							count = count+1;
+							total = total+1;
+							return;
+						}
+				});
+			});
+				count = 0;
+				for(i=0; i<total/2; i++)
+				{
+					if (key[i]!=":" && value[i]!= "") 
+					{
+						key_value.push(key[i]+" "+ value[i]);
+						count = count+1;
+					}
+				}
+				for(j=0; j<count-1; j++)
+				{
+						final_total.push(key_value[j]+", ");
+				}
+				final_total.push(key_value[j])
+				$('span#summary_tags').html(final_total);
 		}
 		if(info.step == 2) {
 			isvalidate = $("#step2").closest('form').valid();

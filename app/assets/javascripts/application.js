@@ -291,3 +291,12 @@ $(document).on('change', '#select-region', function() {
 	});
 	
 });
+
+$(document).on('click', '#add_more_tags', function(e) {
+	e.preventDefault();
+	$("#new_tags").append('<tr><td align="left"><input class="span12" name="scheduled_snapshot[tags_attributes][][key]" type="text"></td><td align="left"><input class="span12" name="scheduled_snapshot[tags_attributes][][value]" type="text"></td><td><a><i id="remove_tag_row" class="icon-remove"></i></a></td></tr>');
+});
+
+$(document).on('click', '#remove_tag_row', function(e) {
+	$(this).closest('tr').remove();
+});

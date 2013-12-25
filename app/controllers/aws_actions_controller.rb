@@ -43,6 +43,8 @@ class AwsActionsController < ApplicationController
   end
 
   def create_snapshot
+    @scheduled_snapshot = current_user.scheduled_snapshots.new
+    @scheduled_snapshot.tags.build
   end
 
   def create_instant_snapshot

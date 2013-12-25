@@ -42,7 +42,7 @@
 								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
 									<li><a href="<%= scheduled_snapshot_path(ss)%>"  class="tooltip-success" data-rel="tooltip" title="View Details" data-placement="left"><span class="green"><i class="icon-list-alt"></i></span></a></li>
 									<li>
-										<%= link_to scheduled_snapshot_path(ss), :confirm => 'Are you sure?', :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
+										<%= link_to scheduled_snapshot_path(ss), data: {confirm: 'Are you sure?'}, :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
 											<span class="red"><i class="icon-trash"></i></span>
 										<% end %>
 									</li>

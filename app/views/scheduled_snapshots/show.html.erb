@@ -46,7 +46,9 @@
 								<b style="margin-left:20px;float:right;">Tags :</b>
 							</div>
 							<div class="span7">
-								<%= @snapshot.tags.map{|t| "#{t.key} : #{t.value}"}.join(', ') %>
+								<%@snapshot.tags.map{|t| "#{t.key} : #{t.value}"}.each do |tag| %> 
+									<%= tag %> <br/>
+								<% end %>
 							</div>
 						</div>
 					<% end %>

@@ -80,16 +80,16 @@
 											<div class="controls">
 												<table id="tags_table">
 													<thead>
-														<tr>
+														<tr style="height: 40px">
 															<th align="center"> Key </th>
-															<th align="center">Value</th>
+															<th align="center" style="padding-left: 10px">Value</th>
 														</tr>
 													</thead>
-												
+
 													<tbody id= "new_tags">
-															<tr>
+															<tr style="height: 40px">
 																<td><%= f.text_field :key, class: "span12", name: "scheduled_snapshot[tags_attributes][][key]" %></td>
-																<td><%= f.text_field :value, class: "span12", name: "scheduled_snapshot[tags_attributes][][value]" %></td>
+																<td style="padding-left: 10px"><%= f.text_field :value, class: "span12", name: "scheduled_snapshot[tags_attributes][][value]" %></td>
 															</tr>
 													</tbody>
 												</table>

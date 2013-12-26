@@ -3,7 +3,7 @@ class ScheduledSnapshotsController < ApplicationController
   respond_to :js, :html
 
   def index
-    respond_with @scheduled_snapshots = current_user.scheduled_snapshots
+    respond_with @scheduled_snapshots = current_user.scheduled_snapshots.order('created_at DESC')
   end
 
   def create

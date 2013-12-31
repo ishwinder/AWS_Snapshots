@@ -9,5 +9,18 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require jquery-ui-1.10.2.custom.min
+ *= require datepicker
+ *= require bootstrap_and_overrides
+ *= require bootstrap-timepicker
+ *= require font-awesome
+ *= require ace.min
+ *= require ace-skins.min
+ *= require ace-responsive.min
+ *= require chosen
+ *= require scheduled_snapshots
+ *= require users
+ *= require aws_actions
+ *= require dashboard
+ *= require elements
  */

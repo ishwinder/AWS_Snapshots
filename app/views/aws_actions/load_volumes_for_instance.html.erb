@@ -1,5 +1,5 @@
 <% @volumes.each do |volume| %>
 	<label>
-		<input name="scheduled_snapshot[volume_id][]" class="ace-checkbox-2" type="checkbox" value="<%= volume.volume_id %>"checked><span class="lbl"> <%= volume.volume_id %></span>
+		<input name="scheduled_snapshot[volume_id][]" class="ace-checkbox-2" type="checkbox" value="<%= volume.volume_id %>"checked><span class="lbl"> <%= volume.volume_id %> (<%= volume.attachment_set.first.device%>)</span>
 	</label>
 <% end %>

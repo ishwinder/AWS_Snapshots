@@ -11,9 +11,22 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
+//= require ace.min
 //= require twitter/bootstrap
-//= require_tree .
+//= require jquery_ujs
+//= require fuelux.wizard
+//= require bootbox.min
+//= require jquery.validate.min
+//= require jquery-ui-1.10.2.custom.min
+//= require bootstrap-datepicker.min
+//= require bootstrap-timepicker.min
+//= require aws_actions
+//= require ace-elements.min
+//= require chosen.jquery.min
+//= require dashboard
+//= require elements
+//= require scheduled_snapshots
+//= require users
 
 $list_instances = function(zone, next_token, filter, key, value){
 	$.ajax({

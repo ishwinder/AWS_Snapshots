@@ -8,8 +8,8 @@
 			<tr>
 				<th>Snapshot ID</th>
 				<th>Volume ID</th>
-				<th>Capacity</th>
-				<th>Description</th>
+				<th class="hidden-phone">Capacity</th>
+				<th class="hidden-phone">Description</th>
 				<th>Status</th>
 				<th>Actions</th>
 			</tr>
@@ -20,8 +20,8 @@
 				<tr>
 					<td><%= snapshot.snapshot_id %></td>
 					<td><%= snapshot.volume_id %></td>
-					<td><%= snapshot.volume_size %> GiB</td>
-					<td><%= snapshot.description %></td>
+					<td class="hidden-phone"><%= snapshot.volume_size %> GiB</td>
+					<td class="hidden-phone"><%= snapshot.description %></td>
 					<td>
 						<% snap_state = snapshot.status %>
 						<%= content_tag :span, class: snapshot_state_class(snap_state) do %>

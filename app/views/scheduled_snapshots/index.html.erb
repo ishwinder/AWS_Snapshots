@@ -20,9 +20,9 @@
 					<th class="center">Volume ID</th>
 					<th>Description</th>
 					<th>Repeat Type</th>
-					<th>Start Date</th>
-					<th>End Date</th>
-					<th>Scheduled At</th>
+					<th class="hidden-phone">Start Date</th>
+					<th class="hidden-phone">End Date</th>
+					<th class="hidden-phone">Scheduled At</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -33,9 +33,9 @@
 						<td><%= ss.volume_id.join(", ") %></td>
 						<td><%= ss.description %></td>
 						<td><%= ss.frequency %></td>
-						<td><%= ss.start_date %></td>
-						<td><%= ss.end_date %></td>
-						<td><%= ss.created_at %></td>
+						<td class="hidden-phone"><%= ss.start_date %></td>
+						<td class="hidden-phone"><%= ss.end_date %></td>
+						<td class="hidden-phone"><%= ss.created_at %></td>
 						<td>
 							<div class="inline position-relative">
 								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>

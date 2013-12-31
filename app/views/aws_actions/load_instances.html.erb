@@ -8,9 +8,9 @@
 			<tr>
 				<th class="center">Name</th>
 				<th>Instance ID</th>
-				<th>Instance Type</th>
-				<th>Availabily Zone</th>
-				<th>State</th>
+				<th class="hidden-phone">Instance Type</th>
+				<th class="hidden-phone">Availabily Zone</th>
+				<th class="hidden-phone">State</th>
 				<th>Volumes</th>
 				<th>Actions</th>
 			</tr>
@@ -23,9 +23,9 @@
 						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
 					</td>
 					<td><%= instance.instance_id %></td>
-					<td><%= instance.instance_type %></td>
-					<td><%= instance.placement.availability_zone %></td>
-					<td>
+					<td class="hidden-phone"><%= instance.instance_type %></td>
+					<td class="hidden-phone"><%= instance.placement.availability_zone %></td>
+					<td class="hidden-phone">
 						<% inst_state = instance.instance_state[:name] %>
 						<%= content_tag :span, class: instance_state_class(inst_state) do %>
 							<%= inst_state.camelize %>

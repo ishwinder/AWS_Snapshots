@@ -23,11 +23,11 @@
 			
 			<div class="widget-body">
 				<div class="widget-main">
-					<div class= "row-fluid" style="margin-left: 50px">
+					<div class= "row-fluid">
 						<%= link_to instances_elements_path do %>
-							<div class="infobox infobox-dark infobox-green" style="margin-top: 5px;">
+							<div class="infobox infobox-dark infobox-green">
 								<div class="infobox-icon"><i class="icon-tasks"></i></div>
-								<div class="infobox-data" style="margin-top: 10px;">
+								<div class="infobox-data">
 									<span class="infobox-content"><b>Instances</b></span>
 									<br />
 									<span class="infobox-content"></span>
@@ -36,9 +36,9 @@
 						<% end %>
 				
 						<%= link_to volumes_elements_path do %>
-							<div class="infobox infobox-dark infobox-blue" style="margin-top: 5px;">
+							<div class="infobox infobox-dark infobox-blue">
 								<div class="infobox-icon"><i class="icon-hdd"></i></div>
-								<div class="infobox-data" style="margin-top: 10px;">
+								<div class="infobox-data">
 									<span class="infobox-content"><b>Volumes</b></span>
 									<br />
 									<span class="infobox-content"></span>
@@ -46,11 +46,11 @@
 							</div>
 						<% end %>
 					</div>
-					<div class= "row-fluid" style="margin-left: 50px">
+					<div class= "row-fluid">
 						<%= link_to snapshots_elements_path do %>
-							<div class="infobox infobox-dark infobox-orange" style="margin-top: 5px;">
+							<div class="infobox infobox-dark infobox-orange">
 								<div class="infobox-icon"><i class="icon-camera"></i></div>
-								<div class="infobox-data" style="margin-top: 10px;">
+								<div class="infobox-data">
 									<span class="infobox-content"><b>Snapshots</b></span>
 									<br />
 									<span class="infobox-content"></span>
@@ -59,10 +59,10 @@
 						<% end %>
 						
 						<%= link_to scheduled_snapshots_url do %>
-							<div class="infobox infobox-dark infobox-grey" style="margin-top: 5px;">
+							<div class="infobox infobox-dark infobox-grey">
 								<div class="infobox-icon"><i class="icon-time"></i></div>
-								<div class="infobox-data" style="margin-top: 10px;">
-									<span class="infobox-content"><b>Scheduled Snapshots</b></span>
+								<div class="infobox-data">
+									<span class="infobox-content"><b>Scheduled Snaps</b></span>
 									<br />
 									<span class="infobox-content"></span>
 								</div>
@@ -111,9 +111,9 @@
 								<th class="center">Volume ID</th>
 								<th>Description</th>
 								<th>Repeat Type</th>
-								<th>Start Date</th>
-								<th>End Date</th>
-								<th>Scheduled At</th>
+								<th class="hidden-phone">Start Date</th>
+								<th class="hidden-phone">End Date</th>
+								<th class="hidden-phone">Scheduled At</th>
 							</tr>
 						</thead>
 					
@@ -123,9 +123,9 @@
 									<td><%= ss.volume_id.join(", ") %></td>
 									<td><%= ss.description %></td>
 									<td><%= ss.frequency %></td>
-									<td><%= ss.start_date %></td>
-									<td><%= ss.end_date %></td>
-									<td><%= ss.created_at %></td>
+									<td class="hidden-phone"><%= ss.start_date %></td>
+									<td class="hidden-phone"><%= ss.end_date %></td>
+									<td class="hidden-phone"><%= ss.created_at %></td>
 								</tr>
 							<% end %>
 						</tbody>

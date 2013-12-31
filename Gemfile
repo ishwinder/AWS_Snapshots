@@ -12,6 +12,7 @@ gem 'twitter-bootstrap-rails'
 gem 'devise'
 gem 'aws-sdk', '~> 1.0'
 gem 'resque-scheduler', github: 'resque/resque-scheduler'
+gem "font-awesome-rails"
 
 group :doc do
   gem 'sdoc', require: false

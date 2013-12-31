@@ -8,9 +8,9 @@
 			<tr>
 				<th>Volume ID</th>
 				<th>Capacity</th>
-				<th>Volume Type</th>
+				<th class="hidden-phone">Volume Type</th>
 				<th>Status</th>
-				<th>Created At</th>
+				<th class="hidden-phone">Created At</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -20,14 +20,14 @@
 				<tr>
 					<td><%= volume.volume_id %></td>
 					<td><%= volume.size %>GiB</td>
-					<td><%= volume.volume_type %></td>
+					<td class="hidden-phone"><%= volume.volume_type %></td>
 					<td>
 						<% vol_state = volume.status %>
 						<%= content_tag :span, class: volume_state_class(vol_state) do %>
 							<%= vol_state.camelize %>
 						<% end %>
 					</td>
-					<td><%= volume.create_time %></td>
+					<td class="hidden-phone"><%= volume.create_time %></td>
 					<td>
 						<div class="inline position-relative">
 							<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>

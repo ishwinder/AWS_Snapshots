@@ -22,48 +22,31 @@
 			
 			<div class="widget-body">
 				<div class="widget-main">
-					<div class="row-fluid">
-						<div class="span5">
-							<b style="margin-left:20px;float:right;">Volume ID :</b>
-						</div>
-						<div class="span7">
-							<%= @snapshot.volume_id.join(", ") %>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span5">
-							<b style="margin-left:20px;float:right;">Description :</b>
-						</div>
-						<div class="span7">
-							<%= @snapshot.description %>
-						</div>
-					</div>
-
-					<% if @snapshot.tags.any? %>
+					<div align="center">
+						<table class="no-border">
+								<tr><td align="right"><b>Volume ID :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.volume_id.join(", ") %></td></tr>
+								<tr><td align="right"><b>Description :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.description %></td></tr>
+						</table>
 						<hr />
-						<div class="row-fluid">
-							<div class="span5">
-								<b style="margin-left:20px;float:right;">Tags :</b>
-							</div>
-							<div class="span7">
-								<%@snapshot.tags.map{|t| "#{t.key} : #{t.value}"}.each do |tag| %> 
-									<%= tag %> <br/>
+						<table class="no-border">		
+								<% if @snapshot.tags.any? %>
+									<tr><td align="right"><b>Tags :</b></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+									<%@snapshot.tags.map{|t| "#{t.key} : #{t.value}"}.each do |tag| %> 
+												<tr><td>&nbsp;</td><td>&nbsp;</td><td align="left"><%= tag %></td></tr>
+									<% end %>
 								<% end %>
-							</div>
-						</div>
-					<% end %>
-
+						</table>
+					</div>
 					<hr />
-					<div class="row-fluid">
-						<div class="span5">
-							<b style="margin-left:20px;float:right;">Actions :</b>
-						</div>
-						<div class="span7">
-							<%= link_to scheduled_snapshot_path(@snapshot), class: "btn btn-primary", confirm: 'Are you sure?', method: :delete do %>
-								<i class="icon-trash"></i>
+					<div align="center">
+						<table class="no-border">
+							<tr><td align="right"><b>Actions :</b></td><td>&nbsp;</td><td align="left">
+								<%= link_to scheduled_snapshot_path(@snapshot), class: "btn btn-primary", confirm: 'Are you sure?', method: :delete do %>
+									<i class="icon-trash"></i>
 								Drop
-							<% end %>
-						</div>
+								<% end %>
+							</td></tr>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -77,57 +60,21 @@
 			
 			<div class="widget-body">
 				<div class="widget-main">
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">Start Date :</b>
-						</div>
-						<div class="span6">
-							<%= @snapshot.start_date.strftime('%b %-d, %Y') %>
-						</div>
+					<div align="center">
+						<table class="no-border">
+							<tr><td align="right"><b>Start Date :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.start_date.strftime('%b %-d, %Y') %></td></tr>
+							<tr><td align="right"><b>Start Time :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.start_time.strftime('%I:%M %p') %></td></tr>
+							<tr><td align="right"><b>End Date :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.end_date.strftime('%b %-d, %Y') %></td></tr>
+							<tr><td align="right"><b>Scheduled At :</b></td><td>&nbsp;</td>
+								<td align="left"><%= @snapshot.created_at.strftime('%b %-d, %Y') %>
+									<b> at </b>
+									<%= @snapshot.created_at.strftime('%H:%M') %>
+								</td>
+							</tr>
+							<tr><td align="right"><b>Repeat Type :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.frequency %></td></tr>
+							<tr><td align="right"><b>Retention Period :</b></td><td>&nbsp;</td><td align="left"><%= @snapshot.retention_period %> Day(s)</td></tr>
+						</table>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">Start Time :</b>
-						</div>
-						<div class="span6">
-							<%= @snapshot.start_time.strftime('%I:%M %p') %>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">End Date :</b>
-						</div>
-						<div class="span6">
-							<%= @snapshot.end_date.strftime('%b %-d, %Y') %>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">Scheduled At :</b>
-						</div>
-						<div class="span6">
-							<%= @snapshot.created_at.strftime('%b %-d, %Y') %>
-							<b> at </b>
-							<%= @snapshot.created_at.strftime('%H:%M') %>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">Repeat Type :</b>
-						</div>
-						<div class="span6">
-							<%= @snapshot.frequency %>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<b style="margin-left:20px;float:right;">Retention Period :</b>
-						</div>
-							<div class="span6">
-								<%= @snapshot.retention_period %> Day(s)
-							</div>
-					</div>
-
 				</div>
 			</div>
 		</div>
@@ -222,7 +169,7 @@
 							<tr>
 								<th>Snapshot Id</th>
 								<th>Volume Id</th>
-								<th>Start Time</th>
+								<th class="hidden-phone">Start Time</th>
 								<th>Auto Delete On</th>
 								<th>Created At</th>
 							</tr>
@@ -233,7 +180,7 @@
 								<tr>
 									<td><%= ss.snapshot_id %></td>
 									<td><%= ss.volume_id %></td>
-									<td><%= ss.start_time %></td>
+									<td class="hidden-phone"><%= ss.start_time %></td>
 									<td><%= ss.auto_delete_on.strftime('%b %-d, %Y') %></td>
 									<td><%= ss.created_at %></td>
 								</tr>

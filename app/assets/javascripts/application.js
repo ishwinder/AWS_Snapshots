@@ -163,6 +163,24 @@ $load_volumes_for_instance = function(instance_id, $btn) {
 	});
 };
 
+$filter_instances = function(region, filter, key, value){
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/wizard_filtered_instances',
+		data: { region: region, filter: filter, key: key, value: value},
+		dataType: 'html',
+		success: function(data){
+			$('tbody#filtered-instances').html(data);
+		},
+		error: function(e){
+			$('tbody#filtered-instances').html("<tr><td colspan='5' class='center'>Some error occured while loading instances. Please verify your AWS creds.</td></tr>");
+		},
+		beforeSend: function(){
+			$('tbody#filtered-instances').html("<tr><td colspan='5' class='center'><img src='/assets/loading.gif' style='align:center'/></td></tr>");
+		}
+	});
+};
+
 $(document).on('click', 'a#id-load-volumes', function(e) {
 	e.preventDefault();
 	inst_id = $('#instance_id').val();
@@ -258,6 +276,7 @@ $(function() {
 			$("#retentionDisp").text(ui.value + ' Day(s)');
 		}
 	});
+	
 });
 
 $(document).on('change', '#validation-form #frequency-type', function(){
@@ -286,6 +305,11 @@ $(document).ready(function(){
 	if(filter == "None") {
 		$('#search-by-filter').hide();
 	}
+	var filter = $('#select-instance-wizard-filter :selected').val();
+	if(filter == "None") {
+		$('#search-by-instance-filter').hide();
+	}
+	
 });
 
 $(document).on('change', '#select-region', function() {
@@ -312,4 +336,106 @@ $(document).on('click', '#add_more_tags', function(e) {
 
 $(document).on('click', '#remove_tag_row', function(e) {
 	$(this).closest('tr').remove();
+});
+
+$(document).on('change', '#select-instance-wizard-filter', function() {
+	var filter = $('#select-instance-wizard-filter :selected').val();
+	var region = $('#filter-region:selected').val()
+	$("#wizard-filter-value").val("");
+	$("#wizard-filter-key").val("");
+	if(filter == "None") {
+		$('#wizard-filter-key').hide();
+		$('#wizard-filter-value').hide();
+		$('#search-by-instance-filter').hide();
+	}
+	else if(filter == "Tags") {
+		$('#wizard-filter-key').show();
+		$('#wizard-filter-value').show();
+		$('#search-by-instance-filter').show();
+	}
+	else {
+		$('#wizard-filter-key').hide();
+		$('#wizard-filter-value').show();
+		$('#search-by-instance-filter').show();
+	}
+});
+
+$(document).on('change', '#filter-region', function(){
+	region = $('#filter-region :selected').val();
+	$('#wizard-filter-key').hide();
+	$('#wizard-filter-value').hide();
+	$('#search-by-instance-filter').hide();
+	$filter_instances(region, 'None', '', '');
+});
+
+$(document).on('change', '#select-instance-wizard-filter', function() {
+	var filter = $('#select-instance-wizard-filter :selected').val();
+	var region = $('#filter-region :selected').val();
+	$("#wizard-filter-value").val("");
+	$("#wizard-filter-key").val("");
+	if(filter == "None") {
+		$('#wizard-filter-key').hide();
+		$('#wizard-filter-value').hide();
+		$('#search-by-instance-filter').hide();
+		$filter_instances(region, filter,'','');
+	}
+	else if(filter == "Tags") {
+		$('#wizard-filter-key').show();
+		$('#wizard-filter-value').show();
+		$('#search-by-instance-filter').show();
+	}
+	else {
+		$('#wizard-filter-key').hide();
+		$('#wizard-filter-value').show();
+		$('#search-by-instance-filter').show();
+	}
+});
+
+$(document).on('click', '.search-by-instance-filters', function() {
+	var filter = $('#select-instance-wizard-filter :selected').val();
+	var value = $("#wizard-filter-value").val();
+	var key = $("#wizard-filter-key").val();
+	var region = $('#filter-region :selected').val();
+
+	if(filter == "Tags") {
+		$filter_instances(region, filter,key,value);
+	}
+	else{
+		$filter_instances(region, filter,"",value);
+	}
+	
+});
+
+$(document).on('click', '.add-instance', function(){
+	$(this).html('<i class="icon-trash icon-red"></i>');
+	$(this).attr('class', 'btn btn-minier btn-danger remove-instance')
+	tr = $(this).closest('tr');
+	if ($('tbody#added_instances tr').length == 0)
+	{
+		$("#msg").hide();
+	}
+	$('#added_instances').append(tr);
+});
+
+$(document).on('click', '.remove-instance', function(){
+	$(this).closest('tr').remove();
+});
+
+$(document).on('click', '#instances_list', function(){
+	if($('input[type=checkbox]:checked').length>0)
+	{
+		$('#schedule_instances').attr('class', "btn btn-small btn-primary");
+	}
+	else
+	{
+		$('#schedule_instances').attr('class', "btn btn-small btn-primary hidden");
+	}
+});
+
+$(document).on('click', '#schedule_instances', function(){
+	var arry = new Array();
+	$('input[type=checkbox]:checked').each(function(){
+		arry.push($(this).attr('value'));
+	});
+	window.location="/aws_actions/create_schedule?inst="+arry
 });

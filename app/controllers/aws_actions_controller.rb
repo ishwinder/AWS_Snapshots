@@ -1,8 +1,8 @@
 class AwsActionsController < ApplicationController
 
   respond_to :js, :html
-  layout false, except: [:create_snapshot]
-  before_action :set_ec2
+  layout false, except: [:create_snapshot, :create_schedule]
+  before_action :set_ec2, except: [:create_schedule, :wizard_filtered_instances]
 
   def load_instances
     filter = []
@@ -61,4 +61,33 @@ class AwsActionsController < ApplicationController
     @ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token, region: current_user.default_region)
   end
 
+  def create_schedule
+    if params[:inst]
+      ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token, region: current_user.default_region)
+      response = ec2.client.describe_instances({instance_ids: params[:inst].split(",")})
+      @selected_instances = response.reservation_set.map(&:instances_set).flatten!
+    else
+      ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token)
+      response = ec2.client.describe_instances
+      @default_region_instances = response.reservation_set.map(&:instances_set).flatten!
+    end
+  end
+  
+  def wizard_filtered_instances
+    ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token, region: params[:region])
+    filter = []
+    filter << {name: "instance-id", values: [params[:value]]} if params[:filter].present? && params[:filter] == "Instance ID"
+    filter << {name: "block-device-mapping.volume-id", values: [params[:value]] } if params[:filter].present? && params[:filter] == "Volume ID"
+    filter << {name: "image-id", values:[params[:value]] } if params[:filter].present? && params[:filter] == "AMI"
+    filter << {name: "tag:#{params[:key]}", values:[params[:value]] } if params[:filter].present? && params[:filter] == "Tags"
+    if filter.empty?
+      response = ec2.client.describe_instances
+    else
+      filters = {filters: filter}
+      response = ec2.client.describe_instances filters
+    end
+    @filtered_instances = response.reservation_set.map(&:instances_set).flatten!
+    respond_with @filtered_instances
+  end
+  
 end

@@ -1,0 +1,24 @@
+<% if @filtered_instances.blank? %>
+	<tr><td class="center" colspan="5"><b>No Instance to add from selected region</b></td></tr>
+<% else %>
+	<% @filtered_instances.each do |instance| %>
+		<tr>
+			<td>
+				<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
+			</td>
+			<td><%= instance.instance_id %></td>
+			<td><%= instance.instance_type %></td>
+			<td>
+				<% inst_state = instance.instance_state[:name] %>
+				<%= content_tag :span, class: instance_state_class(inst_state) do %>
+					<%= inst_state.camelize %>
+				<% end %>
+			</td>
+			<td>
+				<div class="inline position-relative">
+					<button id=<%= instance.instance_id%> class="btn btn-minier btn-primary add-instance"><i class="icon-plus icon-white"></i>Add</button>
+				</div>
+			</td>
+		</tr>
+	<% end %>
+<% end %>

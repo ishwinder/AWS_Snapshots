@@ -30,6 +30,8 @@ AWSSnapshots::Application.routes.draw do
     get :create_instant_snapshot, on: :collection
     get :delete_snapshot, on: :collection
     get :load_volumes_for_instance, on: :collection
+    get :create_schedule, on: :collection
+    get :wizard_filtered_instances, on: :collection
   end
 
   resources :elements do

@@ -1,13 +1,12 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  has_many :schedules, dependent: :destroy
   has_many :scheduled_snapshots, dependent: :restrict
-  
   has_many :snapshot_summaries, dependent: :destroy
-  
+
   REGIONS = {"us-east-1" => ["all", "us-east-1a", "us-east-1c", "us-east-1d"], 
              "us-west-2" => ["all", "us-west-2a", "us-west-2b", "us-west-2c"], 
              "us-west-1" => ["all", "us-west-1a", "us-west-1b"], 

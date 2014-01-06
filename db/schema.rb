@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131224052508) do
+ActiveRecord::Schema.define(version: 20140106071608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.integer  "action"
+    t.integer  "frequency"
+    t.time     "event_time"
+    t.text     "cron"
+    t.integer  "schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["schedule_id"], name: "index_events_on_schedule_id", using: :btree
 
   create_table "scheduled_snapshots", force: true do |t|
     t.string   "volume_id"
@@ -33,6 +46,17 @@ ActiveRecord::Schema.define(version: 20131224052508) do
     t.integer  "retention_period"
     t.string   "region"
   end
+
+  create_table "schedules", force: true do |t|
+    t.string   "name"
+    t.text     "instances"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedules", ["user_id"], name: "index_schedules_on_user_id", using: :btree
 
   create_table "snapshot_summaries", force: true do |t|
     t.string   "snapshot_id"

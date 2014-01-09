@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
 
   REPEAT_TYPE = {"Daily" => 0, "Weekly" => 1, "Monthly" => 2}
   ACTIONS = {"Start Instance" => 0, "Stop Instance" => 1, "Reboot Instance" => 2}
+  DAY_OF_WEEK = {"Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 2,"Sunday" => 0}
 
   def frequency=(freq)
     self[:frequency] = REPEAT_TYPE[freq]
@@ -19,4 +20,13 @@ class Event < ActiveRecord::Base
   def action
     ACTIONS.key(self[:action])
   end
+
+  def day_of_week=(day)
+    self[:day_of_week] = DAY_OF_WEEK[day]
+  end
+
+  def day_of_week
+    DAY_OF_WEEK.key(self[:day_of_week])
+  end
+
 end

@@ -71,6 +71,9 @@ class AwsActionsController < ApplicationController
       response = ec2.client.describe_instances
       @default_region_instances = response.reservation_set.map(&:instances_set).flatten!
     end
+    @schedule = current_user.schedules.new
+    @schedule.events.build
+    @schedule.instances.build
   end
   
   def wizard_filtered_instances

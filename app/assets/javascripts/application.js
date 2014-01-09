@@ -259,6 +259,12 @@ $(function() {
 		defaultTime: false
 	});
 	
+	$('.timepicker2').timepicker({
+		minuteStep: 10,
+		showMeridian: false,
+		defaultTime: false
+	});
+	
 	$("#retention_period_slider").slider({
 		handle: "myhandle",
 		orientation: "horizontal",
@@ -340,7 +346,7 @@ $(document).on('click', '#remove_tag_row', function(e) {
 
 $(document).on('change', '#select-instance-wizard-filter', function() {
 	var filter = $('#select-instance-wizard-filter :selected').val();
-	var region = $('#filter-region:selected').val()
+	var region = $('#filter-region:selected').val();
 	$("#wizard-filter-value").val("");
 	$("#wizard-filter-key").val("");
 	if(filter == "None") {
@@ -406,29 +412,38 @@ $(document).on('click', '.search-by-instance-filters', function() {
 	
 });
 
-$(document).on('click', '.add-instance', function(){
+$(document).on('click', '.add-instance', function(e){
+	e.preventDefault();
 	$(this).html('<i class="icon-trash icon-red"></i>');
-	$(this).attr('class', 'btn btn-minier btn-danger remove-instance')
+	$(this).attr('class', 'btn btn-minier btn-danger remove-instance');
 	tr = $(this).closest('tr');
+	region = $('#filter-region').val();
 	if ($('tbody#added_instances tr').length == 0)
 	{
 		$("#msg").hide();
 	}
+	tr.append('<td class="hidden"><input class="span3" id="schedule_instances" name="schedule[instances_attributes][][instance]" type="text" value="'+$(this).attr('id')+'"></td>');
+	tr.append('<td class="hidden"><input class="span3" id="schedule_instances" name="schedule[instances_attributes][][region]" type="text" value="'+region+'"></td>');
 	$('#added_instances').append(tr);
 });
 
-$(document).on('click', '.remove-instance', function(){
+$(document).on('click', '.remove-instance', function(e){
+	e.preventDefault();
 	$(this).closest('tr').remove();
+	if ($('tbody#added_instances tr').length == 0)
+	{
+		$("#msg").show();
+	}
 });
 
 $(document).on('click', '#instances_list', function(){
 	if($('input[type=checkbox]:checked').length>0)
 	{
-		$('#schedule_instances').attr('class', "btn btn-small btn-primary");
+		$('#schedule_instances').show();
 	}
 	else
 	{
-		$('#schedule_instances').attr('class', "btn btn-small btn-primary hidden");
+		$('#schedule_instances').hide();
 	}
 });
 
@@ -438,4 +453,14 @@ $(document).on('click', '#schedule_instances', function(){
 		arry.push($(this).attr('value'));
 	});
 	window.location="/aws_actions/create_schedule?inst="+arry
+});
+
+$(document).on('click', '#create_new_schedule', function(){
+	$('#create_new_schedule_form').show();
+	$('#old_schedules').hide();
+});
+
+$(document).on('click', '#choose_existing_schedule', function(){
+	$('#create_new_schedule_form').hide();
+	$('#old_schedules').show();
 });

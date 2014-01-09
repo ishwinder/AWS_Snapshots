@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106071608) do
+ActiveRecord::Schema.define(version: 20140109104656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20140106071608) do
     t.string   "name"
     t.integer  "action"
     t.integer  "frequency"
+    t.integer  "day_of_week"
+    t.integer  "day_of_month"
     t.time     "event_time"
     t.text     "cron"
     t.integer  "schedule_id"
@@ -28,6 +30,33 @@ ActiveRecord::Schema.define(version: 20140106071608) do
   end
 
   add_index "events", ["schedule_id"], name: "index_events_on_schedule_id", using: :btree
+
+  create_table "images", force: true do |t|
+    t.string   "name"
+    t.string   "image_id"
+    t.string   "image_state"
+    t.boolean  "is_public"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "instance_types", force: true do |t|
+    t.string   "name"
+    t.decimal  "memory"
+    t.decimal  "cost"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "instances", force: true do |t|
+    t.string   "instance"
+    t.string   "region"
+    t.integer  "schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "instances", ["schedule_id"], name: "index_instances_on_schedule_id", using: :btree
 
   create_table "scheduled_snapshots", force: true do |t|
     t.string   "volume_id"
@@ -47,9 +76,21 @@ ActiveRecord::Schema.define(version: 20140106071608) do
     t.string   "region"
   end
 
+  create_table "scheduled_summaries", force: true do |t|
+    t.integer  "action"
+    t.string   "instance_id"
+    t.boolean  "status"
+    t.integer  "schedule_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scheduled_summaries", ["schedule_id"], name: "index_scheduled_summaries_on_schedule_id", using: :btree
+  add_index "scheduled_summaries", ["user_id"], name: "index_scheduled_summaries_on_user_id", using: :btree
+
   create_table "schedules", force: true do |t|
     t.string   "name"
-    t.text     "instances"
     t.string   "status"
     t.integer  "user_id"
     t.datetime "created_at"

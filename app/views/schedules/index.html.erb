@@ -1,0 +1,57 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Ec2 Schedules</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Ec2 Schedules</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-scheduled-snapshots">
+		<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="center">Schedule Name</th>
+					<th>Instances</th>
+					<th>Events</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+		
+			<tbody>
+				<% @schedules.each do |ss| %>
+					<tr>
+						<td><%= ss.name %></td>
+						<td><%= ss.instances.map(&:instance).join(', ') %></td>
+						<td><%= ss.events.map(&:action).join(', ')%></td>
+						<td>
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+									<li><a href="<%= schedule_path(ss)%>"  class="tooltip-success" data-rel="tooltip" title="View Details" data-placement="left"><span class="green"><i class="icon-list-alt"></i></span></a></li>
+									<li>
+										<%= link_to schedules_path(ss), data: {confirm: 'Are you sure?'}, :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
+											<span class="red"><i class="icon-trash"></i></span>
+										<% end %>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-ec2-schedules').addClass('active');
+	};
+</script>

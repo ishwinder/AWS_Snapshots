@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  action_id: MyString
+  instance_id: MyString
+  status: MyString
+  references: 
+  references: 
+
+two:
+  action_id: MyString
+  instance_id: MyString
+  status: MyString
+  references: 
+  references: 

@@ -62,4 +62,15 @@ module ApplicationHelper
        "label"
      end
   end
+  
+  def event_state_class(state)
+    case state
+     when 'Success'
+       "label label-success"
+     when 'Failure'
+       "label label-important"
+     else
+       "label"
+     end
+  end
 end

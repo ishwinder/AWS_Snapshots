@@ -41,4 +41,6 @@ AWSSnapshots::Application.routes.draw do
   end
 
   resources :scheduled_snapshots
+
+  resources :schedules
 end

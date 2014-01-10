@@ -19,7 +19,10 @@ class SchedulesController < ApplicationController
         redirect_to root_path
       end
     elsif params[:schedule][:type] == 'old_schedule'
-      @schedule = current_user.schedules.where(name: params[:schedule]).first
+      @schedule = current_user.schedules.where(name: params[:schedule][:name]).first
+      @schedule.update_attributes(old_schedule_params)
+      flash[:notice] = "Schedule Successfully Updated!!"
+      redirect_to schedules_path
     end
   end
 
@@ -79,5 +82,9 @@ class SchedulesController < ApplicationController
 private
   def schedule_params
     params.require(:schedule).permit(:name, :events_attributes => [:action, :frequency, :event_time, :day_of_week, :day_of_month], :instances_attributes => [:instance, :region])
+  end
+  
+  def old_schedule_params
+    params.require(:schedule).permit(:instances_attributes => [:instance, :region])
   end
 end

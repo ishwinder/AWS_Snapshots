@@ -71,6 +71,7 @@ class AwsActionsController < ApplicationController
       response = ec2.client.describe_instances
       @default_region_instances = response.reservation_set.map(&:instances_set).flatten!
     end
+    @existing_schedules = current_user.schedules
     @schedule = current_user.schedules.new
     @schedule.events.build
     @schedule.instances.build

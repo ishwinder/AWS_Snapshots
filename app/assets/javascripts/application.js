@@ -216,7 +216,7 @@ $(document).on('click', 'a#id-load-volumes', function(e) {
 $(document).on('click', '.load-more-instances', function() {
 	var zone = $('#select-availability-zone :selected').val();
 	var next_token = $(this).attr('id');
-	$list_instances(zone, next_token);
+	$list_instances(zone, next_token, '', '', '');
 });
 
 $(document).on('change', '#select-availability-zone', function() {

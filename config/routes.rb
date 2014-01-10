@@ -42,5 +42,8 @@ AWSSnapshots::Application.routes.draw do
 
   resources :scheduled_snapshots
 
-  resources :schedules
+  resources :schedules do
+    get :fetch_actions, on: :collection
+    get :instant_action, on: :collection
+  end
 end

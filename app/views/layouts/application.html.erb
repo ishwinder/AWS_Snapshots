@@ -91,8 +91,8 @@
 						</a>
 
 						<ul class="submenu">
-							<li id="nav-action-create-snap"><a href="<%= create_snapshot_aws_actions_path %>"><i class="icon-double-angle-right"></i> Create Snapshot</a></li>
-							<li id="nav-action-create-schedule"><a href="<%= create_schedule_aws_actions_path %>"><i class="icon-double-angle-right"></i> Create Schedule</a></li>
+							<li id="nav-action-create-snap"><a href="<%= create_snapshot_aws_actions_path %>"><i class="icon-double-angle-right"></i> Schedule Snapshot</a></li>
+							<li id="nav-action-create-schedule"><a href="<%= create_schedule_aws_actions_path %>"><i class="icon-double-angle-right"></i> Schedule Instance</a></li>
 						</ul>
 					</li>
 
@@ -113,13 +113,13 @@
 					<li id="nav-snapshots">
 						<a href="<%= scheduled_snapshots_url %>" style="margin-right:0px;">
 							<i class="icon-time"></i>
-							<span>Scheduled Snaps</span>
+							<span>Snap Schedules</span>
 						</a>
 					</li>
 					<li id="nav-ec2-schedules">
-						<a href="<%= schedules_url %>" style="margin-right:0px;">
+						<a href="<%= schedules_path %>" style="margin-right:0px;">
 							<i class="icon-list-alt"></i>
-							<span>Ec2 Schedules</span>
+							<span>Instance Schedules</span>
 						</a>
 					</li>
 				</ul><!--/.nav-list-->

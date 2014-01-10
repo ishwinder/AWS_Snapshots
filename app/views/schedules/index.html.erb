@@ -2,13 +2,13 @@
 	<div id="breadcrumbs">
 		<ul class="breadcrumb">
 			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-			<li class="active">Ec2 Schedules</li>
+			<li class="active">Scheduled Instances</li>
 		</ul>
 	</div>
 <% end %>
 <% content_for :header do %>
 	<div class="page-header position-relative">
-		<h1>Ec2 Schedules</h1>
+		<h1>Scheduled Instances</h1>
 	</div><!--/page-header-->
 <% end %>
 
@@ -36,7 +36,7 @@
 								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
 									<li><a href="<%= schedule_path(ss)%>"  class="tooltip-success" data-rel="tooltip" title="View Details" data-placement="left"><span class="green"><i class="icon-list-alt"></i></span></a></li>
 									<li>
-										<%= link_to schedules_path(ss), data: {confirm: 'Are you sure?'}, :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
+										<%= link_to schedule_path(ss), data: {confirm: 'Are you sure?'}, :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
 											<span class="red"><i class="icon-trash"></i></span>
 										<% end %>
 									</li>

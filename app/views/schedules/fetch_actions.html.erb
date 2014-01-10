@@ -1,0 +1,9 @@
+<% @schedule.events.each do |event| %>
+	<tr>
+		<td><%= event.action %></td>
+		<td><%= event.frequency %></td>
+		<td><%= event.event_time %></td>
+		<td><%= event.day_of_week.nil? ? "-" : event.day_of_week %></td>
+		<td><%= event.day_of_month.nil? ? "-" : event.day_of_month %></td>
+	</tr>
+<%end%>

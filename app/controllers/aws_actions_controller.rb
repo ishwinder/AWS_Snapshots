@@ -6,7 +6,7 @@ class AwsActionsController < ApplicationController
 
   def load_instances
     filter = []
-    filter << {name: "availability-zone", values: [params[:zone]]} if params[:zone]!= "all"
+    filter << {name: "availability-zone", values: [params[:zone]]} if params[:zone].present? && params[:zone]!= "all"
     filter << {name: "instance-id", values: [params[:value]]} if params[:filter].present? && params[:filter] == "Instance ID"
     filter << {name: "block-device-mapping.volume-id", values: [params[:value]] } if params[:filter].present? && params[:filter] == "Volume ID"
     filter << {name: "image-id", values:[params[:value]] } if params[:filter].present? && params[:filter] == "AMI"

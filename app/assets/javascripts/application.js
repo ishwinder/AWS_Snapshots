@@ -181,6 +181,24 @@ $filter_instances = function(region, filter, key, value){
 	});
 };
 
+$fetch_schedule_actions = function(schedule){
+	$.ajax({
+		type: 'GET',
+		url: '/schedules/fetch_actions',
+		data: { schedule: schedule},
+		dataType: 'html',
+		success: function(data){
+			$('tbody#previous_schedule_actions_list').html(data);
+		},
+		error: function(e){
+			$('tbody#previous_schedule_actions_list').html("<tr><td colspan='5' class='center'>Some error occured while loading Actions.</td></tr>");
+		},
+		beforeSend: function(){
+			$('tbody#previous_schedule_actions_list').html("<tr><td colspan='5' class='center'><img src='/assets/loading.gif' style='align:center'/></td></tr>");
+		}
+	});
+};
+
 $(document).on('click', 'a#id-load-volumes', function(e) {
 	e.preventDefault();
 	inst_id = $('#instance_id').val();
@@ -436,31 +454,20 @@ $(document).on('click', '.remove-instance', function(e){
 	}
 });
 
-$(document).on('click', '#instances_list', function(){
-	if($('input[type=checkbox]:checked').length>0)
-	{
-		$('#schedule_instances').show();
-	}
-	else
-	{
-		$('#schedule_instances').hide();
-	}
-});
-
 $(document).on('click', '#schedule_instances', function(){
 	var arry = new Array();
-	$('input[type=checkbox]:checked').each(function(){
-		arry.push($(this).attr('value'));
-	});
-	window.location="/aws_actions/create_schedule?inst="+arry
+	if($('input[type=checkbox]:checked').length >0){
+		$('input[type=checkbox]:checked').each(function(){
+			arry.push($(this).attr('value'));
+		});
+		window.location="/aws_actions/create_schedule?inst="+arry
+	}
+	else{
+		window.location="/aws_actions/create_schedule"
+	}
 });
 
-$(document).on('click', '#create_new_schedule', function(){
-	$('#create_new_schedule_form').show();
-	$('#old_schedules').hide();
-});
-
-$(document).on('click', '#choose_existing_schedule', function(){
-	$('#create_new_schedule_form').hide();
-	$('#old_schedules').show();
+$(document).on('change', '#input_existing_schedules', function(e){
+	schedule = $('#input_existing_schedules').val();
+	$fetch_schedule_actions(schedule);
 });

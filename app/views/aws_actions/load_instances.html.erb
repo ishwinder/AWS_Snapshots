@@ -21,12 +21,14 @@
 			<% @instances.each do |instance| %>
 				<tr>
 					<td>
-						<div class="control-group">
-							<div class="controls">
-								<input  id="instances_list" type="checkbox" name="instance[instance_id][]" value="<%= instance.instance_id %>" />
-								<label for="instance[instance_id][]" class="lbl"></label>
+						<% unless instance.instance_state[:name] == "terminated"%>
+							<div class="control-group">
+								<div class="controls">
+									<input  id="instances_list" type="checkbox" name="instance[instance_id][]" value="<%= instance.instance_id %>" />
+									<label for="instance[instance_id][]" class="lbl"></label>
+								</div>
 							</div>
-						</div>
+						<% end %>
 					</td>
 					<td>
 						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
@@ -44,18 +46,27 @@
 						<%= instance.block_device_mapping.map(&:ebs).map(&:volume_id).join(', ') %>
 					</td>
 					<td>
-						<div class="inline position-relative">
-							<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
-							<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
-								<li><a href="<%= create_snapshot_aws_actions_path(instance_id: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule Snapshot" data-placement="left"><span class="blue"><i class="icon-time"></i></span> </a></li>
-							</ul>
-						</div>
+						<% unless instance.instance_state[:name] == "terminated"%>
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+									<li><a href="<%= create_snapshot_aws_actions_path(instance_id: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule Snapshot" data-placement="left"><span class="blue"><i class="icon-time"></i></span> </a></li>
+									<li><a href="<%= create_schedule_aws_actions_path(inst: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule instance" data-placement="left"><span class="blue"><i class="icon-cogs"></i></span> </a></li>									
+									<% if instance.instance_state[:name] == "running" %>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Stop")%>" class="tooltip-warning" data-rel="tooltip" title="Stop Instance" data-placement="left"><span class="red"><i class="icon-stop"></i></span> </a></li>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Reboot")%>" class="tooltip-warning" data-rel="tooltip" title="Reboot Instance" data-placement="left"><span class="orange"><i class="icon-refresh"></i></span> </a></li>
+									<% elsif instance.instance_state[:name] == "stopped"%>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Start")%>" class="tooltip-warning" data-rel="tooltip" title="Start Instance" data-placement="left"><span class="green"><i class="icon-play"></i></span> </a></li>
+									<% end %>
+								</ul>
+							</div>
+						<% end %>
 					</td>
 				</tr>
 			<% end %>
 		</tbody>
 	</table>
-	<button id="schedule_instances" class="btn btn-small btn-primary" style="display: none"><i class="icon-time"></i> Schedule Instances</button>
+	<button id="schedule_instances" class="btn btn-small btn-primary"><i class="icon-time"></i> Schedule Instances</button>
 	<% if @next_token %>
 		<div class="row-fluid">
 			<div class="span6">

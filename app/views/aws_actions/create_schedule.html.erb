@@ -2,20 +2,20 @@
 	<div id="breadcrumbs">
 		<ul class="breadcrumb">
 			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-			<li class="active">Create Schedule<span class="divider"></span></li>
+			<li class="active">Schedule instance<span class="divider"></span></li>
 		</ul>
 	</div>
 <% end %>
 <% content_for :header do %>
 	<div class="page-header position-relative">
-		<h1>Create Schedule</h1>
+		<h1>Schedule Instance</h1>
 	</div><!--/page-header-->
 <% end %>
 <% session[:index] = 0 %>
 	<div class="span12">
 		<div class="widget-box">
 			<div class="widget-header widget-header-blue widget-header-flat wi1dget-header-large">
-				<h4 class="lighter">Create Schedule Wizard</h4>
+				<h4 class="lighter">Schedule Instance Wizard</h4>
 			</div>
 
 			<div class="widget-body">
@@ -36,6 +36,177 @@
 						<div class="step-content row-fluid position-relative">
 							<%= form_for @schedule , html: {id: 'wizard-validation-form', class: 'form-horizontal'} do |f| %>
 								<div class="step-pane active " id="step1">
+									<input type="hidden" id="old_sch" name="schedule[type]" value="old_schedule">
+									<input type="hidden" id="new_sch" name="schedule[type]" value="new_schedule">
+									<div class="row-fluid">
+										<div class="span12">
+											<div class="span3">
+											</div>
+											<div class="span4">
+												<div class="control-group">
+													<div class="controls">
+														<label class="center">
+															<input id="choose_existing_schedule" name="form-field-radio" type="radio" /><span class="lbl"> Choose Existing Schedule</span>
+														</label>
+														<label class="center"><b>or</b></label>
+														<label class="center">
+															<input id="create_new_schedule" name="form-field-radio" type="radio" /><span class="lbl"> Create a new Schedule</span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br />
+									<br />
+
+									<div class="row-fluid" id="old_schedules">
+										<div class="span12">
+											<div class="control-group">
+												<label class="control-label" for="schedule_name"><b>Select Schedule</b></label>
+												<div class="controls">
+													<span class="span12">
+														<select class="span3" id="input_existing_schedules" name="schedule[name]">
+															<% current_user.schedules.each do |sch|%>
+																<option value="<%= sch.name%>" > <%= sch.name %></option>
+															<% end %>
+														</select>
+													</span>
+												</div>
+											</div>
+											<div class="span12">
+												<div class="control-group">
+													<label class="control-label"><b>Actions :</b></label>
+												</div>
+											</div>
+											<div class="span12">
+												<div class="span1">
+												</div>
+												<div class="span8">
+													<table id="table_bug_report" class="table table-hover table-bordered">
+														<thead>
+															<tr>
+																<th>Action Name</th>
+																<th>Repeat Type</th>
+																<th>Time</th>
+																<th class="hidden-phone">Day Of Week</th>
+																<th class="hidden-phone">Day Of Month</th>
+															</tr>
+														</thead>
+														<tbody id="previous_schedule_actions_list">
+															
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row-fluid" id="create_new_schedule_form">
+										<div class="row-fluid">
+											<div class="control-group">
+												<label class="control-label" for="name"><b>Schedule Name :</b></label>
+												<div class="controls">
+													<span class="span12">
+														<%= f.text_field :name, class: "span3", required: true, id: "input_new_schedule" %>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div>
+												<div class="span12">
+													<div class="control-group">
+														<label class="control-label"><b>Actions :</b></label>
+													</div>
+												</div>
+												<div class="span12">
+													<div class="span1">
+													</div>
+													<div class="span8">
+														<table id="table_bug_report" class="table table-hover table-bordered">
+															<thead>
+																<tr>
+																	<th>Action Name</th>
+																	<th>Repeat Type</th>
+																	<th class="hidden-phone">Time</th>
+																	<th class="hidden-phone">Day Of Week</th>
+																	<th class="hidden-phone">Day Of Month</th>
+																	<th>Actions</th>
+																</tr>
+															</thead>
+															<tbody id="actions_list">
+																
+															</tbody>
+														</table>
+													</div>
+												</div>
+											<div>
+												<div class="span12">
+													<div class="control-group">
+														<label class="control-label"><b>Add New Action :</b></label>
+													</div>
+												</div>
+												<input type="hidden" id="index" value="0">
+												<%= f.fields_for :events do |event| %>
+													<div id="nested_form_attributes">
+														<div id="form_0">
+															<div class="control-group">
+																<label class="control-label" for="action_name">Action Name</label>
+																<div class="controls">
+																	<span class="span12">
+																		<%= event.select :action, ["Start Instance", "Stop Instance", "Reboot Instance"],{}, {class: "span3", id: "input_name_0", name: "schedule[events_attributes][][action]" } %>
+																	</span>
+																</div>
+															</div>
+															<div class="control-group">
+																<label class="control-label" for="repeat_type">Repeat Type</label>
+																<div class="controls">
+																	<span class="span12">
+																		<%= event.select :frequency, ["Daily", "Weekly", "Monthly"],{}, {class: "span3", id: "input_event_type_0", name: "schedule[events_attributes][][frequency]", onchange: "$change_frequency();" } %>
+																	</span>
+																</div>
+															</div>
+															<div class="control-group">
+																<label class="control-label" for="Action Time">Action Time</label>
+																<div class="controls input-append bootstrap-timepicker" data-time="08:00" style="margin-left:20px;">
+																	<span class="add-on"><i class="icon-time"></i></span>
+																	<input id="input_action_time_0" type="text" class="input-small timepicker2" name="schedule[events_attributes][][event_time]" required="true" />
+																</div>
+																<span class="controls" style="margin-left:10px;">Current UTC Time is <b><%= Time.now.utc.strftime("%H:%M") %></b></span>
+															</div>
+															<div class="control-group" id="day_of_week_0">
+																<label class="control-label" for="repeat_type">Week Day</label>
+																<div class="controls">
+																	<span class="span12">
+																		<%= event.select :day_of_week, ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],{}, {class: "span3", id: "input_event_day_0", name: "schedule[events_attributes][][day_of_week]" } %>
+																	</span>
+																</div>
+															</div>
+															<div class="control-group" id="day_of_month_0">
+																<label class="control-label" for="repeat_type">Day Of Month</label>
+																<div class="controls">
+																	<span class="span12">
+																		<%= event.select :day_of_month, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+																										20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],{}, {class: "span3", id: "input_event_month_0", name: "schedule[events_attributes][][day_of_month]"} %>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												<%end%>
+												<div class="control-group">
+													<div class="controls">
+														<span class="span12">
+															<button id="add_new_event" class="btn btn-small btn-primary"><i class="icon-plus icon-white"></i>Add</button>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="step-pane" id="step2">
 									<div class="row-fluid">
 										<div class="span8 offset2">
 											<div class="widget-box">
@@ -173,145 +344,6 @@
 									</div>
 								</div>
 
-								<div class="step-pane" id="step2">
-									<div class="row-fluid">
-										<div class="span12">
-											<div class="span3">
-											</div>
-											<div class="span4">
-												<div class="control-group">
-													<div class="controls">
-														<label class="center">
-															<input id="choose_existing_schedule" name="form-field-radio" type="radio" /><span class="lbl"> Choose Existing Schedule</span>
-														</label>
-														<label class="center"><b>or</b></label>
-														<label class="center">
-															<input id="create_new_schedule" name="form-field-radio" type="radio" /><span class="lbl"> Create a new Schedule</span>
-														</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<br />
-									<br />
-
-									<div class="row-fluid" id="old_schedules">
-										<div class="span12">
-											<div class="control-group">
-												<label class="control-label" for="schedule_name">Select Schedule</label>
-												<div class="controls">
-													<span class="span12">
-														<%= select :schedule_name,"",{}, {class: "span3", id: "previous_schedule"} %>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="row-fluid" id="create_new_schedule_form">
-										<div class="row-fluid">
-											<div class="control-group">
-												<label class="control-label" for="name"><b>Schedule Name :</b></label>
-												<div class="controls">
-													<span class="span12">
-														<%= f.text_field :name, class: "span3", required: true %>
-													</span>
-												</div>
-											</div>
-										</div>
-										<div>
-												<div class="span12">
-													<div class="control-group">
-														<label class="control-label"><b>Actions :</b></label>
-													</div>
-												</div>
-												<div class="span12">
-													<div class="span1">
-													</div>
-													<div class="span8">
-														<table id="table_bug_report" class="table table-hover table-bordered">
-															<thead>
-																<tr>
-																	<th>Action Name</th>
-																	<th>Repeat Type</th>
-																	<th class="hidden-phone">Time</th>
-																	<th class="hidden-phone">Day Of Week</th>
-																	<th class="hidden-phone">Day Of Month</th>
-																	<th>Actions</th>
-																</tr>
-															</thead>
-															<tbody id="actions_list">
-																
-															</tbody>
-														</table>
-													</div>
-												</div>
-											<div>
-												<div class="span12">
-													<div class="control-group">
-														<label class="control-label"><b>Add New Action :</b></label>
-													</div>
-												</div>
-												<input type="hidden" id="index" value="0">
-												<%= f.fields_for :events do |event| %>
-													<div id="nested_form_attributes">
-														<div id="form_0">
-															<div class="control-group">
-																<label class="control-label" for="action_name">Action Name</label>
-																<div class="controls">
-																	<span class="span12">
-																		<%= event.select :action, ["Start Instance", "Stop Instance", "Reboot Instance"],{}, {class: "span3", id: "input_name_0", name: "schedule[events_attributes][][action]" } %>
-																	</span>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label" for="repeat_type">Repeat Type</label>
-																<div class="controls">
-																	<span class="span12">
-																		<%= event.select :frequency, ["Daily", "Weekly", "Monthly"],{}, {class: "span3", id: "input_event_type_0", name: "schedule[events_attributes][][frequency]", onchange: "$change_frequency();" } %>
-																	</span>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label" for="Action Time">Action Time</label>
-																<div class="controls input-append bootstrap-timepicker" data-time="08:00" style="margin-left:20px;">
-																	<span class="add-on"><i class="icon-time"></i></span>
-																	<input id="input_action_time_0" type="text" class="input-small timepicker2" name="schedule[events_attributes][][event_time]" required="true" />
-																</div>
-															</div>
-															<div class="control-group" id="day_of_week_0">
-																<label class="control-label" for="repeat_type">Week Day</label>
-																<div class="controls">
-																	<span class="span12">
-																		<%= event.select :day_of_week, ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],{}, {class: "span3", id: "input_event_day_0", name: "schedule[events_attributes][][day_of_week]" } %>
-																	</span>
-																</div>
-															</div>
-															<div class="control-group" id="day_of_month_0">
-																<label class="control-label" for="repeat_type">Day Of Month</label>
-																<div class="controls">
-																	<span class="span12">
-																		<%= event.select :day_of_month, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-																										20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],{}, {class: "span3", id: "input_event_month_0", name: "schedule[events_attributes][][day_of_month]"} %>
-																	</span>
-																</div>
-															</div>
-														</div>
-													</div>
-												<%end%>
-												<div class="control-group">
-													<div class="controls">
-														<span class="span12">
-															<button id="add_new_event" class="btn btn-small btn-primary"><i class="icon-plus icon-white"></i>Add</button>
-														</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
 								<div class="step-pane form-horizontal" id="step3">
 									<div class="center">
 										<h3 class="blue lighter">Summary</h3>
@@ -411,7 +443,8 @@
 		$('#day_of_month_0').hide();
 		$('#input_event_month_0').attr('disabled', 'disabled')
 		$change_frequency();
-		
+		$('#old_sch').prop('disabled', true)
+		$('#new_sch').prop('disabled', true)
 	};
 	
 	$(function() {
@@ -425,46 +458,108 @@
 		var $validation = false;
 		$('#fuelux-wizard').ace_wizard().on('change' , function(e, info) {
 			if(info.step == 1) {
-				if ($('tbody#added_instances tr').length == 0){
-					alert('Select atlest one instance to start schedule');
-					e.preventDefault();
-				}
-				$('#summary_instances').empty();
-				$('#added_instances tr').each(function(){
-					tr = $(this).clone();
-					tr.find('td#action').remove();
-					tr.find('td.hidden').each(function(){
-						$(this).remove();
-					})
-					$('#summary_instances').append(tr);
-				});
-			}
-			if(info.step == 2) {
-				if($('#schedule_name').val() == ''){
-					e.preventDefault();
-					alert('Please Enter Schedule Name')
+				
+				if($('input[type=radio]:checked').attr('id') == "choose_existing_schedule"){
+					$('#summary_actions').empty();
+					$('#summary_schedule_name').html($('#input_existing_schedules').val());
+
+					$('#previous_schedule_actions_list tr').each(function(){
+						tr = $(this).clone();
+						$('#summary_actions').append(tr);
+					});
+					$('#old_sch').prop('disabled', false);
+					$('#new_sch').prop('disabled', true);
 				}
 				else{
-					$('#summary_actions').empty();
-					$('#summary_schedule_name').html($('#schedule_name').val());
-
-					$('#actions_list tr').each(function(){
-					tr = $(this).clone();
-					tr.find('td#action').remove();
-					$('#summary_actions').append(tr);
-					});
+						if($('input[type=radio]:checked').attr('id') == "create_new_schedule"){
+							if($('#schedule_name').val() == ''){
+								e.preventDefault();
+								alert('Please Enter Schedule Name');
+							}
+							else {
+								if ($('tbody#actions_list tr').length == 0){
+									e.preventDefault();
+									alert('Please Select atleast one action');
+								}
+								else{
+									$('#summary_actions').empty();
+									$('#summary_schedule_name').html($('#schedule_name').val());
+				
+									$('#actions_list tr').each(function(){
+									tr = $(this).clone();
+									tr.find('td#action').remove();
+									$('#summary_actions').append(tr);
+									});
+									
+									val = $('#index').val();
+									div = $("#nested_form_attributes").find("div#form_"+val)
+									if(info.direction == 'next'){
+										var flag = 0;
+										div.find('select').each(function(){
+											if (flag == 0)
+											{
+												$(this).prop("disabled", true);
+											}
+											if(flag == 1){
+												$(this).prop("disabled", true);
+											}
+											if(flag == 2){
+												$(this).prop("disabled", true);
+											}
+											if(flag == 3){
+												$(this).prop("disabled", true);
+											}
+											flag += 1
+										});
+										
+										div.find('input.timepicker2').each(function(){
+											$(this).attr("disabled", true);
+										});
+										
+										div.find('#day_of_week_'+ val).hide();
+										div.find('#day_of_month_'+ val).hide();
+									}
+								}
+							}
+							$('#old_sch').prop('disabled', true);
+							$('#new_sch').prop('disabled', false);
+						}
+						else{
+							e.preventDefault();
+							alert('choose schedule');
+						}
+				}
+			}
+			
+			if(info.step == 2) {
+				if(info.direction == 'next'){
 					
-					val = $('#index').val();
-					div = $("#nested_form_attributes").find("div#form_"+val)
-					if(info.direction == 'next'){
+					if ($('tbody#added_instances tr').length == 0){
+						alert('Select atlest one instance to start schedule');
+						e.preventDefault();
+					}
+					$('#summary_instances').empty();
+					$('#added_instances tr').each(function(){
+						tr = $(this).clone();
+						tr.find('td#action').remove();
+						tr.find('td.hidden').each(function(){
+							$(this).remove();
+						})
+						$('#summary_instances').append(tr);
+					});
+				}
+
+				if(info.direction == 'previous'){
+						val = $('#index').val();
+						div = $("#nested_form_attributes").find("div#form_"+val)
 						var flag = 0;
 						div.find('select').each(function(){
 							if (flag == 0)
 							{
-								$(this).prop("disabled", true);
+								$(this).prop("disabled", false);
 							}
 							if(flag == 1){
-								$(this).prop("disabled", true);
+								$(this).prop("disabled", false);
 							}
 							if(flag == 2){
 								$(this).prop("disabled", true);
@@ -472,37 +567,13 @@
 							if(flag == 3){
 								$(this).prop("disabled", true);
 							}
-						});
-						
-						div.find('input.timepicker2').each(function(){
-							$(this).attr("disabled", true);
-						});
-						
-						div.find('#day_of_week_'+ val).hide();
-						div.find('#day_of_month_'+ val).hide();
-					}
-			
-				}
-			}
-			if(info.step == 3)
-			{
-				if(info.direction == 'previous'){
-						var flag = 0;
-						div.find('select').each(function(){
-							if (flag == 0)
-							{
-								$(this).prop("disabled", false);
-							}
-							if(flag == 1){
-								$(this).prop("disabled", false);
-							}
+							flag += 1;
 						});
 						
 						div.find('input.timepicker2').each(function(){
 							$(this).attr("disabled", false);
 						});
 					}
-					
 			}
 		}).on('finished', function(e) {
 		$('button.btn-next').attr('disabled', 'disabled')
@@ -602,7 +673,6 @@
 	});
 	});
 	
-	
 	$(document).on('click', '.remove_action', function(e){
 		e.preventDefault();
 		var form = $(".remove_action").attr("id");
@@ -634,4 +704,73 @@
 			}
 		});
 	}
+
+	$(document).on('click', '#create_new_schedule', function(){
+		$('#create_new_schedule_form').show();
+		$('#old_schedules').hide();
+		$('#input_existing_schedules').prop('disabled', true);
+		$('#input_new_schedule').prop('disabled', false);
+		$('div#form_0').show();
+		
+		var flag = 0;
+		$('div#form_0').find('select').each(function(){
+			if (flag == 0)
+			{
+				$(this).prop("disabled", false);
+			}
+			if(flag == 1){
+				$(this).prop("disabled", false);
+			}
+			flag += 1
+		});
+		
+		$('div#form_0').find('input.timepicker2').each(function(){
+			$(this).attr("disabled", false);
+		});
+	});
+
+	$(document).on('click', '#choose_existing_schedule', function(){
+		$('#create_new_schedule_form').hide();
+		$('#old_schedules').show();
+		$('#input_existing_schedules').prop('disabled', false);
+		$('#input_new_schedule').prop('disabled', true);
+		schedule = $('#input_existing_schedules').val();
+		$fetch_schedule_actions(schedule);
+				
+		var flag = 0;
+		$('#form_0').find('select').each(function(){
+			if (flag == 0)
+			{
+				$(this).prop("disabled", true);
+			}
+			if(flag == 1){
+				$(this).prop("disabled", true);
+			}
+			if(flag == 2){
+				$(this).prop("disabled", true);
+			}
+			if(flag == 3){
+				$(this).prop("disabled", true);
+			}
+			flag += 1
+		});
+		
+		$('#form_0').find('input.timepicker2').each(function(){
+			$(this).attr("disabled", true);
+		});
+		
+		$('#form_0').find('#day_of_week_0').hide();
+		$('#form_0').find('#day_of_month_0').hide();
+		
+		index = parseInt($('#index').val());
+		if (index > 0){
+			for(var i =1; i<=index; i++){
+				$('div#form_'+i).remove();
+			}
+		}
+		$('#index').val(0);
+		$('#actions_list').empty();
+		$('#schedule_name').val('');
+	});
+
 </script>

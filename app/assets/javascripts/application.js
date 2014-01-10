@@ -18,6 +18,8 @@
 //= require bootbox.min
 //= require jquery.validate.min
 //= require jquery-ui-1.10.2.custom.min
+//= require jquery.dataTables.min
+//= require jquery.dataTables.bootstrap
 //= require bootstrap-datepicker.min
 //= require bootstrap-timepicker.min
 //= require aws_actions
@@ -68,6 +70,7 @@ $list_volumes = function() {
 		type: 'GET',
 		url: '/aws_actions/load_volumes',
 		dataType: 'html',
+		async: false,
 		success: function(data){
 			$('div#list-volumes').html(data);
 		},

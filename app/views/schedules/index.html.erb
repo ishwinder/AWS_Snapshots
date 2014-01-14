@@ -7,7 +7,8 @@
 	</div>
 <% end %>
 <% content_for :header do %>
-	<div class="page-header position-relative">
+	<div class="page-header position-relative row-fluid">
+		<%= link_to "Export CSV", export_csv_schedules_path, class: "btn btn-primary btn-small", style: "float: right" %>
 		<h1>Scheduled Instances</h1>
 	</div><!--/page-header-->
 <% end %>

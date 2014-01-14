@@ -46,7 +46,7 @@
 												<div class="control-group">
 													<div class="controls">
 														<label class="center">
-															<input id="choose_existing_schedule" name="form-field-radio" type="radio" disabled="disabled" /><span class="lbl"> Choose Existing Schedule</span>
+															<input id="choose_existing_schedule" name="form-field-radio" type="radio" /><span class="lbl"> Choose Existing Schedule</span>
 														</label>
 														<label class="center"><b>or</b></label>
 														<label class="center">
@@ -439,8 +439,8 @@
 		$('#day_of_month_0').hide();
 		$('#input_event_month_0').attr('disabled', 'disabled')
 		$change_frequency();
-		$('#old_sch').prop('disabled', true)
-		$('#new_sch').prop('disabled', true)
+		$('#old_sch').prop('disabled', true);
+		$('#new_sch').prop('disabled', true);
 		$('#create_new_schedule').click();
 	};
 	

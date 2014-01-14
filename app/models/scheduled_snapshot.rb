@@ -1,3 +1,5 @@
+require 'csv'
+
 class ScheduledSnapshot < ActiveRecord::Base
   has_many :snapshot_summaries, dependent: :destroy
   has_many :tags, as: :tagable
@@ -65,4 +67,31 @@ class ScheduledSnapshot < ActiveRecord::Base
   def default_values
     self.region = self.user.default_region
   end
+
+  def self.import(file, user)
+    created = 0
+    error = 0
+    CSV.foreach(file.path, headers: true) do |row|
+      sch_snap = user.scheduled_snapshots.new
+      sch_snap.volume_id = row["volume_id"].split(", ") if row["volume_id"]
+      sch_snap.description = row["description"] if row["description"]
+      sch_snap.frequency = row["frequency"] if row["frequency"]
+      sch_snap.start_date = row["start_date"] if row["start_date"]
+      sch_snap.end_date = row["end_date"] if row["end_date"]
+      sch_snap.start_time = row["start_time"] if row["start_time"]
+      sch_snap.retention_period = row["retention_period"] if row["retention_period"]
+      sch_snap.time_of_day = (row["time_of_day"].nil? ? nil : row["time_of_day"].split(", ")) if row["time_of_day"]
+      sch_snap.day_of_week = (row["day_of_week"].nil? ? nil : row["day_of_week"].split(", ")) if row["day_of_week"]
+      sch_snap.month_of_year = (row["month_of_year"].nil? ? nil : row["month_of_year"].split(", ")) if row["month_of_year"]
+      tags =  JSON.parse row["tags"].gsub('=>',':') if row["tags"]
+      sch_snap.tags_attributes = tags.map{|cc| ["key" => cc[0], "value" => cc[1]]}.flatten if tags
+      if sch_snap.save
+        created += 1
+      else
+        error += 1
+      end
+    end
+    return created, error
+  end
+
 end

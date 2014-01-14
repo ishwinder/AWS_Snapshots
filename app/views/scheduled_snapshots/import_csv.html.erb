@@ -1,0 +1,81 @@
+
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Import Schedules</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Import Schedules</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span4">
+		<div class="widget-box">
+			<div class="widget-header widget-header-small header-color-blue">
+				<h5><i class="icon-list"></i> Import Snapshots Schedule</h5>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main">
+					<div align="center">
+						<%= form_tag '/import_csv', multipart: true do %>
+							<input type="file" id="id-input-file-1" name="file" />
+							<br />
+							<button id="snapshots_submit" class="btn btn-small btn-primary"><i class="icon-upload icon-white"></i>Import CSV</button>
+						<% end %>
+					Note: Selected CSV should have headers as a first row.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="widget-box">
+			<div class="widget-header widget-header-small header-color-blue">
+				<h5><i class="icon-list"></i> Import Instances Schedules </h5>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main">
+					<div align="center">
+						<%= form_tag '/schedules/import_csv', multipart: true do %>
+							<input type="file" id="id-input-file-2" name="file" />
+							<br />
+							<button id="instances_submit" class="btn btn-small btn-primary"><i class="icon-upload icon-white"></i> Import CSV </button>
+						<% end %>
+					Note: Selected CSV should have headers as a first row.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-import-schedule').addClass('active');
+		$('#snapshots_submit').prop('disabled', true);
+		$('#instances_submit').prop('disabled', true);
+		
+		$('#id-input-file-1, #id-input-file-2').ace_file_input({
+				no_file:'No File ...',
+				btn_choose:'Choose',
+				btn_change:'Change',
+				thumbnail:false //| true | large
+				//whitelist:'csv',
+				//blacklist:'exe|php|png|jpg|jpeg|rb'
+				//onchange:''
+				//
+		});
+	};
+	
+	$(document).on('change', '#id-input-file-1, #id-input-file-2', function(){
+		$('#id-input-file-1').val() == "" ? $('#snapshots_submit').prop('disabled', true) : $('#snapshots_submit').prop('disabled', false)
+		$('#id-input-file-2').val() == "" ? $('#instances_submit').prop('disabled', true) : $('#instances_submit').prop('disabled', false)
+	});
+</script>

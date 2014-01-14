@@ -10,6 +10,7 @@ class SchedulesController < ApplicationController
 
   def create
     if params[:schedule][:type] == 'new_schedule'
+      params[:schedule][:instances_attributes] = params[:schedule][:instances_attributes].uniq
       @schedule = current_user.schedules.new(schedule_params)
       if @schedule.save
         flash[:notice] = "Schedule Successfully Created!!"
@@ -20,7 +21,12 @@ class SchedulesController < ApplicationController
       end
     elsif params[:schedule][:type] == 'old_schedule'
       @schedule = current_user.schedules.where(name: params[:schedule][:name]).first
-      @schedule.update_attributes(old_schedule_params)
+      @instances = @schedule.instances.map(&:instance)
+      params[:schedule][:instances_attributes].each do |old_schedule_params|
+        unless @instances.include?(old_schedule_params[:instance])
+          @schedule.instances.create(old_schedule_params)
+        end
+      end
       flash[:notice] = "Schedule Successfully Updated!!"
       redirect_to schedules_path
     end
@@ -79,12 +85,44 @@ class SchedulesController < ApplicationController
       redirect_to instances_elements_path
   end
 
+  def export_csv
+    @schedules = current_user.schedules
+    csv_string = CSV.generate do |csv|
+      csv << ["name", "instances", "events"]
+      @schedules.each do |sch|
+        csv << [sch.name, Hash[sch.instances.map{|cc| [cc.instance, cc.region]}], sch.events.map{|cc| ["action" => cc.action, "frequency" => cc.frequency, "event_time" => cc.event_time.to_s, "day_of_week" => cc.day_of_week.to_s, "day_of_month" => cc.day_of_month.to_s]}.flatten]
+      end
+    end
+  
+    send_data csv_string,
+    :type => 'text/csv; charset=iso-8859-1; header=present',
+    :disposition => "attachment; filename=instance_schedules.csv"
+  end
+
+  def import_csv
+    begin
+      if params[:file]
+        if params[:file].content_type == 'text/csv'
+          created, error = Schedule.import(params[:file], current_user)
+          flash[:notice] = "#{created} instances schedules imported and #{error} instances schedules not get imported"
+          redirect_to :back
+        else
+          flash[:alert] = "Choose valid CSV file";
+          redirect_to :back
+        end
+      end
+    rescue
+      flash[:alert] = "There is some problem with CSV fields, Please verify the csv format of fields by using Export option"
+      redirect_to :back
+    end
+  end
+
 private
   def schedule_params
     params.require(:schedule).permit(:name, :events_attributes => [:action, :frequency, :event_time, :day_of_week, :day_of_month], :instances_attributes => [:instance, :region])
   end
   
   def old_schedule_params
-    params.require(:schedule).permit(:instances_attributes => [:instance, :region])
+    params.require(:schedule).(:instances_attributes).permit(:instance, :region)
   end
 end

@@ -36,6 +36,36 @@ class ScheduledSnapshotsController < ApplicationController
     end
     redirect_to scheduled_snapshots_path
   end
+  
+  def create_csv
+    @scheduled_snapshots = current_user.scheduled_snapshots.order('created_at DESC')
+    csv_string = CSV.generate do |csv|
+      csv << ["volume_id", "description", "frequency","start_date", "end_date", "start_time", "retention_period", "time_of_day", "day_of_week", "month_of_year", "tags"]
+      @scheduled_snapshots.each do |ss|
+        csv << [ss.volume_id.join(", "), ss.description, ss.frequency, ss.start_date, ss.end_date, ss.start_time, ss.retention_period, ss.time_of_day.join(", "), ss.day_of_week.join(", "), ss.month_of_year.join(", "), Hash[ss.tags.map{|cc| [cc.key, cc.value]}]]
+      end
+    end
+  
+    send_data csv_string,
+    :type => 'text/csv; charset=iso-8859-1; header=present',
+    :disposition => "attachment; filename=scheduled_snapshot.csv" 
+  end
+  
+  def import_csv
+    begin
+      if params[:file]
+        if params[:file].content_type == 'text/csv'
+          created, error = ScheduledSnapshot.import(params[:file], current_user)
+          flash[:notice] = "#{created} snapshot schedules imported and #{error} snapshot schedules not get imported"
+        else
+          flash[:alert] = "Choose valid csv file"
+        end
+      end
+    rescue
+      flash[:alert] = "There is some problem with CSV fields, Please verify the csv format of fields by using Export option"
+      redirect_to :back
+    end
+  end
 
   private
   def snapshot_params

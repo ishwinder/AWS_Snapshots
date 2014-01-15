@@ -42,7 +42,7 @@ class ScheduledSnapshotsController < ApplicationController
     csv_string = CSV.generate do |csv|
       csv << ["volume_id", "description", "frequency","start_date", "end_date", "start_time", "retention_period", "time_of_day", "day_of_week", "month_of_year", "tags"]
       @scheduled_snapshots.each do |ss|
-        csv << [ss.volume_id.join(", "), ss.description, ss.frequency, ss.start_date, ss.end_date, ss.start_time, ss.retention_period, ss.time_of_day.join(", "), ss.day_of_week.join(", "), ss.month_of_year.join(", "), Hash[ss.tags.map{|cc| [cc.key, cc.value]}]]
+        csv << [ss.volume_id.join(", "), ss.description, ss.frequency, ss.start_date, ss.end_date, ss.start_time.strftime("%H:%M"), ss.retention_period, ss.time_of_day.join(", "), ss.day_of_week.join(", "), ss.month_of_year.join(", "), Hash[ss.tags.map{|cc| [cc.key, cc.value]}]]
       end
     end
   

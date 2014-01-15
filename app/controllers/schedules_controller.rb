@@ -90,7 +90,7 @@ class SchedulesController < ApplicationController
     csv_string = CSV.generate do |csv|
       csv << ["name", "instances", "events"]
       @schedules.each do |sch|
-        csv << [sch.name, Hash[sch.instances.map{|cc| [cc.instance, cc.region]}], sch.events.map{|cc| ["action" => cc.action, "frequency" => cc.frequency, "event_time" => cc.event_time.to_s, "day_of_week" => cc.day_of_week.to_s, "day_of_month" => cc.day_of_month.to_s]}.flatten]
+        csv << [sch.name, Hash[sch.instances.map{|cc| [cc.instance, cc.region]}], sch.events.map{|cc| ["action" => cc.action, "frequency" => cc.frequency, "event_time" => cc.event_time.strftime("%H:%M"), "day_of_week" => cc.day_of_week.to_s, "day_of_month" => cc.day_of_month.to_s]}.flatten]
       end
     end
   

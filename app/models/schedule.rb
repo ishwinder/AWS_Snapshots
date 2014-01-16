@@ -42,17 +42,22 @@ class Schedule < ActiveRecord::Base
   def self.import(file, user)
     created = 0
     error = 0
-    CSV.foreach(file.path, headers: true) do |row|
-      sch= user.schedules.new
-      sch.name = row["name"] if row["name"]
-      instances = JSON.parse row["instances"].gsub('=>', ':') if row["instances"]
-      sch.instances_attributes = instances.map{|cc| ["instance" => cc[0], "region" => cc[1]]}.flatten if instances
-      sch.events_attributes = JSON.parse row["events"].gsub('=>', ':') if row["events"]
-      if sch.save
-        created += 1
-      else
-        error += 1
+    headers = CSV.read(file.path).first
+    if headers.include?("name" && "instances" && "events")
+      CSV.foreach(file.path, headers: true) do |row|
+        sch= user.schedules.new
+        sch.name = row["name"] if row["name"]
+        instances = JSON.parse row["instances"].gsub('=>', ':') if row["instances"]
+        sch.instances_attributes = instances.map{|cc| ["instance" => cc[0], "region" => cc[1]]}.flatten if instances
+        sch.events_attributes = JSON.parse row["events"].gsub('=>', ':') if row["events"]
+        if sch.save
+          created += 1
+        else
+          error += 1
+        end
       end
+    else
+      raise "error"
     end
     return created, error
   end

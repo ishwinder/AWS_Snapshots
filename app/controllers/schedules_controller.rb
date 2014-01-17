@@ -102,7 +102,7 @@ class SchedulesController < ApplicationController
   def import_csv
     begin
       if params[:file]
-        if params[:file].content_type == 'text/csv'
+        if CSV_TYPES.include?(params[:file].content_type)
           created, error = Schedule.import(params[:file], current_user)
           flash[:notice] = "#{created} instances schedules imported and #{error} instances schedules not get imported"
           redirect_to :back

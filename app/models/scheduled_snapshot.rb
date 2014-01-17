@@ -72,7 +72,6 @@ class ScheduledSnapshot < ActiveRecord::Base
     created = 0
     error = 0
     headers = CSV.read(file.path).first
-    debugger
     if headers.include?("volume_id" && "frequency" && "start_date" && "end_date" && "start_time" && "retention_period")
       CSV.foreach(file.path, headers: true) do |row|
         sch_snap = user.scheduled_snapshots.new

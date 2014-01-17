@@ -54,7 +54,7 @@ class ScheduledSnapshotsController < ApplicationController
   def import_csv
     begin
       if params[:file]
-        if params[:file].content_type == 'text/csv'
+        if CSV_TYPES.include?(params[:file].content_type)
           created, error = ScheduledSnapshot.import(params[:file], current_user)
           flash[:notice] = "#{created} snapshot schedules imported and #{error} snapshot schedules not get imported"
         else

@@ -7,7 +7,9 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     new_user_session_path
   end
-  
+
+  CSV_TYPES = ["text/csv", "application/vnd.ms-excel"]
+
   private
 
   def fill_aws_creds
@@ -15,7 +17,7 @@ class ApplicationController < ActionController::Base
       redirect_to add_aws_creds_user_path(current_user)
     end
   end
-  
+
   def mailer_set_url_options
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end

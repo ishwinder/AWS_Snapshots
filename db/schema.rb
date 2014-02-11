@@ -11,10 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140109104656) do
+ActiveRecord::Schema.define(version: 20140210120441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ami_instances", force: true do |t|
+    t.string   "instance_id"
+    t.string   "region"
+    t.integer  "scheduled_ami_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ami_instances", ["scheduled_ami_id"], name: "index_ami_instances_on_scheduled_ami_id", using: :btree
+
+  create_table "ami_summaries", force: true do |t|
+    t.string   "name"
+    t.string   "ami_id"
+    t.string   "instance_id"
+    t.integer  "scheduled_ami_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ami_summaries", ["scheduled_ami_id"], name: "index_ami_summaries_on_scheduled_ami_id", using: :btree
+  add_index "ami_summaries", ["user_id"], name: "index_ami_summaries_on_user_id", using: :btree
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -57,6 +80,21 @@ ActiveRecord::Schema.define(version: 20140109104656) do
   end
 
   add_index "instances", ["schedule_id"], name: "index_instances_on_schedule_id", using: :btree
+
+  create_table "scheduled_amis", force: true do |t|
+    t.string   "name"
+    t.string   "schedule_name"
+    t.string   "description"
+    t.boolean  "no_reboot"
+    t.integer  "frequency"
+    t.integer  "day_of_week"
+    t.integer  "day_of_month"
+    t.time     "event_time"
+    t.text     "cron"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "scheduled_snapshots", force: true do |t|
     t.string   "volume_id"

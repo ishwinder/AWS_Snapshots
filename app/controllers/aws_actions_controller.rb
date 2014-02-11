@@ -1,7 +1,7 @@
 class AwsActionsController < ApplicationController
 
   respond_to :js, :html
-  layout false, except: [:create_snapshot, :create_schedule]
+  layout false, except: [:create_snapshot, :create_schedule, :create_ami]
   before_action :set_ec2, except: [:create_schedule, :wizard_filtered_instances]
 
   def load_instances
@@ -90,8 +90,35 @@ class AwsActionsController < ApplicationController
       filters = {filters: filter}
       response = ec2.client.describe_instances filters
     end
+
+    @type = params[:type]
     @filtered_instances = response.reservation_set.map(&:instances_set).flatten!
     respond_with @filtered_instances
   end
-  
+
+  def load_amis
+    response = @ec2.client.describe_images({owners:[ "self"]})
+    @amis = response.images_set
+    respond_with @amis
+  end
+
+  def create_ami
+    if params[:inst]
+      ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token, region: current_user.default_region)
+      response = ec2.client.describe_instances({instance_ids: params[:inst].split(",")})
+      @selected_instances = response.reservation_set.map(&:instances_set).flatten!
+    else
+      ec2 = AWS::EC2.new(access_key_id: current_user.access_key, secret_access_key: current_user.secret_token)
+      response = ec2.client.describe_instances
+      @default_region_instances = response.reservation_set.map(&:instances_set).flatten!
+    end
+    @scheduled_ami = current_user.scheduled_amis.new
+    @scheduled_ami.ami_instances.build
+  end
+
+  def delete_ami
+    @ec2.client.deregister_image({image_id: params[:ami_id]})
+    render text: "Deleted Successfully"
+  end
+
 end

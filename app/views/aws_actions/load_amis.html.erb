@@ -1,0 +1,40 @@
+<% if @amis.blank? %>
+	<div class='well'>
+		<center>No AMI's found for your account.</center>
+	</div>
+<% else %>
+	<table id="table-ami" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>AMI Name</th>
+				<th>AMI ID</th>
+				<th class="hidden-phone">Description</th>
+				<th class="hidden-phone">AMI location</th>
+				<th>State</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<% @amis.each do |ami|%>
+				<tr>
+					<td><%= ami.name %></td>
+					<td><%= ami.image_id %></td>
+					<td class="hidden-phone"><%= ami.description %></td>
+					<td class="hidden-phone"><%= ami.image_location %></td>
+					<td>
+						<% ami_state = ami.image_state %>
+						<%= content_tag :span, class: ami_state_class(ami_state) do %>
+							<%= ami_state.camelize %>
+						<% end %>
+					</td>
+					<td>
+						<div class="inline position-relative">
+							<button id=<%= ami.image_id%> class="btn btn-minier btn-primary delete_ami tooltip-success" data-rel="tooltip" title="Delete ame" data-placement="left"><i class="icon-trash icon-white"></i></button>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

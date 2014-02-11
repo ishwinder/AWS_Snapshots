@@ -122,6 +122,26 @@ $delete_snapshot = function($row, id) {
 	});
 };
 
+$delete_ami = function($row, id) {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/delete_ami',
+		data: {ami_id: id},
+		success: function(){
+			$row.html("<td colspan='6'><center><b>AMI " + id +" Deleted Successfully!!!</b></center></td>");
+			setTimeout(function () {
+				$row.fadeOut('slow');
+			}, 2000);
+		},
+		error: function(e){
+			$row.html("<td colspan='6'><center><b>Some Error occuring while deleting this ami!!</b></center></td>");
+		},
+		beforeSend: function() {
+			$row.html("<td colspan='6'><center><b>Deleting AMI " + id +" ..........</b></center></td>");
+		}
+	});
+};
+
 $list_instances_summary = function() {
 	$.ajax({
 		type: 'GET',
@@ -166,11 +186,11 @@ $load_volumes_for_instance = function(instance_id, $btn) {
 	});
 };
 
-$filter_instances = function(region, filter, key, value){
+$filter_instances = function(region, filter, key, value, type){
 	$.ajax({
 		type: 'GET',
 		url: '/aws_actions/wizard_filtered_instances',
-		data: { region: region, filter: filter, key: key, value: value},
+		data: { region: region, filter: filter, key: key, value: value, type: type},
 		dataType: 'html',
 		success: function(data){
 			$('tbody#filtered-instances').html(data);
@@ -198,6 +218,47 @@ $fetch_schedule_actions = function(schedule){
 		},
 		beforeSend: function(){
 			$('tbody#previous_schedule_actions_list').html("<tr><td colspan='5' class='center'><img src='/assets/loading.gif' style='align:center'/></td></tr>");
+		}
+	});
+};
+
+$list_amis = function() {
+	$.ajax({
+		type: 'GET',
+		url: '/aws_actions/load_amis',
+		dataType: 'html',
+		async: false,
+		success: function(data){
+			$('div#list-amis').html(data);
+		},
+		error: function(e){
+			$('div#list-amis').html("<div class='well'><center>Some error occured while loading AMI's. Please verify your AWS creds.</center></div>");
+		},
+		beforeSend: function(){
+			$('div#list-amis').html("<div><center><img src='/assets/loading.gif' style='align:center'/></center></div>");
+		}
+	});
+};
+
+$fetch_ami_schedule = function(schedule_id){
+	$.ajax({
+		type: 'GET',
+		url: '/scheduled_amis/fetch_ami_schedule',
+		data: { schedule_id: schedule_id},
+		dataType: 'html',
+		success: function(data){
+			$('div#previous_schedule').html(data);
+			$('.timepicker2').timepicker({
+				minuteStep: 10,
+				showMeridian: false,
+				defaultTime: false
+			});
+		},
+		error: function(e){
+			$('div#previous_schedule').html("Some error occured while loading schedule.");
+		},
+		beforeSend: function(){
+			$('div#previous_schedule').html("<img src='/assets/loading.gif' style='align:center'/>");
 		}
 	});
 };
@@ -389,22 +450,24 @@ $(document).on('change', '#select-instance-wizard-filter', function() {
 
 $(document).on('change', '#filter-region', function(){
 	region = $('#filter-region :selected').val();
+	type = $('#wizard_type').val();
 	$('#wizard-filter-key').hide();
 	$('#wizard-filter-value').hide();
 	$('#search-by-instance-filter').hide();
-	$filter_instances(region, 'None', '', '');
+	$filter_instances(region, 'None', '', '', type);
 });
 
 $(document).on('change', '#select-instance-wizard-filter', function() {
 	var filter = $('#select-instance-wizard-filter :selected').val();
 	var region = $('#filter-region :selected').val();
+	type = $('#wizard_type').val();
 	$("#wizard-filter-value").val("");
 	$("#wizard-filter-key").val("");
 	if(filter == "None") {
 		$('#wizard-filter-key').hide();
 		$('#wizard-filter-value').hide();
 		$('#search-by-instance-filter').hide();
-		$filter_instances(region, filter,'','');
+		$filter_instances(region, filter,'','', type);
 	}
 	else if(filter == "Tags") {
 		$('#wizard-filter-key').show();
@@ -423,12 +486,13 @@ $(document).on('click', '.search-by-instance-filters', function() {
 	var value = $("#wizard-filter-value").val();
 	var key = $("#wizard-filter-key").val();
 	var region = $('#filter-region :selected').val();
+	type = $('#wizard_type').val();
 
 	if(filter == "Tags") {
-		$filter_instances(region, filter,key,value);
+		$filter_instances(region, filter,key,value, type);
 	}
 	else{
-		$filter_instances(region, filter,"",value);
+		$filter_instances(region, filter,"",value, type);
 	}
 	
 });
@@ -473,4 +537,36 @@ $(document).on('click', '#schedule_instances', function(){
 $(document).on('change', '#input_existing_schedules', function(e){
 	schedule = $('#input_existing_schedules').val();
 	$fetch_schedule_actions(schedule);
+});
+
+$(document).on('click', '.add-ami-instance', function(e){
+	e.preventDefault();
+	$(this).html('<i class="icon-trash icon-red"></i>');
+	$(this).attr('class', 'btn btn-minier btn-danger remove-instance');
+	tr = $(this).closest('tr');
+	region = $('#filter-region').val();
+	if ($('tbody#added_instances tr').length == 0)
+	{
+		$("#msg").hide();
+	}
+	tr.append('<td class="hidden"><input class="span3" id="scheduled_ami_instances" name="scheduled_ami[ami_instances_attributes][][instance_id]" type="text" value="'+$(this).attr('id')+'"></td>');
+	tr.append('<td class="hidden"><input class="span3" id="schedule_ami_instances" name="scheduled_ami[ami_instances_attributes][][region]" type="text" value="'+region+'"></td>');
+	$('#added_instances').append(tr);
+});
+
+$(document).on('click', '.delete_ami', function() {
+	$delete_ami($(this).closest('tr'), $(this).attr('id'));
+});
+
+$(document).on('click', '#schedule_amis', function(){
+	var arry = new Array();
+	if($('input[type=checkbox]:checked').length >0){
+		$('input[type=checkbox]:checked').each(function(){
+			arry.push($(this).attr('value'));
+		});
+		window.location="/aws_actions/create_ami?inst="+arry
+	}
+	else{
+		window.location="/aws_actions/create_ami"
+	}
 });

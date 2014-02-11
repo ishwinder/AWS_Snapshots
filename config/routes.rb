@@ -34,12 +34,16 @@ AWSSnapshots::Application.routes.draw do
     get :load_volumes_for_instance, on: :collection
     get :create_schedule, on: :collection
     get :wizard_filtered_instances, on: :collection
+    get :load_amis, on: :collection
+    get :create_ami, on: :collection
+    get :delete_ami, on: :collection
   end
 
   resources :elements do
     get :instances, on: :collection
     get :volumes, on: :collection
     get :snapshots, on: :collection
+    get :amis, on: :collection
   end
 
   resources :scheduled_snapshots do
@@ -50,5 +54,9 @@ AWSSnapshots::Application.routes.draw do
     get :fetch_actions, on: :collection
     get :instant_action, on: :collection
     get :export_csv, on: :collection
+  end
+
+  resources :scheduled_amis do
+    get :fetch_ami_schedule, on: :collection
   end
 end

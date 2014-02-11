@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :scheduled_snapshots, dependent: :restrict
   has_many :snapshot_summaries, dependent: :destroy
   has_many :scheduled_summaries, dependent: :destroy
+  has_many :scheduled_amis, dependent: :destroy
+  has_many :ami_summaries, dependent: :destroy
 
   REGIONS = {"us-east-1" => ["all", "us-east-1a", "us-east-1c", "us-east-1d"], 
              "us-west-2" => ["all", "us-west-2a", "us-west-2b", "us-west-2c"], 

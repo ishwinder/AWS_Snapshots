@@ -9,4 +9,6 @@ class ElementsController < ApplicationController
   def snapshots
   end
 
+  def amis
+  end
 end

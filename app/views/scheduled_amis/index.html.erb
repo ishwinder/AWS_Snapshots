@@ -1,0 +1,57 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Scheduled AMIs</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative row-fluid">
+		<h1>Scheduled AMIs</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-scheduled-snapshots">
+		<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Schedule Name</th>
+					<th>Instances</th>
+					<th>Frequency</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+		
+			<tbody>
+				<% @scheduled_amis.each do |sa| %>
+					<tr>
+						<td><%= sa.schedule_name %></td>
+						<td><%= sa.ami_instances.map(&:instance_id).join(', ') %></td>
+						<td><%= sa.frequency%></td>
+						<td>
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+									<li><a href="<%= scheduled_ami_path(sa)%>"  class="tooltip-success" data-rel="tooltip" title="View Details" data-placement="left"><span class="green"><i class="icon-list-alt"></i></span></a></li>
+									<li>
+										<%= link_to scheduled_ami_path(sa), data: {confirm: 'Are you sure?'}, :method => :delete, :class => "tooltip-warning", :"data-rel" => "tooltip", :title => "Drop Schedule", :"data-placement" => "left" do %>
+											<span class="red"><i class="icon-trash"></i></span>
+										<% end %>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-ami-schedules').addClass('active');
+	};
+</script>

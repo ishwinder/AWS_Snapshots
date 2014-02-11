@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ami_id: MyString
+  name: MyString
+  description: MyString
+  no_reboot: false
+  retention_period: 1
+  schedule_date: 2014-01-17 11:50:48
+  schedule_time: 2014-01-17 11:50:48
+  end_date: 2014-01-17 11:50:48
+  cron: MyString
+
+two:
+  ami_id: MyString
+  name: MyString
+  description: MyString
+  no_reboot: false
+  retention_period: 1
+  schedule_date: 2014-01-17 11:50:48
+  schedule_time: 2014-01-17 11:50:48
+  end_date: 2014-01-17 11:50:48
+  cron: MyString

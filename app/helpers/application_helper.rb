@@ -73,4 +73,17 @@ module ApplicationHelper
        "label"
      end
   end
+
+  def ami_state_class(state)
+    case state
+     when 'pending'
+       "label label-warning"
+     when 'available'
+       "label label-success"
+     when 'error'
+       "label label-important"
+     else
+       "label"
+     end
+  end
 end

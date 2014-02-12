@@ -61,4 +61,33 @@ class ScheduledAmi < ActiveRecord::Base
         })
   end
 
+  def self.import(file, user)
+    created = 0
+    error = 0
+    headers = CSV.read(file.path).first
+    if headers.include?("schedule_name" && "description" && "no_reboot" && "frequency" && "day_of_week" && "day_of_month" && "event_time" && "ami_instances")
+      CSV.foreach(file.path, headers: true) do |row|
+        sch= user.scheduled_amis.new
+        sch.schedule_name = row["schedule_name"] if row["schedule_name"]
+        sch.name = row["name"] if row["name"]
+        sch.description = row["description"] if row["description"]
+        sch.no_reboot = row["no_reboot"] if row["no_reboot"]
+        sch.frequency = row["frequency"] if row["frequency"]
+        sch.day_of_week = row["day_of_week"] if row["day_of_week"]
+        sch.day_of_month = row["day_of_month"] if row["day_of_month"]
+        sch.event_time = row["event_time"] if row["event_time"]
+        instances = JSON.parse row["ami_instances"].gsub('=>', ':') if row["ami_instances"]
+        sch.ami_instances_attributes = instances.map{|cc| ["instance_id" => cc[0], "region" => cc[1]]}.flatten if instances
+        if sch.save
+          created += 1
+        else
+          error += 1
+        end
+      end
+    else
+      raise "error"
+    end
+    return created, error
+  end
+
 end

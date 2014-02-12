@@ -8,6 +8,7 @@
 <% end %>
 <% content_for :header do %>
 	<div class="page-header position-relative row-fluid">
+		<%= link_to "Export CSV",export_csv_scheduled_amis_path, class: "btn btn-primary btn-small", style: "float: right" %>
 		<h1>Scheduled AMIs</h1>
 	</div><!--/page-header-->
 <% end %>
@@ -19,7 +20,7 @@
 				<tr>
 					<th>Schedule Name</th>
 					<th>Instances</th>
-					<th>Frequency</th>
+					<th class="hidden-phone">Frequency</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -29,7 +30,7 @@
 					<tr>
 						<td><%= sa.schedule_name %></td>
 						<td><%= sa.ami_instances.map(&:instance_id).join(', ') %></td>
-						<td><%= sa.frequency%></td>
+						<td class="hidden-phone"><%= sa.frequency%></td>
 						<td>
 							<div class="inline position-relative">
 								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>

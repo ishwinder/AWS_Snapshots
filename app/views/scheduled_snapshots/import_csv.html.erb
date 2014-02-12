@@ -54,6 +54,26 @@
 			</div>
 		</div>
 	</div>
+	<div class="span4">
+		<div class="widget-box">
+			<div class="widget-header widget-header-small header-color-blue">
+				<h5><i class="icon-list"></i> Import AMIs Schedules </h5>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main">
+					<div align="center">
+						<%= form_tag '/scheduled_amis/import_csv', multipart: true do %>
+							<input type="file" id="id-input-file-3" name="file" />
+							<br />
+							<button id="amis_submit" class="btn btn-small btn-primary"><i class="icon-upload icon-white"></i> Import CSV </button>
+						<% end %>
+					Note: Selected CSV should have headers as a first row.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div><!--/row-->
 
 <script type='text/javascript'>
@@ -61,8 +81,9 @@
 		$('li#nav-import-schedule').addClass('active');
 		$('#snapshots_submit').prop('disabled', true);
 		$('#instances_submit').prop('disabled', true);
+		$('#amis_submit').prop('disabled', true);
 		
-		$('#id-input-file-1, #id-input-file-2').ace_file_input({
+		$('#id-input-file-1, #id-input-file-2, #id-input-file-3').ace_file_input({
 				no_file:'No File ...',
 				btn_choose:'Choose',
 				btn_change:'Change',
@@ -74,8 +95,9 @@
 		});
 	};
 	
-	$(document).on('change', '#id-input-file-1, #id-input-file-2', function(){
+	$(document).on('change', '#id-input-file-1, #id-input-file-2, #id-input-file-3', function(){
 		$('#id-input-file-1').val() == "" ? $('#snapshots_submit').prop('disabled', true) : $('#snapshots_submit').prop('disabled', false)
 		$('#id-input-file-2').val() == "" ? $('#instances_submit').prop('disabled', true) : $('#instances_submit').prop('disabled', false)
+		$('#id-input-file-3').val() == "" ? $('#amis_submit').prop('disabled', true) : $('#amis_submit').prop('disabled', false)
 	});
 </script>

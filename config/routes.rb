@@ -23,6 +23,7 @@ AWSSnapshots::Application.routes.draw do
     get 'change_default_region', to: 'users#change_default_region'
     match 'import_csv', to: 'scheduled_snapshots#import_csv', via: [:get, :post]
     match 'schedules/import_csv', to: 'schedules#import_csv', via: [:post]
+    match '/scheduled_amis/import_csv', to: 'scheduled_amis#import_csv', via: [:post]
 
   resources :aws_actions do
     get :load_instances, on: :collection
@@ -58,5 +59,6 @@ AWSSnapshots::Application.routes.draw do
 
   resources :scheduled_amis do
     get :fetch_ami_schedule, on: :collection
+    get :export_csv, on: :collection
   end
 end

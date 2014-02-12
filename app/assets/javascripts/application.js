@@ -534,11 +534,6 @@ $(document).on('click', '#schedule_instances', function(){
 	}
 });
 
-$(document).on('change', '#input_existing_schedules', function(e){
-	schedule = $('#input_existing_schedules').val();
-	$fetch_schedule_actions(schedule);
-});
-
 $(document).on('click', '.add-ami-instance', function(e){
 	e.preventDefault();
 	$(this).html('<i class="icon-trash icon-red"></i>');

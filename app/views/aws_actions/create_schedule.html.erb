@@ -772,5 +772,10 @@
 		$('#actions_list').empty();
 		$('#schedule_name').val('');
 	});
+	
+	$(document).on('change', '#input_existing_schedules', function(e){
+		schedule = $('#input_existing_schedules').val();
+		$fetch_schedule_actions(schedule);
+	});
 
 </script>

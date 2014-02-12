@@ -60,6 +60,38 @@ class ScheduledAmisController < ApplicationController
     @schedule = current_user.scheduled_amis.find(params[:schedule_id])
   end
 
+  def export_csv
+    @scheduled_amis = current_user.scheduled_amis
+    csv_string = CSV.generate do |csv|
+      csv << ["schedule_name", "name", "description", "no_reboot", "frequency", "day_of_week", "day_of_month", "event_time", "ami_instances"]
+      @scheduled_amis.each do |sch|
+        csv << [sch.schedule_name, sch.name, sch.description, sch.no_reboot, sch.frequency, sch.day_of_week, sch.day_of_month, sch.event_time.strftime("%H:%M"), Hash[sch.ami_instances.map{|cc| [cc.instance_id, cc.region]}]]
+      end
+    end
+  
+    send_data csv_string,
+    :type => 'text/csv; charset=iso-8859-1; header=present',
+    :disposition => "attachment; filename=ami_schedules.csv"
+  end
+
+  def import_csv
+    begin
+      if params[:file]
+        if CSV_TYPES.include?(params[:file].content_type)
+          created, error = ScheduledAmi.import(params[:file], current_user)
+          flash[:notice] = "#{created} AMIs schedules imported and #{error} AMIs schedules not get imported"
+          redirect_to :back
+        else
+          flash[:alert] = "Choose valid CSV file";
+          redirect_to :back
+        end
+      end
+    rescue
+      flash[:alert] = "There is some problem with CSV fields, Please verify the csv format of fields by using Export option"
+      redirect_to :back
+    end
+  end
+
   private
   def ami_params
     params.require(:scheduled_ami).permit(:name, :description, :schedule_name, :no_reboot, :frequency, :event_time, :day_of_week, :day_of_month, :ami_instances_attributes => [:instance_id, :region])

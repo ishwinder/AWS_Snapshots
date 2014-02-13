@@ -58,6 +58,7 @@
 									<% elsif instance.instance_state[:name] == "stopped"%>
 										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Start")%>" class="tooltip-warning" data-rel="tooltip" title="Start Instance" data-placement="left"><span class="green"><i class="icon-play"></i></span> </a></li>
 									<% end %>
+									<li><a href="<%= create_ami_aws_actions_path(inst: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule AMI" data-placement="left"><span class="blue"><i class="icon-envelope"></i></span> </a></li>
 								</ul>
 							</div>
 						<% end %>

@@ -101,7 +101,7 @@
 												<label class="control-label" for="name"><b>Description :</b></label>
 												<div class="controls">
 													<span class="span12">
-														<%= f.text_area :description, class: "span3", required: true, id: "input_ami_description" %>
+														<%= f.text_area :description, class: "span3", id: "input_ami_description" %>
 													</span>
 												</div>
 											</div>
@@ -172,7 +172,7 @@
 																<th>Actions</th>
 															</tr>
 														</thead>
-														<%= f.fields_for :instances do |event| %>
+														<%= f.fields_for :ami_instances do |event| %>
 													 		<% if @selected_instances.blank? %>
 																<tbody id="added_instances">
 																</tbody>
@@ -196,8 +196,8 @@
 																				<button id=<%= instance.instance_id%> class="btn btn-minier btn-danger remove-instance"><i class="icon-trash icon-white"></i></button>
 																			</div>
 																		</td>
-																		<td class="hidden"><%= f.text_field :instance, class: "span3", value: instance.instance_id, name: "scheduled_ami[instances_attributes][][instance]" %></td>
-																		<td class="hidden"><%= f.text_field :region, class: "span3", value: current_user.default_region, name: "scheduled_ami[instances_attributes][][region]" %></td>
+																		<td class="hidden"><%= f.text_field :instance_id, class: "span3", value: instance.instance_id, name: "scheduled_ami[ami_instances_attributes][][instance_id]" %></td>
+																		<td class="hidden"><%= f.text_field :region, class: "span3", value: current_user.default_region, name: "scheduled_ami[ami_instances_attributes][][region]" %></td>
 																	</tr>
 																<% end %>
 																</tbody>

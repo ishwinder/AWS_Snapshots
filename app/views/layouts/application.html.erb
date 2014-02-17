@@ -31,7 +31,7 @@
 
 		<!-- For all other devices -->
 		<!-- Size should be 32 x 32 pixels -->
-		<%#= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+		<%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
 		<%= javascript_include_tag "application" %>
 	</head>
@@ -41,7 +41,15 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 
-					<a class="brand" href="<%= root_path %>"><small><i class="icon-leaf"></i> Snapleaf.io</small> </a>
+					<a class="brand" href="<%= root_path %>">
+						<small>
+							<% if Rails.env == "staging" %>
+								TMS SMC
+							<% else %>
+								<i class="icon-leaf"></i> Snapleaf.io
+							<% end %>
+						</small>
+					</a>
 					<ul class="nav pull-right ace-nav">
 						<% if user_signed_in? %>
 							<li id="region-info">

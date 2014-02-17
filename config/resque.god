@@ -56,7 +56,7 @@ God.watch do |w|
   w.name     = "resque_scheduler"
   w.interval = 30.seconds
   w.env      = {"RAILS_ENV"=>rails_env}
-  w.start    = "/home/ubuntu/.rvm/gems/ruby-2.0.0-p353/bin/rake resque:scheduler"
+  w.start    = "DYNAMIC_SCHEDULE=true /home/ubuntu/.rvm/gems/ruby-2.0.0-p353/bin/rake resque:scheduler"
   w.log      = "#{rails_root}/log/resque_scheduler.log"
   w.err_log  = "#{rails_root}/log/resque_scheduler_error.log"
 

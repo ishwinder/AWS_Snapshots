@@ -1,0 +1,12 @@
+production: &defaults
+  app_name: "Snapleaf.io"
+  show_leaf: true
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults

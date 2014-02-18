@@ -43,11 +43,10 @@
 
 					<a class="brand" href="<%= root_path %>">
 						<small>
-							<% if Rails.env == "staging" %>
-								TMS SMC
-							<% else %>
-								<i class="icon-leaf"></i> Snapleaf.io
+							<% if AppConfig.show_leaf %>
+								<i class="icon-leaf"></i> 
 							<% end %>
+							<%= AppConfig.app_name %>
 						</small>
 					</a>
 					<ul class="nav pull-right ace-nav">

@@ -48,11 +48,10 @@
 <div class="row-fluid">
 	<div class="center">
 		<h1>
-			<% if Rails.env == "staging" %>
-				<span class="white">TMS SMC</span>
-			<% else %>
-				<i class="icon-leaf large white"></i> <span class="white">Snapleaf.io</span>
+			<% if AppConfig.show_leaf %>
+				<i class="icon-leaf large white"></i> 
 			<% end %>
+			<span class="white"><%= AppConfig.app_name %></span>
 		</h1>
 	</div>
 </div>
